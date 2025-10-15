@@ -1,0 +1,94 @@
+{
+  "allowedTools": [
+    {
+      "tool": "Read",
+      "pattern": "file_path",
+      "regex": "^//home/jerem/security-architect-mcp-server/.*$",
+      "comment": "Auto-approve reading any file in MCP server repository"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^git status.*$",
+      "comment": "Check git status anytime"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^git log.*$",
+      "comment": "View git history"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^git diff.*$",
+      "comment": "View git diffs"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^git add.*$",
+      "comment": "Stage files for commit"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^git commit.*$",
+      "comment": "Create commits"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^python.*$",
+      "comment": "Run Python scripts and tests"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^pytest.*$",
+      "comment": "Run pytest test suite"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^black.*$",
+      "comment": "Format code with black"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^ruff.*$",
+      "comment": "Lint code with ruff"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^mypy.*$",
+      "comment": "Type check with mypy"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^pip.*$",
+      "comment": "Install Python dependencies"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^github\\.com$",
+      "comment": "Fetch from GitHub for MCP SDK documentation and reference"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^docs\\.anthropic\\.com$",
+      "comment": "Claude and MCP documentation for development guidance"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^pypi\\.org$",
+      "comment": "Python package documentation"
+    }
+  ]
+}
