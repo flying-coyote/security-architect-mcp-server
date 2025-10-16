@@ -21,6 +21,7 @@ from src.models import BudgetRange, DataSovereignty, TeamSize, VendorCategory, V
 from src.tools.filter_vendors import apply_tier1_filters
 from src.tools.score_vendors import score_vendors_tier2
 from src.tools.calculate_tco import calculate_tco, compare_vendors_tco
+from src.tools.generate_poc_test_suite import generate_poc_test_suite
 from src.utils.database_loader import load_default_database
 
 
@@ -336,6 +337,45 @@ async def handle_list_tools() -> list[Tool]:
                     }
                 },
                 "required": ["vendor_ids"]
+            }
+        ),
+        Tool(
+            name="generate_poc_test_suite",
+            description="""Generate vendor-specific proof-of-concept (POC) test plan.
+
+            Creates comprehensive POC test suite with:
+            - Test scenarios by use case (threat hunting, compliance, incident response, etc.)
+            - Success criteria (measurable outcomes)
+            - Infrastructure requirements (deployment, compute, storage)
+            - Estimated POC duration (days)
+            - Sample queries/dashboards to build
+            - Evaluation rubric (scoring criteria)
+
+            Use this to plan hands-on evaluation of finalist vendors with realistic scenarios.""",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "vendor_id": {
+                        "type": "string",
+                        "description": "Vendor ID to generate POC for (e.g., 'amazon-athena')"
+                    },
+                    "use_cases": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Use cases to test (e.g., ['threat_hunting', 'compliance_reporting', 'incident_response'])"
+                    },
+                    "data_sources": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Available data sources (e.g., ['cloudtrail', 'vpc_flow_logs', 'windows_events'])"
+                    },
+                    "team_skillset": {
+                        "type": "string",
+                        "enum": ["lean", "standard", "large"],
+                        "description": "Team capacity (affects POC complexity and duration)"
+                    }
+                },
+                "required": ["vendor_id"]
             }
         )
     ]
@@ -687,6 +727,38 @@ async def handle_call_tool(name: str, arguments: Any) -> list[TextContent]:
                 "count": len(results),
                 "cheapest": results[0] if results else None,
             }, indent=2)
+        )]
+
+    elif name == "generate_poc_test_suite":
+        # Parse arguments
+        vendor_id = arguments.get("vendor_id")
+        use_cases = arguments.get("use_cases")
+        data_sources = arguments.get("data_sources")
+        team_skillset_str = arguments.get("team_skillset", "standard")
+
+        # Get vendor
+        vendor = VENDOR_DB.get_by_id(vendor_id)
+        if not vendor:
+            return [TextContent(
+                type="text",
+                text=json.dumps({"error": f"Vendor not found: {vendor_id}"}, indent=2)
+            )]
+
+        # Parse team size
+        team_skillset = TeamSize(team_skillset_str)
+
+        # Generate POC test suite
+        poc = generate_poc_test_suite(
+            vendor=vendor,
+            use_cases=use_cases,
+            data_sources=data_sources,
+            team_skillset=team_skillset,
+        )
+
+        # Return Markdown test plan
+        return [TextContent(
+            type="text",
+            text=poc.to_markdown()
         )]
 
     raise ValueError(f"Unknown tool: {name}")
