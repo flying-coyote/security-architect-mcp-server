@@ -1,7 +1,7 @@
 # Security Architecture Decision MCP Server
 
 **Created**: 2025-10-14
-**Status**: Phase 1 Complete - 54 Vendors, Full Decision Workflow Operational
+**Status**: Phase 2 In Progress - 64 Vendors, 7 Tools, TCO Calculator Operational
 **Last Updated**: 2025-10-16
 **Purpose**: AI-powered interactive decision support tool for cybersecurity architects
 
@@ -80,17 +80,19 @@ Let's continue with data sovereignty requirements..."
 
 ### Resources (Data Exposed to Claude)
 
-1. **Vendor Database**: 54 security data platforms across 9 categories with capability matrix
+1. **Vendor Database**: 64 security data platforms across 9 categories with capability matrix
 2. **Decision State**: Current architect's conversation progress (session persistence)
 3. **Chapter Framework**: Chapter 3-4 decision tree logic from book
 
 ### Tools (Functions Callable by Claude)
 
-1. **list_vendors()**: Browse 54 vendors by category (SIEM, Query Engine, Lakehouse, etc.)
+1. **list_vendors()**: Browse 64 vendors by category (SIEM, Query Engine, Lakehouse, etc.)
 2. **filter_vendors_tier1()**: Apply mandatory filters (team, budget, sovereignty) - Tier 1
 3. **score_vendors_tier2()**: Score vendors on preferred capabilities with weights 1-3 - Tier 2
 4. **generate_architecture_report()**: Generate 8-12 page Markdown recommendation report
 5. **match_journey_persona()**: Match to Chapter 4 journey (Jennifer/Marcus/Priya)
+6. **calculate_tco()**: Calculate 5-year Total Cost of Ownership for a vendor
+7. **compare_vendors_tco()**: Compare TCO across multiple vendors (ranked by total cost)
 
 ### Prompts (Pre-Written Templates)
 
@@ -105,7 +107,7 @@ Let's continue with data sovereignty requirements..."
 
 **Deliverables**:
 - ✅ MCP server basic structure (Python 3.10+, MCP SDK 1.2.0+)
-- ✅ Vendor database (54 vendors across 9 categories, evidence-based)
+- ✅ Vendor database (64 vendors across 9 categories, evidence-based)
 - ✅ Decision interview prompt (12-step guided conversation)
 - ✅ Filter/score tools (Tier 1-2 logic from Chapter 3)
 - ✅ Architecture report generator (8-12 page Markdown output)
@@ -114,21 +116,26 @@ Let's continue with data sovereignty requirements..."
 **Completed**: October 16, 2025
 
 **Achievements**:
-- 118 tests passing, 89% code coverage
-- 5 MCP tools operational (list, filter, score, report, journey)
-- 54 vendors with comprehensive capability matrix (25+ dimensions)
-- Full decision workflow: constraints → filtering → scoring → report → journey match
+- 144 tests passing, 87% code coverage
+- 7 MCP tools operational (list, filter, score, report, journey, TCO calculator, TCO comparison)
+- 64 vendors with comprehensive capability matrix (25+ dimensions)
+- Full decision workflow: constraints → filtering → scoring → report → journey match → TCO analysis
 - 18,000-word vendor specification documentation
+- 5-year TCO projections with platform/ops/hidden cost breakdowns
 
 ---
 
-### Phase 2: Living Literature Review Integration (Month 3-4)
+### Phase 2: Living Literature Review Integration (Month 3-4) - **⏳ IN PROGRESS**
 
 **Deliverables**:
-- IT Harvest API integration (if partnership succeeds) OR web scraping fallback
-- Quarterly vendor database update pipeline
-- Cost calculator tool (TCO projections)
-- Hypothesis validation pipeline
+- ✅ Cost calculator tool (5-year TCO projections with growth modeling)
+- ✅ Vendor database expansion (54 → 64 vendors)
+- ⏳ IT Harvest API integration (if partnership succeeds) OR web scraping fallback
+- ⏳ Quarterly vendor database update pipeline
+- ⏳ POC test suite generator
+- ⏳ Hypothesis validation pipeline
+
+**Progress**: 2/6 deliverables complete
 
 **Timeline**: 5-7 weeks (90-130 hours total)
 
@@ -191,26 +198,28 @@ security-architect-mcp-server/
 
 ## Current Status
 
-**Phase**: Phase 1 Complete - Core Decision Workflow Operational ✅
-**Next Action**: Phase 2 Expansion (24 → 54 vendors)
+**Phase**: Phase 2 In Progress - TCO Calculator & Vendor Expansion ✅
+**Next Action**: POC Test Suite Generator
 
-**Completed Deliverables**:
-1. ✅ MCP server operational (resources, tools, prompts)
-2. ✅ Vendor database with 24 platforms (14 added in Phase 1)
-3. ✅ Tier 1 filtering (mandatory requirements)
-4. ✅ Tier 2 scoring (weighted preferences with 3× multiplier)
-5. ✅ 12-step decision interview prompt
-6. ✅ 80 tests passing, 93% coverage
-7. ✅ Book journey validation (Marcus & Jennifer personas)
+**Recent Deliverables** (October 16, 2025):
+1. ✅ TCO Calculator implemented (5-year projections)
+2. ✅ Vendor database expanded (54 → 64 vendors)
+3. ✅ 144 tests passing, 87% coverage
+4. ✅ 7 MCP tools operational
+5. ✅ Cost model-aware TCO projections (per-GB, consumption, subscription, OSS, hybrid)
+6. ✅ Hidden cost modeling (egress, support, migration)
+7. ✅ Growth modeling (data volume increases over 5 years)
 
 **Database Metrics**:
-- Total Vendors: 24 (140% growth from initial 10)
-- Categories: Query Engine (5), Data Virtualization (3), Data Lakehouse (5), SIEM (11)
-- Open Source: 7 platforms (29%)
-- Cloud-Native: 15 platforms (62%)
-- Evidence-Based: All entries cite sources
+- Total Vendors: 64 (+10 high-value platforms)
+- Categories: 9 vendor categories across data ecosystem
+- Query Engines: 9 platforms (including ClickHouse, Pinot, Rockset, PrestoDB)
+- SIEM Platforms: 15 platforms (including Wazuh, Loki, Graylog, Sysdig)
+- Open Source: 17 platforms (27%)
+- Cloud-Native: 42 platforms (66%)
+- Evidence-Based: All entries cite 2025 sources
 
-**Ready for Beta Testing**: Yes (with caveat: limited to 24 vendors)
+**Ready for Beta Testing**: Yes (comprehensive vendor coverage + TCO analysis)
 
 ---
 
