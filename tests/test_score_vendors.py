@@ -197,7 +197,7 @@ def test_score_result_get_top_n(vendor_db):
     assert len(top_3) == 3
 
     top_10 = result.get_top_n(10)
-    assert len(top_10) == 10  # All vendors returned
+    assert len(top_10) == 10  # Top 10 from 24 vendors returned
 
 
 def test_score_result_get_finalists(vendor_db):

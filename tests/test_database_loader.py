@@ -31,8 +31,8 @@ def test_load_vendor_database():
     db = load_vendor_database(db_path)
 
     assert isinstance(db, VendorDatabase)
-    assert db.total_vendors == 10
-    assert len(db.vendors) == 10
+    assert db.total_vendors == 24
+    assert len(db.vendors) == 24
     assert db.update_cadence == "quarterly"
 
 
@@ -41,8 +41,8 @@ def test_load_default_database():
     db = load_default_database()
 
     assert isinstance(db, VendorDatabase)
-    assert db.total_vendors == 10
-    assert len(db.vendors) == 10
+    assert db.total_vendors == 24
+    assert len(db.vendors) == 24
 
 
 def test_load_vendor_database_not_found():
@@ -95,9 +95,10 @@ def test_vendor_categories_distribution():
 
 
 def test_specific_vendors_exist():
-    """Test that all 10 expected vendors exist in database."""
+    """Test that core 10 initial vendors exist in database."""
     db = load_default_database()
 
+    # Check that original 10 vendors are present
     expected_vendors = {
         "amazon-athena",
         "dremio",
@@ -113,7 +114,9 @@ def test_specific_vendors_exist():
 
     actual_vendors = {vendor.id for vendor in db.vendors}
 
-    assert expected_vendors == actual_vendors
+    # Original 10 should be subset of all 24
+    assert expected_vendors.issubset(actual_vendors)
+    assert len(actual_vendors) == 24
 
 
 def test_amazon_athena_details():
@@ -185,7 +188,7 @@ def test_database_json_is_valid():
 
     # Check vendor structure
     assert isinstance(data["vendors"], list)
-    assert len(data["vendors"]) == 10
+    assert len(data["vendors"]) == 24
 
     # Check first vendor has expected fields
     vendor = data["vendors"][0]
