@@ -164,6 +164,90 @@ async def handle_list_tools() -> list[Tool]:
                 },
                 "required": ["vendor_ids", "preferences"]
             }
+        ),
+        Tool(
+            name="generate_architecture_report",
+            description="""Generate comprehensive architecture recommendation report (Markdown format).
+
+            Produces 8-12 page report with:
+            - Executive summary with top recommendations
+            - Organizational context (team, budget, sovereignty)
+            - Decision constraints applied (Tier 1-2)
+            - Vendor landscape analysis
+            - Top 3-5 finalist recommendations with detailed capability analysis
+            - Honest trade-off analysis (strengths + limitations)
+            - Implementation considerations (POC testing, migration strategy, training)
+            - Next steps with timeline
+
+            Requires both filter_vendors_tier1 and score_vendors_tier2 results.
+            Returns Markdown report ready for review.""",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "filter_result": {
+                        "type": "object",
+                        "description": "Output from filter_vendors_tier1 tool"
+                    },
+                    "score_result": {
+                        "type": "object",
+                        "description": "Output from score_vendors_tier2 tool"
+                    },
+                    "architect_context": {
+                        "type": "object",
+                        "description": "Organization profile (team_size, budget, data_sovereignty, vendor_tolerance)",
+                        "properties": {
+                            "team_size": {"type": "string", "enum": ["lean", "standard", "large"]},
+                            "budget": {"type": "string", "enum": ["<500K", "500K-2M", "2M-10M", "10M+"]},
+                            "data_sovereignty": {"type": "string", "enum": ["cloud-first", "hybrid", "on-prem-only", "multi-region"]},
+                            "vendor_tolerance": {"type": "string", "enum": ["oss-first", "oss-with-support", "commercial-only"]}
+                        }
+                    }
+                },
+                "required": []
+            }
+        ),
+        Tool(
+            name="match_journey_persona",
+            description="""Match architect's context to Chapter 4 journey persona (Jennifer/Marcus/Priya).
+
+            Identifies which real-world case study from the book best matches your organization:
+            - **Jennifer**: Cloud-native startup, 5-person team, $500K-2M, serverless architecture
+            - **Marcus**: Financial services SOC, 2-person lean team, <$500K, on-prem compliance
+            - **Priya**: Enterprise security architect, 8+ team, $2M+, hybrid multi-cloud
+
+            Returns:
+            - Matched persona with confidence score
+            - Architecture pattern recommendation
+            - Reasoning explaining why this persona matched
+            - Recommended vendors from that journey
+
+            Use this to understand relevant case studies and proven architecture patterns.""",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "team_size": {
+                        "type": "string",
+                        "enum": ["lean", "standard", "large"],
+                        "description": "Team capacity: lean (1-2), standard (3-5), large (6+)"
+                    },
+                    "budget": {
+                        "type": "string",
+                        "enum": ["<500K", "500K-2M", "2M-10M", "10M+"],
+                        "description": "Annual budget range"
+                    },
+                    "data_sovereignty": {
+                        "type": "string",
+                        "enum": ["cloud-first", "hybrid", "on-prem-only", "multi-region"],
+                        "description": "Data sovereignty requirement"
+                    },
+                    "vendor_tolerance": {
+                        "type": "string",
+                        "enum": ["oss-first", "oss-with-support", "commercial-only"],
+                        "description": "Vendor relationship tolerance"
+                    }
+                },
+                "required": []
+            }
         )
     ]
 
@@ -334,6 +418,107 @@ async def handle_call_tool(name: str, arguments: Any) -> list[TextContent]:
             "max_possible_score": score_result.max_possible_score,
             "scored_vendors": scored_vendors,
             "top_5": scored_vendors[:5]  # Convenience field
+        }
+
+        return [TextContent(
+            type="text",
+            text=json.dumps(result, indent=2)
+        )]
+
+    elif name == "generate_architecture_report":
+        # Import report generator
+        from src.tools.generate_report import generate_architecture_report
+        from src.tools.filter_vendors import FilterResult
+
+        # Parse arguments
+        filter_data = arguments.get("filter_result")
+        score_data = arguments.get("score_result")
+        context = arguments.get("architect_context", {})
+
+        # Reconstruct FilterResult if provided
+        filter_result = None
+        if filter_data and "filtered_vendor_ids" in filter_data:
+            # Get vendors by IDs
+            filtered_vendors = [
+                VENDOR_DB.get_by_id(vid) for vid in filter_data["filtered_vendor_ids"]
+            ]
+            filtered_vendors = [v for v in filtered_vendors if v is not None]
+
+            filter_result = FilterResult(
+                initial_count=filter_data.get("initial_count", 54),
+                filtered_vendors=filtered_vendors,
+                eliminated_vendors=filter_data.get("eliminated_vendors", {}),
+            )
+
+        # Reconstruct ScoreResult if provided
+        score_result = None
+        if score_data and "scored_vendors" in score_data:
+            # Get scored vendors
+            vendor_ids = [sv["vendor_id"] for sv in score_data["scored_vendors"]]
+            vendors = [VENDOR_DB.get_by_id(vid) for vid in vendor_ids]
+            vendors = [v for v in vendors if v is not None]
+
+            # Score them with preferences
+            preferences = score_data.get("preferences", {})
+            if vendors and preferences:
+                score_result = score_vendors_tier2(vendors, preferences)
+
+        # Parse architect context enums
+        architect_context = {}
+        if "team_size" in context:
+            architect_context["team_size"] = TeamSize(context["team_size"])
+        if "budget" in context:
+            architect_context["budget"] = BudgetRange(context["budget"])
+        if "data_sovereignty" in context:
+            architect_context["data_sovereignty"] = DataSovereignty(context["data_sovereignty"])
+        if "vendor_tolerance" in context:
+            architect_context["vendor_tolerance"] = VendorTolerance(context["vendor_tolerance"])
+
+        # Generate report
+        report_markdown = generate_architecture_report(
+            filter_result=filter_result,
+            score_result=score_result,
+            architect_context=architect_context,
+        )
+
+        # Return Markdown report
+        return [TextContent(
+            type="text",
+            text=report_markdown
+        )]
+
+    elif name == "match_journey_persona":
+        # Import journey matcher
+        from src.tools.match_journey import match_journey_persona
+
+        # Parse arguments
+        team_size_str = arguments.get("team_size")
+        budget_str = arguments.get("budget")
+        sovereignty_str = arguments.get("data_sovereignty")
+        tolerance_str = arguments.get("vendor_tolerance")
+
+        # Convert to enums
+        team_size = TeamSize(team_size_str) if team_size_str else None
+        budget = BudgetRange(budget_str) if budget_str else None
+        sovereignty = DataSovereignty(sovereignty_str) if sovereignty_str else None
+        tolerance = VendorTolerance(tolerance_str) if tolerance_str else None
+
+        # Match journey
+        match = match_journey_persona(
+            team_size=team_size,
+            budget=budget,
+            data_sovereignty=sovereignty,
+            vendor_tolerance=tolerance,
+        )
+
+        # Build result
+        result = {
+            "persona": match.persona,
+            "confidence": round(match.confidence, 1),
+            "architecture_pattern": match.architecture_pattern,
+            "reasoning": match.reasoning,
+            "key_constraints": match.key_constraints,
+            "summary": match.summary(),
         }
 
         return [TextContent(
