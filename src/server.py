@@ -360,6 +360,11 @@ async def handle_list_prompts() -> list[Prompt]:
             name="start_decision",
             description="Start the security architecture decision interview (12-step guided conversation)",
             arguments=[]
+        ),
+        Prompt(
+            name="decision_interview",
+            description="Complete 12-step decision interview to filter 80+ vendors to 3-5 finalists (15-30 minutes)",
+            arguments=[]
         )
     ]
 
@@ -430,6 +435,204 @@ score_vendors_tier2(
 6. (Future) Generate architecture recommendation report
 
 Ready to start? Tell me about your organization's constraints, or ask to see all vendors first."""
+            )
+        )
+
+    elif name == "decision_interview":
+        return PromptMessage(
+            role="user",
+            content=TextContent(
+                type="text",
+                text=f"""# Security Architecture Decision Interview
+
+Welcome to the Security Architecture Decision Framework!
+
+I'll guide you through a 12-step interview to identify the right security data platform for YOUR organization. This replaces the 40-page RFP with a personalized conversation.
+
+**Time**: 15-30 minutes
+**Goal**: Filter {VENDOR_DB.total_vendors} platforms → 3-5 finalists tailored to your constraints
+
+Let's begin.
+
+---
+
+## Section 1: Team Capacity (Questions 1-3)
+
+**Question 1**: How many data engineers or platform engineers are dedicated to your security team?
+
+*Context: This determines operational complexity tolerance. 0-1 engineers means we'll prioritize managed services. 5+ engineers means fully composable architectures are viable.*
+
+Options:
+- 0 data engineers (security-focused team only)
+- 1-2 engineers (small platform team) → **lean**
+- 3-5 engineers (moderate team, hybrid architectures viable) → **standard**
+- 6+ engineers (large team, fully composable stack) → **large**
+
+---
+
+**Question 2**: What's their primary expertise?
+
+Options:
+- Security/SOC background (strong domain knowledge, limited data platform experience)
+- Data engineering background (strong platform skills, learning security)
+- Cloud infrastructure background (excellent with managed services)
+- Mixed team (diverse skills)
+
+---
+
+**Question 3**: Can you hire specialized talent (data engineers, $150K-$180K annually)?
+
+Options:
+- Yes, with budget (can recruit)
+- Yes, but 6-12 month timeline acceptable
+- No (hiring freeze, budget constraints)
+
+---
+
+## Section 2: Budget Constraints (Questions 4-5)
+
+**Question 4**: What's your annual security data platform budget?
+
+*Context: This determines cost model viability. <$500K eliminates enterprise SIEM per-GB pricing. $10M+ means cost is secondary to capability.*
+
+Options:
+- <$500K (cost-sensitive, modern stack likely required)
+- $500K-$2M (moderate budget, balance cost vs capability)
+- $2M-$10M (enterprise budget, cost important but not sole factor)
+- $10M+ (large enterprise, cost less constrained)
+
+---
+
+**Question 5**: Is your CFO cost-sensitive or capability-focused?
+
+*Context: This determines justification approach. Cost-sensitive requires quantified business case. Capability-focused prioritizes security outcomes over cost.*
+
+Options:
+- Cost-sensitive ("How much does it cost?" leads every conversation)
+- Capability-focused ("Will it solve our problem?" leads, cost discussed after)
+- Balanced (cost and capability weighted equally)
+
+---
+
+## Section 3: Data Sovereignty & Compliance (Questions 6-7)
+
+**Question 6**: Any data residency requirements?
+
+Options:
+- GDPR (EU) - data must remain in EU data centers
+- HIPAA (US Healthcare) - on-prem or certified cloud
+- Chinese data localization laws
+- Multi-region (GDPR + US + China) → **multi-region**
+- None (no geographic restrictions)
+
+---
+
+**Question 7**: Can security data leave on-premises environment?
+
+Options:
+- Yes / Cloud-first (security data can move to AWS/Azure/GCP) → **cloud-first**
+- Hybrid (some data cloud-acceptable, some must stay on-prem) → **hybrid**
+- No / On-premises only (all security data must remain in owned data centers) → **on-prem-only**
+
+---
+
+## Section 4: Vendor Relationships (Questions 8-9)
+
+**Question 8**: Existing vendor relationships influencing decision?
+
+Options:
+- Splunk incumbent (5+ years deployment, institutional knowledge)
+- AWS commitment (Enterprise Support, heavy AWS investment)
+- Microsoft E5 licensing (Office 365 E5 includes Sentinel)
+- None (greenfield, vendor-agnostic)
+
+---
+
+**Question 9**: Risk tolerance for open source?
+
+Options:
+- High / OSS-first (comfortable with Apache projects, community support) → **oss-first**
+- Medium / OSS with commercial support (OSS acceptable if vendor provides support) → **oss-with-support**
+- Low / Commercial only (require vendor SLA, 24/7 support, legal accountability) → **commercial-only**
+
+---
+
+## Section 5: Tier 1 Mandatory Requirements (Questions 10-11)
+
+**Question 10**: Which capabilities are MANDATORY (missing = immediately disqualified)?
+
+Select all that apply:
+- [ ] SQL query interface (SOC analysts know SQL, not proprietary languages) → `sql_interface: true`
+- [ ] 90-day+ hot retention (threat hunting workload requirement) → `long_term_retention: true`
+- [ ] Multi-source integration (Zeek, Sysmon, CloudTrail, EDR telemetry) → `multi_source_integration: true`
+- [ ] Time-series partitioning (prevent 20-45 minute query timeouts) → `time_series_partitioning: true`
+- [ ] Open table format (Iceberg/Delta for vendor flexibility) → `open_table_format: true`
+- [ ] Real-time streaming (<30 second detection latency) → `streaming_query: true`
+- [ ] On-premises deployment (compliance requirement) → Filter by `data_sovereignty: on-prem-only`
+- [ ] Multi-cloud support (AWS + Azure + GCP unified query) → `multi_cloud: true`
+
+---
+
+**Question 11**: Any other mandatory requirements?
+
+*Free text - I'll map these to capability fields if possible.*
+
+---
+
+## Section 6: Tier 2 Strongly Preferred (Question 12)
+
+**Question 12**: Rate these capabilities by importance (1 = nice-to-have, 3 = strongly preferred):
+
+- [ ] Open table format (Iceberg/Delta): Weight ___ (1-3)
+- [ ] Multi-engine query capability: Weight ___ (1-3)
+- [ ] OCSF normalization support: Weight ___ (1-3)
+- [ ] Real-time streaming ingestion: Weight ___ (1-3)
+- [ ] Built-in ML anomaly detection: Weight ___ (1-3)
+- [ ] Cloud-native architecture: Weight ___ (1-3)
+- [ ] Multi-cloud support: Weight ___ (1-3)
+- [ ] Managed service available: Weight ___ (1-3)
+- [ ] SIEM integration: Weight ___ (1-3)
+
+---
+
+## Interview Complete - Next Steps
+
+Thank you! I have all the information needed to filter the vendor landscape.
+
+**Please provide your answers**, and I'll:
+
+1. Apply Tier 1 mandatory filters (eliminate platforms missing must-haves)
+2. Score remaining vendors on Tier 2 preferences (3× weight multiplier)
+3. Identify 3-5 finalists matching YOUR specific constraints
+4. (Future) Match you to a Chapter 4 journey pattern (Jennifer/Marcus/Priya)
+5. (Future) Generate a comprehensive architecture recommendation report
+
+**To execute the filtering**:
+
+```
+# After you provide answers, I'll run:
+filter_vendors_tier1(
+    team_size="YOUR_ANSWER",
+    budget="YOUR_ANSWER",
+    data_sovereignty="YOUR_ANSWER",
+    vendor_tolerance="YOUR_ANSWER",
+    tier_1_requirements={{
+        "sql_interface": true,  # Based on your Q10 selections
+        # ... other mandatory requirements
+    }}
+)
+
+# Then score finalists:
+score_vendors_tier2(
+    vendor_ids=[...],  # From filter_vendors_tier1 output
+    preferences={{
+        "open_table_format": 3,  # Based on your Q12 ratings
+        # ... other preferences
+    }}
+)
+```
+
+Ready to answer? Start with Section 1, Question 1."""
             )
         )
 

@@ -171,8 +171,10 @@ async def test_list_prompts():
     """Test that prompts are listed correctly."""
     prompts = await handle_list_prompts()
 
-    assert len(prompts) == 1
-    assert prompts[0].name == "start_decision"
+    assert len(prompts) == 2
+    prompt_names = [p.name for p in prompts]
+    assert "start_decision" in prompt_names
+    assert "decision_interview" in prompt_names
     assert len(prompts[0].arguments) == 0
 
 
@@ -186,6 +188,25 @@ async def test_get_prompt():
     assert "Welcome to the Security Architect Decision Support Tool" in prompt.content.text
     assert "Tier 1 Filtering" in prompt.content.text
     assert "Tier 2 Scoring" in prompt.content.text
+    assert "filter_vendors_tier1" in prompt.content.text
+    assert "score_vendors_tier2" in prompt.content.text
+
+
+@pytest.mark.asyncio
+async def test_get_prompt_decision_interview():
+    """Test getting decision_interview prompt."""
+    prompt = await handle_get_prompt("decision_interview")
+
+    assert prompt.role == "user"
+    assert prompt.content.type == "text"
+    assert "Security Architecture Decision Interview" in prompt.content.text
+    assert "12-step interview" in prompt.content.text
+    assert "Section 1: Team Capacity" in prompt.content.text
+    assert "Section 2: Budget Constraints" in prompt.content.text
+    assert "Section 3: Data Sovereignty" in prompt.content.text
+    assert "Section 4: Vendor Relationships" in prompt.content.text
+    assert "Section 5: Tier 1 Mandatory Requirements" in prompt.content.text
+    assert "Section 6: Tier 2 Strongly Preferred" in prompt.content.text
     assert "filter_vendors_tier1" in prompt.content.text
     assert "score_vendors_tier2" in prompt.content.text
 
