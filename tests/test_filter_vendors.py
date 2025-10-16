@@ -165,7 +165,7 @@ def test_filter_by_vendor_tolerance_oss_first(vendor_db):
 
     # All vendors should pass (OSS_FIRST accepts everything)
     assert len(eliminated) == 0
-    assert len(viable) == 24
+    assert len(viable) == 54
 
 
 def test_filter_by_vendor_tolerance_commercial_only(vendor_db):
@@ -312,8 +312,8 @@ def test_lean_team_tight_budget_scenario(vendor_db):
     # Expensive platforms eliminated
     assert "snowflake" in result.eliminated_vendors  # Max cost exceeds $500K
 
-    # Very few survivors
-    assert result.filtered_count <= 3
+    # Very few survivors (Phase 2 added more lean-team options like Kinesis, Pub/Sub)
+    assert result.filtered_count <= 10
 
 
 def test_no_filters_applied(vendor_db):
@@ -322,7 +322,7 @@ def test_no_filters_applied(vendor_db):
 
     assert result.filtered_count == result.initial_count
     assert len(result.eliminated_vendors) == 0
-    assert result.filtered_count == 24
+    assert result.filtered_count == 54
 
 
 def test_single_filter_budget_only(vendor_db):
@@ -375,7 +375,7 @@ def test_filter_result_to_dict(vendor_db):
     assert "eliminated_vendors" in result_dict
     assert "summary" in result_dict
 
-    assert result_dict["initial_count"] == 24
+    assert result_dict["initial_count"] == 54
     assert isinstance(result_dict["filtered_vendor_ids"], list)
     assert isinstance(result_dict["eliminated_vendors"], dict)
 

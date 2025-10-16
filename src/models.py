@@ -22,8 +22,12 @@ class VendorCategory(str, Enum):
     SIEM = "SIEM"
     QUERY_ENGINE = "Query Engine"
     DATA_LAKEHOUSE = "Data Lakehouse"
-    STREAMING = "Streaming"
+    STREAMING = "Streaming Platform"
     VIRTUALIZATION = "Data Virtualization"
+    OBSERVABILITY = "Observability Platform"
+    OBJECT_STORAGE = "Object Storage"
+    DATA_CATALOG = "Data Catalog & Governance"
+    ETL_ELT = "ETL/ELT Platform"
     OTHER = "Other"
 
 
@@ -32,6 +36,7 @@ class DeploymentModel(str, Enum):
     CLOUD = "cloud"
     ON_PREM = "on-prem"
     HYBRID = "hybrid"
+    EDGE = "edge"
 
 
 class CostModel(str, Enum):
