@@ -53,10 +53,11 @@ async def test_list_tools():
     """Test that tools are listed correctly."""
     tools = await handle_list_tools()
 
-    assert len(tools) == 2
+    assert len(tools) == 3
     tool_names = [t.name for t in tools]
     assert "list_vendors" in tool_names
     assert "filter_vendors_tier1" in tool_names
+    assert "score_vendors_tier2" in tool_names
     assert "inputSchema" in tools[0].model_dump()
 
 
@@ -108,6 +109,57 @@ async def test_call_tool_filter_vendors_tier1():
 
 
 @pytest.mark.asyncio
+async def test_call_tool_score_vendors_tier2():
+    """Test calling score_vendors_tier2 tool."""
+    result = await handle_call_tool("score_vendors_tier2", {
+        "vendor_ids": ["amazon-athena", "snowflake", "databricks"],
+        "preferences": {
+            "sql_interface": 3,
+            "open_table_format": 3,
+            "cloud_native": 2
+        }
+    })
+
+    assert len(result) == 1
+    assert result[0].type == "text"
+
+    data = json.loads(result[0].text)
+    assert "summary" in data
+    assert "preferences" in data
+    assert "scored_vendors" in data
+    assert "top_5" in data
+    assert data["vendor_count"] == 3
+    assert data["max_possible_score"] == 8  # 3+3+2
+
+    # Check that vendors are ranked
+    scores = [v["score"] for v in data["scored_vendors"]]
+    assert scores == sorted(scores, reverse=True)
+
+
+@pytest.mark.asyncio
+async def test_call_tool_score_vendors_tier2_invalid_vendor():
+    """Test that invalid vendor ID returns error."""
+    result = await handle_call_tool("score_vendors_tier2", {
+        "vendor_ids": ["invalid-vendor-id"],
+        "preferences": {"sql_interface": 3}
+    })
+
+    data = json.loads(result[0].text)
+    assert "error" in data
+
+
+@pytest.mark.asyncio
+async def test_call_tool_score_vendors_tier2_missing_params():
+    """Test that missing parameters returns error."""
+    result = await handle_call_tool("score_vendors_tier2", {
+        "vendor_ids": []
+    })
+
+    data = json.loads(result[0].text)
+    assert "error" in data
+
+
+@pytest.mark.asyncio
 async def test_call_tool_invalid_tool():
     """Test that calling invalid tool raises error."""
     with pytest.raises(ValueError, match="Unknown tool"):
@@ -133,7 +185,9 @@ async def test_get_prompt():
     assert prompt.content.type == "text"
     assert "Welcome to the Security Architect Decision Support Tool" in prompt.content.text
     assert "Tier 1 Filtering" in prompt.content.text
+    assert "Tier 2 Scoring" in prompt.content.text
     assert "filter_vendors_tier1" in prompt.content.text
+    assert "score_vendors_tier2" in prompt.content.text
 
 
 @pytest.mark.asyncio

@@ -19,6 +19,7 @@ from mcp.types import Prompt, PromptMessage, Resource, TextContent, Tool
 
 from src.models import BudgetRange, DataSovereignty, TeamSize, VendorCategory, VendorTolerance
 from src.tools.filter_vendors import apply_tier1_filters
+from src.tools.score_vendors import score_vendors_tier2
 from src.utils.database_loader import load_default_database
 
 
@@ -129,6 +130,39 @@ async def handle_list_tools() -> list[Tool]:
                         "additionalProperties": {"type": "boolean"}
                     }
                 },
+            }
+        ),
+        Tool(
+            name="score_vendors_tier2",
+            description="""Score vendors on Tier 2 preferred capabilities (Chapter 3 decision framework).
+
+            Tier 2 preferences are WEIGHTED (1-3) - vendors scored on how well they match preferences:
+            - Weight 3: Strongly preferred (critical for success)
+            - Weight 2: Preferred (important but not critical)
+            - Weight 1: Nice-to-have (marginal benefit)
+
+            Common preferences:
+            - open_table_format, sql_interface, streaming_query, cloud_native
+            - multi_cloud, managed_service_available, siem_integration
+            - ml_analytics, api_extensibility, ocsf_support
+
+            Pass array of vendor IDs from filter_vendors_tier1 output.
+            Returns ranked vendors with scores, percentages, and breakdowns.""",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "vendor_ids": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Array of vendor IDs to score (from filter_vendors_tier1 output)"
+                    },
+                    "preferences": {
+                        "type": "object",
+                        "description": "Preferences with weights 1-3 (e.g., {\"open_table_format\": 3, \"streaming_query\": 2})",
+                        "additionalProperties": {"type": "integer", "minimum": 1, "maximum": 3}
+                    }
+                },
+                "required": ["vendor_ids", "preferences"]
             }
         )
     ]
@@ -246,6 +280,67 @@ async def handle_call_tool(name: str, arguments: Any) -> list[TextContent]:
             text=json.dumps(result, indent=2)
         )]
 
+    elif name == "score_vendors_tier2":
+        # Parse scoring parameters
+        vendor_ids = arguments.get("vendor_ids", [])
+        preferences = arguments.get("preferences", {})
+
+        if not vendor_ids:
+            return [TextContent(
+                type="text",
+                text=json.dumps({"error": "vendor_ids array is required"}, indent=2)
+            )]
+
+        if not preferences:
+            return [TextContent(
+                type="text",
+                text=json.dumps({"error": "preferences object is required"}, indent=2)
+            )]
+
+        # Get vendors by IDs
+        vendors = [VENDOR_DB.get_by_id(vid) for vid in vendor_ids]
+        vendors = [v for v in vendors if v is not None]  # Filter out None
+
+        if not vendors:
+            return [TextContent(
+                type="text",
+                text=json.dumps({"error": "No valid vendors found for given IDs"}, indent=2)
+            )]
+
+        # Score vendors
+        score_result = score_vendors_tier2(vendors, preferences)
+
+        # Convert to serializable format
+        scored_vendors = [
+            {
+                "vendor_id": sv.vendor.id,
+                "vendor_name": sv.vendor.name,
+                "category": sv.vendor.category.value,
+                "score": sv.score,
+                "max_score": sv.max_score,
+                "score_percentage": round(sv.score_percentage, 1),
+                "score_breakdown": sv.score_breakdown,
+                "description": sv.vendor.description,
+                "cost_range": sv.vendor.typical_annual_cost_range,
+            }
+            for sv in score_result.scored_vendors
+        ]
+
+        # Build result
+        result = {
+            "summary": score_result.summary(),
+            "preferences": preferences,
+            "vendor_count": score_result.vendor_count,
+            "max_possible_score": score_result.max_possible_score,
+            "scored_vendors": scored_vendors,
+            "top_5": scored_vendors[:5]  # Convenience field
+        }
+
+        return [TextContent(
+            type="text",
+            text=json.dumps(result, indent=2)
+        )]
+
     raise ValueError(f"Unknown tool: {name}")
 
 
@@ -296,14 +391,32 @@ This interactive assistant helps you filter {VENDOR_DB.total_vendors} security d
      - **Custom Requirements**: sql_interface, streaming_query, etc.
    - Returns viable vendors + elimination reasons for each filtered platform
 
-**Example Usage**:
+3. **Tier 2 Scoring** (Preferred Capabilities):
+   - Use tool `score_vendors_tier2` to rank finalists by preference fit
+   - **Weights**: 1 (nice-to-have), 2 (preferred), 3 (strongly preferred)
+   - **Common Preferences**:
+     - open_table_format, sql_interface, streaming_query, cloud_native
+     - multi_cloud, managed_service_available, siem_integration
+     - ml_analytics, api_extensibility, ocsf_support
+   - Returns ranked vendors with scores, percentages, and breakdowns
+
+**Example Workflow**:
 ```
-# Filter for lean team with tight budget
+# Step 1: Filter for lean team with tight budget
 filter_vendors_tier1(team_size="lean", budget="<500K", tier_1_requirements={{"sql_interface": true}})
+
+# Step 2: Score finalists on preferred capabilities
+score_vendors_tier2(
+  vendor_ids=["amazon-athena", "starburst"],
+  preferences={{
+    "open_table_format": 3,      # Strongly preferred
+    "cloud_native": 2,            # Preferred
+    "managed_service_available": 2
+  }}
+)
 ```
 
 **Coming Soon**:
-- Tier 2 scoring (weighted preferences, 3× multiplier)
 - 12-step decision interview (guided conversation)
 - Architecture report generation (12-15 page Markdown)
 - Journey persona matching (Jennifer/Marcus/Priya from book)
@@ -312,8 +425,9 @@ filter_vendors_tier1(team_size="lean", budget="<500K", tier_1_requirements={{"sq
 1. Ask about my team size, budget, and requirements
 2. Apply Tier 1 filters to narrow down vendors
 3. Review viable platforms and elimination reasons
-4. (Future) Score finalists on preferred capabilities
-5. (Future) Generate architecture recommendation report
+4. Score finalists on preferred capabilities (Tier 2)
+5. Review top-ranked vendors and make decision
+6. (Future) Generate architecture recommendation report
 
 Ready to start? Tell me about your organization's constraints, or ask to see all vendors first."""
             )
