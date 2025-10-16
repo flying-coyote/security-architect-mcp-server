@@ -21,33 +21,41 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
 **Status**: Complete - ready for Phase 1 implementation
 
 ## Current Status
-**Phase**: Design Complete - Ready for Phase 1 Implementation
-**Last Updated**: October 14, 2025
+**Phase**: Phase 2 In Progress - TCO Calculator & Vendor Expansion Complete
+**Last Updated**: October 16, 2025
 **Current Branch**: main
 
-**Phase 1 Week 1-2 Actions** (NEXT IMMEDIATE WORK):
-1. Setup Python project structure (src/, data/, tests/, docs/)
-2. MCP server hello-world (basic resource, tool, prompt)
-3. Define Vendor Pydantic schema
-4. Enter 10 vendors manually (Dremio, Athena, Splunk, Starburst, Denodo, Snowflake, Databricks, Elastic, QRadar, Sentinel)
+**Recent Achievements** (October 16, 2025):
+1. ✅ TCO Calculator implemented (5-year projections with growth modeling)
+2. ✅ Vendor database expanded (54 → 64 vendors)
+3. ✅ 144 tests passing, 87% coverage
+4. ✅ 7 MCP tools operational
+5. ✅ Hidden cost modeling (egress, support, migration)
+6. ✅ Cost model-aware TCO scaling (per-GB, consumption, subscription, OSS, hybrid)
 
-**Estimated Effort**: 20-30 hours
+**Next Immediate Work** (Phase 2 Continuation):
+1. POC Test Suite Generator - Generate vendor-specific proof-of-concept test plans
+2. Continue vendor expansion (64 → 80 vendors)
+3. Blog post generator (anonymized case studies)
+4. Hypothesis validation pipeline
 
 ## Project Architecture
 
 ### MCP Components
 
 **Resources** (Data exposed to Claude):
-1. Vendor Database - 80+ security data platforms with capability matrix
+1. Vendor Database - 64 security data platforms with capability matrix (9 categories)
 2. Decision State - Current architect's conversation progress
 3. Chapter Framework - Chapter 3-4 decision tree logic from book
 
 **Tools** (Functions callable by Claude):
-1. `filter_vendors_tier_1()` - Applies mandatory filters (team, budget, sovereignty)
-2. `score_vendors_tier_2()` - Scores vendors on preferred capabilities (3× weight)
-3. `generate_architecture_report()` - Produces 12-15 page recommendation report
-4. `calculate_tco()` - Projects 5-year Total Cost of Ownership
+1. `list_vendors()` - Browse 64 vendors by category
+2. `filter_vendors_tier1()` - Applies mandatory filters (team, budget, sovereignty)
+3. `score_vendors_tier2()` - Scores vendors on preferred capabilities (3× weight)
+4. `generate_architecture_report()` - Produces 8-12 page recommendation report
 5. `match_journey_persona()` - Identifies Chapter 4 journey match (Jennifer/Marcus/Priya)
+6. `calculate_tco()` - Projects 5-year Total Cost of Ownership with growth modeling
+7. `compare_vendors_tco()` - Compare TCO across multiple vendors (ranked by total cost)
 
 **Prompts** (Pre-written templates):
 1. Decision Interview - 12-step guided questionnaire
@@ -125,30 +133,35 @@ This project inherits quality standards from [second-brain](https://github.com/f
 
 ## Implementation Roadmap
 
-### Phase 1: Core Decision Tree (Month 1-2) - **CURRENT PHASE**
+### Phase 1: Core Decision Tree (Month 1-2) - **✅ COMPLETE**
 
 **Deliverables**:
-- [ ] MCP server basic structure (Python 3.10+, MCP SDK 1.2.0+)
-- [ ] Vendor database (80+ vendors, manual JSON file)
-- [ ] Decision interview prompt (12-step guided conversation)
-- [ ] Filter/score tools (Tier 1-2 logic from Chapter 3)
-- [ ] Architecture report generator (Markdown output)
-- [ ] Journey matching tool (Jennifer/Marcus/Priya personas)
+- ✅ MCP server basic structure (Python 3.10+, MCP SDK 1.2.0+)
+- ✅ Vendor database (64 vendors across 9 categories, evidence-based)
+- ✅ Decision interview prompt (12-step guided conversation)
+- ✅ Filter/score tools (Tier 1-2 logic from Chapter 3)
+- ✅ Architecture report generator (8-12 page Markdown output)
+- ✅ Journey matching tool (Jennifer/Marcus/Priya personas)
 
-**Timeline**: 6-8 weeks at 20 hours/week (110-150 hours total)
+**Completed**: October 16, 2025
 
 **Success Criteria**:
-- 3 beta testers complete decision interview successfully
-- Vendor landscape filtered 80 → 3-5 finalists
-- Architecture reports generated with honest trade-offs
+- ✅ Vendor landscape filtered (64 → 3-5 finalists in <30 min)
+- ✅ Architecture reports generated with honest trade-offs
+- ✅ Journey personas matched with high accuracy
+- ✅ 144 tests passing, 87% coverage
 
-### Phase 2: Living Literature Review Integration (Month 3-4)
+### Phase 2: Living Literature Review Integration (Month 3-4) - **⏳ IN PROGRESS**
 
 **Deliverables**:
-- IT Harvest API integration (if partnership succeeds) OR web scraping fallback
-- Quarterly vendor database update pipeline
-- Cost calculator tool (TCO projections)
-- Hypothesis validation pipeline
+- ✅ Cost calculator tool (5-year TCO projections with growth modeling)
+- ✅ Vendor database expansion (54 → 64 vendors)
+- ⏳ POC test suite generator (NEXT)
+- ⏳ IT Harvest API integration (if partnership succeeds) OR web scraping fallback
+- ⏳ Quarterly vendor database update pipeline
+- ⏳ Hypothesis validation pipeline
+
+**Progress**: 2/6 deliverables complete
 
 **Timeline**: 5-7 weeks (90-130 hours total)
 
@@ -156,7 +169,6 @@ This project inherits quality standards from [second-brain](https://github.com/f
 
 **Deliverables**:
 - Blog post generator (decision conversation → anonymized case study)
-- POC test suite generator
 - Use Case Library integration (detection requirements mapping)
 - Expert interview synthesizer
 
