@@ -1,4 +1,21 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(touch:*)",
+      "Bash(if [ -d \"venv\" ])",
+      "Bash(then echo \"venv exists\")",
+      "Bash(else echo \"venv does not exist\")",
+      "Bash(fi)",
+      "Bash(python3:*)",
+      "Bash(source venv/bin/activate)",
+      "Bash(pip install:*)",
+      "Bash(pytest:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "WebSearch",
+      "Bash(git push:*)"
+    ]
+  },
   "allowedTools": [
     {
       "tool": "Read",

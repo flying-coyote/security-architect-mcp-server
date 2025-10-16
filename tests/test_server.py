@@ -53,13 +53,16 @@ async def test_list_tools():
     """Test that tools are listed correctly."""
     tools = await handle_list_tools()
 
-    assert len(tools) == 5
+    # Should have 7 tools (list, filter, score, report, journey, calculate_tco, compare_vendors_tco)
+    assert len(tools) == 7
     tool_names = [t.name for t in tools]
     assert "list_vendors" in tool_names
     assert "filter_vendors_tier1" in tool_names
     assert "score_vendors_tier2" in tool_names
     assert "generate_architecture_report" in tool_names
     assert "match_journey_persona" in tool_names
+    assert "calculate_tco" in tool_names
+    assert "compare_vendors_tco" in tool_names
     assert "inputSchema" in tools[0].model_dump()
 
 
