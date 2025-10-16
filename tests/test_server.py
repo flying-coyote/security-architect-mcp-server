@@ -37,7 +37,7 @@ async def test_read_resource():
     assert "categories" in stats
     assert "last_updated" in stats
     assert "update_cadence" in stats
-    assert stats["total_vendors"] == 54
+    assert stats["total_vendors"] == 64
     assert stats["status"] == "Phase 1 Week 3-8: Tier 1 Filtering Active"
 
 
@@ -77,7 +77,7 @@ async def test_call_tool_list_vendors():
     data = json.loads(result[0].text)
     assert "total" in data
     assert "vendors" in data
-    assert data["total"] == 54  # Real database has 54 vendors
+    assert data["total"] == 64  # Real database has 54 vendors
 
 
 @pytest.mark.asyncio
@@ -87,7 +87,7 @@ async def test_call_tool_list_vendors_with_category():
 
     data = json.loads(result[0].text)
     assert data["category_filter"] == "SIEM"
-    assert data["total"] == 11  # 18 SIEM platforms in database (4 original + 7 new)
+    assert data["total"] == 15  # 15 SIEM platforms in database (11 original + 4 new)
 
 
 @pytest.mark.asyncio
@@ -107,7 +107,7 @@ async def test_call_tool_filter_vendors_tier1():
     assert "filters_applied" in data
     assert "viable_vendors" in data
     assert "eliminated_vendors" in data
-    assert data["initial_count"] == 54
+    assert data["initial_count"] == 64
 
     # Lean team + tight budget should filter most vendors
     assert data["filtered_count"] < data["initial_count"]
