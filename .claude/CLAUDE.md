@@ -250,7 +250,12 @@ All personal skills from `~/.claude/skills/` are available:
 - **Repository**: https://github.com/flying-coyote/modern-data-stack-for-cybersecurity-book
 - **Integration**: Chapter 3-4 decision framework logic extracted to MCP tools
 - **Appendix C**: "Interactive Decision Support Tool" - setup guide for Claude Desktop
-- **Value**: Transforms static book content into interactive AI assistant
+- **Vendor Database Sync**: Book Appendix D (Vendor Comparison Matrix) ↔ MCP vendors.json
+- **Skills Coordination**:
+  - **vendor-data-quality-checker** (MCP) validates evidence tiers for vendor scores
+  - **appendix-content-generator** (Book) updates Appendix D when Chapter 5 changes
+  - Both enforce same evidence requirements: Tier 1-3 for scores 5-4-3
+- **Value**: Transforms static book content into interactive AI assistant with synchronized data
 
 ### Literature Review Integration
 - **Repository**: https://github.com/flying-coyote/security-data-literature-review
