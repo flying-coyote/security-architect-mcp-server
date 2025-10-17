@@ -1,112 +1,98 @@
 {
   "permissions": {
-    "allow": [
-      "Bash(touch:*)",
-      "Bash(if [ -d \"venv\" ])",
-      "Bash(then echo \"venv exists\")",
-      "Bash(else echo \"venv does not exist\")",
-      "Bash(fi)",
-      "Bash(python3:*)",
-      "Bash(source venv/bin/activate)",
-      "Bash(pip install:*)",
-      "Bash(pytest:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "WebSearch",
-      "Bash(git push:*)",
-      "Bash(find:*)"
-    ]
+    "allow": [],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Read(./data/decision_states/**)"
+    ],
+    "ask": []
   },
   "allowedTools": [
     {
       "tool": "Read",
       "pattern": "file_path",
-      "regex": "^//home/jerem/security-architect-mcp-server/.*$",
-      "comment": "Auto-approve reading any file in MCP server repository"
+      "regex": "^/home/jerem/security-architect-mcp-server/.*$",
+      "comment": "Auto-approve reading MCP server repository files"
+    },
+    {
+      "tool": "Read",
+      "pattern": "file_path",
+      "regex": "^/home/jerem/(modern-data-stack-for-cybersecurity-book|security-data-literature-review)/.*$",
+      "comment": "Cross-reference book chapters and vendor research"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^git status.*$",
-      "comment": "Check git status anytime"
+      "regex": "^git (status|log|diff|show|branch|remote).*$",
+      "comment": "Git read-only operations"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^git log.*$",
-      "comment": "View git history"
+      "regex": "^git (add|commit|push|pull|fetch).*$",
+      "comment": "Git write operations"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^git diff.*$",
-      "comment": "View git diffs"
+      "regex": "^(ls|tree|pwd|cat|head|tail|wc|grep|find).*$",
+      "comment": "File system navigation"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^git add.*$",
-      "comment": "Stage files for commit"
+      "regex": "^(mkdir|touch|cp|mv).*$",
+      "comment": "Safe file operations"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^git commit.*$",
-      "comment": "Create commits"
+      "regex": "^python3?.*$",
+      "comment": "Run Python scripts"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^python.*$",
-      "comment": "Run Python scripts and tests"
+      "regex": "^(pytest|black|ruff|mypy|coverage).*$",
+      "comment": "Python testing and code quality tools"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^pytest.*$",
-      "comment": "Run pytest test suite"
+      "regex": "^(pip|uv) (install|list|show).*$",
+      "comment": "Python package management (no uninstall)"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^black.*$",
-      "comment": "Format code with black"
+      "regex": "^source.*venv/bin/activate.*$",
+      "comment": "Activate Python virtual environment"
     },
     {
-      "tool": "Bash",
-      "pattern": "command",
-      "regex": "^ruff.*$",
-      "comment": "Lint code with ruff"
-    },
-    {
-      "tool": "Bash",
-      "pattern": "command",
-      "regex": "^mypy.*$",
-      "comment": "Type check with mypy"
-    },
-    {
-      "tool": "Bash",
-      "pattern": "command",
-      "regex": "^pip.*$",
-      "comment": "Install Python dependencies"
+      "tool": "WebSearch",
+      "pattern": "query",
+      "regex": ".*",
+      "comment": "Research vendors and technologies"
     },
     {
       "tool": "WebFetch",
       "pattern": "domain",
-      "regex": "^github\\.com$",
-      "comment": "Fetch from GitHub for MCP SDK documentation and reference"
+      "regex": "^(github\\.com|docs\\.anthropic\\.com)$",
+      "comment": "MCP SDK and Claude documentation"
     },
     {
       "tool": "WebFetch",
       "pattern": "domain",
-      "regex": "^docs\\.anthropic\\.com$",
-      "comment": "Claude and MCP documentation for development guidance"
+      "regex": "^(pypi\\.org|peps\\.python\\.org|docs\\.python\\.org)$",
+      "comment": "Python documentation"
     },
     {
       "tool": "WebFetch",
       "pattern": "domain",
-      "regex": "^pypi\\.org$",
-      "comment": "Python package documentation"
+      "regex": "^(dremio\\.com|starburst\\.io|databricks\\.com|snowflake\\.com|splunk\\.com)$",
+      "comment": "Vendor documentation for database accuracy"
     }
   ]
 }
