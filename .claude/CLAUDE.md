@@ -174,6 +174,57 @@ This project inherits quality standards from [second-brain](https://github.com/f
 
 **Timeline**: 4-5 weeks (75-105 hours total)
 
+## Claude Skills
+
+### Project-Specific Skills (2 skills)
+This project has 2 specialized Claude Skills that activate automatically during MCP server development:
+
+**mcp-schema-validator**:
+- **Activates**: When validating schemas, adding tools/resources, or testing MCP server functionality
+- **Validates**: JSON schema structure compliance, tool input schema validation (all properties have "type", enum non-empty), implementation consistency (tool code matches schema declarations), resource/tool/prompt schemas correct
+- **Purpose**: Catches schema errors before runtime failures during Claude interactions
+- **Location**: `.claude/skills/mcp-schema-validator/SKILL.md`
+
+**vendor-data-quality-checker**:
+- **Activates**: When adding/updating vendors, scoring capabilities, or maintaining vendor database
+- **Validates**: No marketing hype in descriptions, capability scores (0-5) require Tier 1-3 evidence, all 9 capability categories scored, cost models accurate, production deployments documented, cross-referenced with book Chapter 5
+- **Purpose**: Maintains evidence-based quality for 64+ vendor database (expanding to 80), prevents marketing claims
+- **Location**: `.claude/skills/vendor-data-quality-checker/SKILL.md`
+
+### Personal Skills (6 universal skills)
+All personal skills from `~/.claude/skills/` are available:
+- **systematic-debugger**: 4-phase debugging for MCP runtime errors
+- **tdd-enforcer**: RED-GREEN-REFACTOR for tool implementation
+- **git-workflow-helper**: Conventional commits for MCP development
+- **ultrathink-analyst**: Deep analysis of MCP architecture decisions
+- **academic-citation-manager**: Evidence tier classification for vendor capabilities
+- **voice-consistency-enforcer**: Maintains quality in documentation (no marketing hype)
+
+### Workflow Integration
+
+**Adding New Tool**:
+1. **tdd-enforcer** → Write test for tool FIRST
+2. Implement tool in src/tools/
+3. **mcp-schema-validator** → Validate JSON schema
+4. Run tests (tdd-enforcer enforces test-first)
+5. **git-workflow-helper** → Commit with conventional message
+
+**Adding/Updating Vendor**:
+1. Research vendor capabilities (gather evidence)
+2. **vendor-data-quality-checker** → Validate quality standards (evidence tier, no hype, all 9 capabilities scored)
+3. **mcp-schema-validator** → Validate JSON structure
+4. Cross-reference with book Chapter 5
+5. **git-workflow-helper** → Commit vendor database update
+
+**Schema Validation**:
+1. Modify server.py, resources/, tools/, or prompts/
+2. **mcp-schema-validator** → Run compliance check
+3. Fix any issues flagged
+4. **tdd-enforcer** → Ensure tests exist
+5. Test with Claude desktop app
+
+**Documentation**: See `.claude/skills/README.md` for complete skill descriptions and workflow patterns.
+
 ## Git Workflow
 
 ### Commit Message Conventions
