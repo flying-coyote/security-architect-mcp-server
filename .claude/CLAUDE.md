@@ -5,6 +5,12 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
 
 ## Key Documentation Files
 
+### PROJECT-BRIEF.md
+**Purpose**: Complete project context using Memory Prompts Prompt 3 format - confirmed facts vs. assumptions, scope, constraints, risks
+**Update Trigger**: Monthly at phase transitions (Phase 2 → Phase 3), quarterly vendor updates, major milestones
+**Lifecycle**: PROJECT-SCOPED (5-6 months active development + ongoing maintenance)
+**Note**: Separates canonical facts from assumptions requiring verification - critical for AI context
+
 ### README.md
 **Purpose**: Project vision, strategic value, implementation roadmap, success metrics
 **Update Trigger**: Phase transitions, milestone completions, strategic pivots
