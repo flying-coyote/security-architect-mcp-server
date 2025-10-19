@@ -72,7 +72,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 - Hypothesis validation pipeline (anonymized decisions → confidence updates)
 - Blog post generator (decision conversations → anonymized case studies)
 - Use Case Library integration (detection requirements → platform capability gaps)
-- Expert interview synthesis (Jake Thomas, Lisa Chao, Paul Agbabian insights)
+- Expert interview synthesis (Jake Thomas, Lisa Cao, Paul Agbabian insights)
 
 ### Out of Scope
 **Excluded Functionality**:
@@ -348,7 +348,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 **Blocking**: No (can start with Option B, enhance to Option C later)
 
 ### Decision 3: Beta Testing - Internal or External Architects?
-**Question**: Beta test with known experts (Jake Thomas, Lisa Chao, Paul Agbabian) or recruit unknown external architects?
+**Question**: Beta test with known experts (Jake Thomas, Lisa Cao, Paul Agbabian) or recruit unknown external architects?
 **Options**:
 - Option A: Internal expert network (3 beta testers from existing relationships)
 - Option B: External recruitment (blog readers, LinkedIn community, 5-10 testers)
@@ -484,7 +484,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 - Architecture reports include personalized journey guidance (not generic)
 - POC test suites directly executable (not just templates)
 - Test coverage 90%+ (current: 88%, close)
-- Expert validation from Jake Thomas, Lisa Chao, Paul Agbabian
+- Expert validation from Jake Thomas, Lisa Cao, Paul Agbabian
 
 **Critical Defects** (block release):
 - ❌ MCP server crashes during interview (unrecoverable errors)
@@ -605,7 +605,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 - Book Appendix D vendor sync (MCP vendors.json ↔ book Appendix D)
 - Blog content generation (anonymized case study templates from decision_state.json)
 - Hypothesis validation pipeline (decision patterns → confidence level updates)
-- Expert interview synthesis (Jake Thomas, Lisa Chao, Paul Agbabian insights)
+- Expert interview synthesis (Jake Thomas, Lisa Cao, Paul Agbabian insights)
 
 ### Domain Background AI Needs
 
@@ -634,7 +634,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 - Tier 1 mandatory: SQL support, multi-source integration, time-series partitioning
 - Tier 2 preferred: Iceberg-native, multi-engine query, OCSF support, streaming ingestion
 - Cost estimates: Per-TB/month, per-query, subscription, open-source (free), hybrid
-- Evidence sources: Book hypotheses, expert interviews (Matthew Mullins, Jake Thomas, Lisa Chao, Paul Agbabian), production deployments
+- Evidence sources: Book hypotheses, expert interviews (Matthew Mullins, Jake Thomas, Lisa Cao, Paul Agbabian), production deployments
 
 **Related Projects Context**:
 - **Book** (modern-data-stack-for-cybersecurity-book): 115,500 words, Chapter 3-4 decision framework source, Appendix D vendor comparison matrix
