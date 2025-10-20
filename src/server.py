@@ -31,6 +31,12 @@ app = Server("security-architect-mcp-server")
 # Load vendor database at startup
 VENDOR_DB = load_default_database()
 
+# Load decision state at startup
+import os
+DECISION_STATE_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "decision_state.json")
+with open(DECISION_STATE_PATH, "r") as f:
+    DECISION_STATE = json.load(f)
+
 
 # ============================================================================
 # RESOURCES - Data exposed to Claude
@@ -44,6 +50,12 @@ async def handle_list_resources() -> list[Resource]:
             name="Vendor Database Statistics",
             mimeType="application/json",
             description="Current statistics about the vendor database (count, categories, last updated)"
+        ),
+        Resource(
+            uri="decision://state",
+            name="Decision State History",
+            mimeType="application/json",
+            description="Past architecture decisions made using this MCP server for similar decision matching and learning from previous choices"
         )
     ]
 
@@ -61,6 +73,10 @@ async def handle_read_resource(uri: str) -> str:
             "status": "Phase 1 Week 3-8: Tier 1 Filtering Active"
         }
         return json.dumps(stats, indent=2)
+
+    elif uri == "decision://state":
+        # Return decision state history
+        return json.dumps(DECISION_STATE, indent=2)
 
     raise ValueError(f"Unknown resource URI: {uri}")
 

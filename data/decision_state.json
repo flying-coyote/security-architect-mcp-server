@@ -1,0 +1,100 @@
+{
+  "version": "1.0.0",
+  "schema_version": "1.0",
+  "last_updated": "2025-10-19T00:00:00",
+  "decisions": [],
+  "metadata": {
+    "total_decisions": 0,
+    "decision_types": [
+      "vendor_selection",
+      "architecture_design",
+      "tco_analysis",
+      "persona_match"
+    ],
+    "retention_policy": "Keep decisions for 12 months, archive older decisions"
+  },
+  "decision_schema": {
+    "description": "Schema for storing security architecture decisions made using this MCP server",
+    "required_fields": [
+      "decision_id",
+      "decision_type",
+      "timestamp",
+      "architect_context",
+      "result"
+    ],
+    "example_decision": {
+      "decision_id": "dec-2025-10-19-001",
+      "decision_type": "vendor_selection",
+      "timestamp": "2025-10-19T14:30:00Z",
+      "architect_context": {
+        "organization": "Example Healthcare SOC",
+        "industry": "Healthcare",
+        "team_size": "standard",
+        "budget": "500K-2M",
+        "data_sovereignty": "hybrid",
+        "vendor_tolerance": "oss-with-support"
+      },
+      "filters_applied": {
+        "tier_1": {
+          "team_size": "standard",
+          "budget": "500K-2M",
+          "data_sovereignty": "hybrid",
+          "vendor_tolerance": "oss-with-support",
+          "mandatory_requirements": {
+            "sql_interface": true,
+            "open_table_format": true
+          }
+        },
+        "tier_2": {
+          "preferences": {
+            "ocsf_support": 3,
+            "managed_service_available": 2,
+            "cloud_native": 2
+          }
+        }
+      },
+      "result": {
+        "initial_vendor_count": 82,
+        "post_tier1_count": 12,
+        "finalists": [
+          {
+            "vendor_id": "amazon-athena",
+            "vendor_name": "Amazon Athena",
+            "score": 24,
+            "score_percentage": 85.7,
+            "rank": 1
+          },
+          {
+            "vendor_id": "dremio",
+            "vendor_name": "Dremio",
+            "score": 22,
+            "score_percentage": 78.6,
+            "rank": 2
+          },
+          {
+            "vendor_id": "starburst",
+            "vendor_name": "Starburst",
+            "score": 20,
+            "score_percentage": 71.4,
+            "rank": 3
+          }
+        ],
+        "recommendation": "amazon-athena",
+        "reasoning": "Best match for hybrid deployment with SQL interface and open table format support. 85.7% preference match.",
+        "persona_match": "Jennifer",
+        "confidence": 0.85
+      },
+      "metadata": {
+        "created_by": "security-architect-mcp-server",
+        "session_id": "ses-2025-10-19-abc123",
+        "duration_minutes": 25,
+        "tools_used": [
+          "filter_vendors_tier1",
+          "score_vendors_tier2",
+          "match_journey_persona"
+        ]
+      }
+    }
+  },
+  "notes": "This decision_state.json file stores past architecture decisions made using the MCP server. Claude Skills can reference this for similar decision matching and learning from past choices. The file is updated automatically when decisions are saved via the decision_state Resource."
+}
