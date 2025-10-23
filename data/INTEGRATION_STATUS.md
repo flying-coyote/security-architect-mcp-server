@@ -1,6 +1,6 @@
 # MCP Server - Literature Review Integration Status
 
-**Last Sync**: 2025-10-23 03:17:05
+**Last Sync**: 2025-10-23 03:33:58
 **Status**: ✅ Success
 
 ---
@@ -9,10 +9,10 @@
 
 | Metric | Value |
 |--------|-------|
-| **Vendors Synced** | 65 |
-| **Evidence Sources** | 79 |
-| **Tier A Evidence** | 70 (89%) |
-| **Tier B Evidence** | 9 (11%) |
+| **Vendors Synced** | 71 |
+| **Evidence Sources** | 110 |
+| **Tier A Evidence** | 92 (84%) |
+| **Tier B Evidence** | 18 (16%) |
 | **Warnings** | 0 |
 | **Errors** | 0 |
 
@@ -20,7 +20,7 @@
 
 ## Evidence Quality
 
-✅ **Evidence quality meets target** (89% Tier A)
+✅ **Evidence quality meets target** (84% Tier A)
 
 ## Warnings
 
@@ -40,5 +40,5 @@ _No errors_
 
 ---
 
-**Generated**: 2025-10-23 03:17:05
+**Generated**: 2025-10-23 03:33:58
 **Script**: `scripts/sync_from_literature_review.py`

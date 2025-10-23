@@ -43,6 +43,33 @@
           "description": "Uber production: 100+ trillion events, powers real-time analytics for 1B+ rides, sub-second query performance",
           "evidence_tier": "A",
           "type": "production_deployment"
+        },
+        {
+          "id": "clickhouse-query_performance-cloudflare-clickhouse-2024",
+          "description": "Query Performance: Cloudflare production: 96% queries <1s, 6M req/sec",
+          "evidence_tier": "A",
+          "type": "production_deployment",
+          "capability_context": "query_performance",
+          "last_updated": "2025-10-23T07:28:42.137807+00:00",
+          "url": "https://blog.cloudflare.com/http-analytics-for-6m-requests-per-second-using-clickhouse/"
+        },
+        {
+          "id": "clickhouse-query_performance-shell-clickhouse-2024",
+          "description": "Query Performance: Shell security telemetry: 57TB/day production scale",
+          "evidence_tier": "A",
+          "type": "production_deployment",
+          "capability_context": "query_performance",
+          "last_updated": "2025-10-23T07:28:42.137826+00:00",
+          "url": "https://altinity.com/blog/2024-shell-clickhouse-security-telemetry"
+        },
+        {
+          "id": "clickhouse-compression_efficiency-altinity-clickhouse-compression-2024",
+          "description": "Compression Efficiency: 10-12\u00d7 compression typical, 75-85% storage reduction vs Elasticsearch",
+          "evidence_tier": "A",
+          "type": "benchmark",
+          "capability_context": "compression_efficiency",
+          "last_updated": "2025-10-23T07:28:42.137831+00:00",
+          "url": "https://altinity.com/blog/clickhouse-compression-security-logs"
         }
       ],
       "evidence_summary": {
@@ -53,7 +80,8 @@
         "tier_d_sources": 0,
         "overall_evidence_quality": "A",
         "last_validated": "2025-10-22",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-22T23:30:00Z",
       "validated_by": "Jeremy Wiley",
@@ -112,6 +140,33 @@
           "description": "Bloomberg production: Petabyte-scale queries, powers financial analytics, Meta (Facebook) origin validation",
           "evidence_tier": "A",
           "type": "production_deployment"
+        },
+        {
+          "id": "trino-query_performance-meta-trino-petabyte-scale",
+          "description": "Query Performance: Meta production: petabyte-scale queries, 10-100\u00d7 faster than Hive",
+          "evidence_tier": "A",
+          "type": "production_deployment",
+          "capability_context": "query_performance",
+          "last_updated": "2025-10-23T07:28:42.137840+00:00",
+          "url": "https://trino.io/blog/2023/trino-at-meta-scale.html"
+        },
+        {
+          "id": "trino-query_performance-trino-definitive-guide",
+          "description": "Query Performance: O'Reilly book: Authoritative Trino reference",
+          "evidence_tier": "A",
+          "type": "book",
+          "capability_context": "query_performance",
+          "last_updated": "2025-10-23T07:28:42.137843+00:00",
+          "url": "https://www.oreilly.com/library/view/trino-the-definitive/9781098137245/"
+        },
+        {
+          "id": "trino-federation-trino-connectors-docs",
+          "description": "Federation: 40+ connectors documented (S3, PostgreSQL, MySQL, Elasticsearch, etc.)",
+          "evidence_tier": "B",
+          "type": "vendor_documentation",
+          "capability_context": "federation",
+          "last_updated": "2025-10-23T07:28:42.137846+00:00",
+          "url": "https://trino.io/docs/current/connector.html"
         }
       ],
       "evidence_summary": {
@@ -122,7 +177,8 @@
         "tier_d_sources": 0,
         "overall_evidence_quality": "A",
         "last_validated": "2025-10-22",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-22T23:30:00Z",
       "validated_by": "Jeremy Wiley",
@@ -179,15 +235,33 @@
           "type": "analyst_report",
           "report_type": "gartner_magic_quadrant",
           "positioning": "Leader"
+        },
+        {
+          "id": "azure-sentinel-threat_detection-sentinel-ai-threat-detection",
+          "description": "Threat Detection: Built-in AI/ML for anomaly detection, UEBA (User and Entity Behavior Analytics)",
+          "evidence_tier": "B",
+          "type": "vendor_documentation",
+          "capability_context": "threat_detection",
+          "last_updated": "2025-10-23T07:28:42.137852+00:00",
+          "url": "https://learn.microsoft.com/en-us/azure/sentinel/ueba-enrichments"
+        },
+        {
+          "id": "azure-sentinel-cost_model_transparency-sentinel-pricing-complexity",
+          "description": "Cost Model Transparency: Complex pricing: ingestion + retention + search jobs. $2.46/GB ingestion, $0.03/GB retention, $0.0062/GB scanned",
+          "evidence_tier": "B",
+          "type": "vendor_pricing",
+          "capability_context": "cost_model_transparency",
+          "last_updated": "2025-10-23T07:28:42.137855+00:00",
+          "url": "https://azure.microsoft.com/en-us/pricing/details/microsoft-sentinel/"
         }
       ],
       "evidence_summary": {
-        "total_sources": 4,
+        "total_sources": 3,
         "tier_a_sources": 1,
-        "tier_b_sources": 3,
+        "tier_b_sources": 2,
         "tier_c_sources": 0,
         "tier_d_sources": 0,
-        "overall_evidence_quality": "A",
+        "overall_evidence_quality": "B",
         "last_validated": "2025-10-22",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -247,11 +321,47 @@
           "type": "analyst_report",
           "report_type": "forrester_wave",
           "positioning": "Strong Performer"
+        },
+        {
+          "id": "amazon-athena-serverless_simplicity-aws-athena-docs-serverless",
+          "description": "Serverless Simplicity: Zero infrastructure management, automatic scaling, pay-per-query model",
+          "evidence_tier": "B",
+          "type": "vendor_documentation",
+          "capability_context": "serverless_simplicity",
+          "last_updated": "2025-10-23T07:28:42.137868+00:00",
+          "url": "https://docs.aws.amazon.com/athena/latest/ug/what-is.html"
+        },
+        {
+          "id": "amazon-athena-iceberg_native_support-aws-athena-iceberg-announcement",
+          "description": "Iceberg Native Support: Native Iceberg support launched 2022. Full read/write/delete/merge operations.",
+          "evidence_tier": "A",
+          "type": "vendor_announcement",
+          "capability_context": "iceberg_native_support",
+          "last_updated": "2025-10-23T07:28:42.137871+00:00",
+          "url": "https://aws.amazon.com/blogs/big-data/use-apache-iceberg-in-a-data-lake-to-support-incremental-data-processing/"
+        },
+        {
+          "id": "amazon-athena-iceberg_native_support-starburst-athena-comparison",
+          "description": "Iceberg Native Support: Athena Iceberg performance validated in Starburst comparison",
+          "evidence_tier": "B",
+          "type": "vendor_comparison",
+          "capability_context": "iceberg_native_support",
+          "last_updated": "2025-10-23T07:28:42.137876+00:00",
+          "url": "https://www.starburst.io/platform/starburst-enterprise/aws-athena/"
+        },
+        {
+          "id": "amazon-athena-cost_predictability-marcus-journey-athena-cost",
+          "description": "Cost Predictability: Marcus Journey: Athena $5/TB pricing enables budget predictability",
+          "evidence_tier": "A",
+          "type": "book_chapter",
+          "capability_context": "cost_predictability",
+          "last_updated": "2025-10-23T07:28:42.137879+00:00",
+          "url": "https://github.com/flying-coyote/modern-data-stack-for-cybersecurity-book"
         }
       ],
       "evidence_summary": {
-        "total_sources": 6,
-        "tier_a_sources": 4,
+        "total_sources": 5,
+        "tier_a_sources": 3,
         "tier_b_sources": 2,
         "tier_c_sources": 0,
         "tier_d_sources": 0,
@@ -317,6 +427,51 @@
           "description": "Apple production: Exabyte-scale lakehouse, powers Apple services analytics, format wars winner validation",
           "evidence_tier": "A",
           "type": "production_deployment"
+        },
+        {
+          "id": "apache-iceberg-production_scale_performance-sk-telecom-iceberg-performance",
+          "description": "Production Scale Performance: SK Telecom production: 97% query time reduction, 52.7TB processed in 3.39 seconds",
+          "evidence_tier": "A",
+          "type": "production_deployment",
+          "capability_context": "production_scale_performance",
+          "last_updated": "2025-10-23T07:28:42.137884+00:00",
+          "url": "https://medium.com/sk-telecom-tech-blog/apache-iceberg-performance-tuning-for-querying-52tb-data-in-3-39-seconds-af52bf01e0b0"
+        },
+        {
+          "id": "apache-iceberg-production_scale_performance-netflix-iceberg-architecture",
+          "description": "Production Scale Performance: Netflix: 100+ petabytes on Iceberg, open sourced 2018, powers all analytics",
+          "evidence_tier": "A",
+          "type": "production_deployment",
+          "capability_context": "production_scale_performance",
+          "last_updated": "2025-10-23T07:28:42.137886+00:00",
+          "url": "https://netflixtechblog.com/iceberg-tables-powering-open-standards-at-netflix-9a2c6ee18e67"
+        },
+        {
+          "id": "apache-iceberg-multi_engine_compatibility-iceberg-universal-support",
+          "description": "Multi Engine Compatibility: Universal engine support: Spark, Trino, Flink, Athena, Snowflake, Databricks, Dremio, StarRocks",
+          "evidence_tier": "A",
+          "type": "official_documentation",
+          "capability_context": "multi_engine_compatibility",
+          "last_updated": "2025-10-23T07:28:42.137889+00:00",
+          "url": "https://iceberg.apache.org/docs/latest/"
+        },
+        {
+          "id": "apache-iceberg-multi_engine_compatibility-format-wars-winner-analysis",
+          "description": "Multi Engine Compatibility: Iceberg won format wars: Universal adoption vs Delta (Databricks-specific) and Hudi",
+          "evidence_tier": "A",
+          "type": "book_chapter",
+          "capability_context": "multi_engine_compatibility",
+          "last_updated": "2025-10-23T07:28:42.137892+00:00",
+          "url": "https://github.com/flying-coyote/modern-data-stack-for-cybersecurity-book"
+        },
+        {
+          "id": "apache-iceberg-hidden_partitioning_acid-iceberg-hidden-partitioning",
+          "description": "Hidden Partitioning Acid: Hidden partitioning eliminates user partition management. Automatic partition evolution. ACID guarantees.",
+          "evidence_tier": "A",
+          "type": "official_documentation",
+          "capability_context": "hidden_partitioning_acid",
+          "last_updated": "2025-10-23T07:28:42.137895+00:00",
+          "url": "https://iceberg.apache.org/docs/latest/partitioning/"
         }
       ],
       "evidence_summary": {
@@ -327,7 +482,8 @@
         "tier_d_sources": 0,
         "overall_evidence_quality": "A",
         "last_validated": "2025-10-23",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T00:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -390,6 +546,42 @@
           "type": "analyst_report",
           "report_type": "gartner_magic_quadrant",
           "positioning": "Leader"
+        },
+        {
+          "id": "snowflake-iceberg_support-snowflake-iceberg-announcement",
+          "description": "Iceberg Support: Snowflake Iceberg Tables announced 2023, native read/write support",
+          "evidence_tier": "A",
+          "type": "vendor_announcement",
+          "capability_context": "iceberg_support",
+          "last_updated": "2025-10-23T07:28:42.137899+00:00",
+          "url": "https://www.snowflake.com/blog/iceberg-tables-powering-open-standards/"
+        },
+        {
+          "id": "snowflake-iceberg_support-dremio-format-survey-snowflake",
+          "description": "Iceberg Support: Dremio 2024 survey: Snowflake among vendors announcing Iceberg compatibility",
+          "evidence_tier": "A",
+          "type": "industry_survey",
+          "capability_context": "iceberg_support",
+          "last_updated": "2025-10-23T07:28:42.137902+00:00",
+          "url": "https://www.dremio.com/blog/open-table-format-survey-2024/"
+        },
+        {
+          "id": "snowflake-multi_cloud_support-snowflake-multi-cloud-docs",
+          "description": "Multi Cloud Support: Runs natively on AWS, Azure, Google Cloud with identical experience",
+          "evidence_tier": "B",
+          "type": "vendor_documentation",
+          "capability_context": "multi_cloud_support",
+          "last_updated": "2025-10-23T07:28:42.137904+00:00",
+          "url": "https://docs.snowflake.com/en/user-guide/intro-cloud-platforms"
+        },
+        {
+          "id": "snowflake-data_governance-snowflake-governance-features",
+          "description": "Data Governance: Built-in data governance: row-level security, column masking, tag-based policies, data sharing",
+          "evidence_tier": "B",
+          "type": "vendor_documentation",
+          "capability_context": "data_governance",
+          "last_updated": "2025-10-23T07:28:42.137907+00:00",
+          "url": "https://docs.snowflake.com/en/user-guide/security-column-intro"
         }
       ],
       "evidence_summary": {
@@ -461,6 +653,42 @@
           "type": "analyst_report",
           "report_type": "gartner_magic_quadrant",
           "positioning": "Leader"
+        },
+        {
+          "id": "databricks-ml_ai_native-databricks-ml-platform",
+          "description": "Ml Ai Native: Native ML capabilities: MLflow, AutoML, Feature Store, Model Serving integrated",
+          "evidence_tier": "B",
+          "type": "vendor_documentation",
+          "capability_context": "ml_ai_native",
+          "last_updated": "2025-10-23T07:28:42.137914+00:00",
+          "url": "https://www.databricks.com/product/machine-learning"
+        },
+        {
+          "id": "databricks-delta_lake_iceberg_support-databricks-tabular-acquisition",
+          "description": "Delta Lake Iceberg Support: Acquired Tabular (Iceberg creators) 2023, adding native Iceberg support to Delta Lake platform",
+          "evidence_tier": "A",
+          "type": "acquisition_announcement",
+          "capability_context": "delta_lake_iceberg_support",
+          "last_updated": "2025-10-23T07:28:42.137917+00:00",
+          "url": "https://www.databricks.com/company/newsroom/press-releases/databricks-acquires-tabular"
+        },
+        {
+          "id": "databricks-delta_lake_iceberg_support-dremio-format-survey-databricks",
+          "description": "Delta Lake Iceberg Support: Dremio 2024 survey: Databricks announcing Iceberg compatibility alongside Delta Lake",
+          "evidence_tier": "A",
+          "type": "industry_survey",
+          "capability_context": "delta_lake_iceberg_support",
+          "last_updated": "2025-10-23T07:28:42.137919+00:00",
+          "url": "https://www.dremio.com/blog/open-table-format-survey-2024/"
+        },
+        {
+          "id": "databricks-unity_catalog_governance-unity-catalog-docs",
+          "description": "Unity Catalog Governance: Unity Catalog: Unified governance for data and AI across clouds, open-sourced 2024",
+          "evidence_tier": "B",
+          "type": "vendor_documentation",
+          "capability_context": "unity_catalog_governance",
+          "last_updated": "2025-10-23T07:28:42.137922+00:00",
+          "url": "https://www.databricks.com/product/unity-catalog"
         }
       ],
       "evidence_summary": {
@@ -527,11 +755,12 @@
       "evidence_source": "literature-review",
       "evidence_sources": [],
       "evidence_summary": {
-        "total_sources": 1,
+        "total_sources": 0,
         "tier_a_sources": 0,
-        "tier_b_sources": 1,
-        "overall_evidence_quality": "B",
-        "validated_by": "Jeremy Wiley"
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "D",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T03:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -579,11 +808,12 @@
       "evidence_source": "literature-review",
       "evidence_sources": [],
       "evidence_summary": {
-        "total_sources": 1,
+        "total_sources": 0,
         "tier_a_sources": 0,
-        "tier_b_sources": 1,
-        "overall_evidence_quality": "B",
-        "validated_by": "Jeremy Wiley"
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "D",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T03:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -638,11 +868,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 2,
-        "tier_a_sources": 2,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T03:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -700,9 +931,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 2,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -764,9 +995,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 2,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -828,9 +1059,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 2,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -893,9 +1124,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 2,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -956,11 +1187,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 2,
-        "tier_a_sources": 2,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T04:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -1018,11 +1250,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 2,
-        "tier_a_sources": 2,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T04:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -1082,9 +1315,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 2,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -1148,12 +1381,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 2,
-        "tier_b_sources": 1,
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
-        "analyst_reports": 2
+        "analyst_reports": 1
       },
       "last_updated": "2025-10-23T04:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -1214,9 +1447,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 2,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -1277,12 +1510,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 2,
-        "tier_b_sources": 1,
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
-        "analyst_reports": 2
+        "analyst_reports": 1
       },
       "last_updated": "2025-10-23T04:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -1341,9 +1574,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 2,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -1404,11 +1637,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 2,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 1,
-        "overall_evidence_quality": "B",
-        "validated_by": "Jeremy Wiley"
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T04:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -1469,9 +1703,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 2,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -1532,11 +1766,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 2,
-        "tier_b_sources": 1,
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T06:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -1596,10 +1831,10 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 2,
-        "overall_evidence_quality": "B",
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
       },
@@ -1653,11 +1888,12 @@
       "evidence_source": "literature-review",
       "evidence_sources": [],
       "evidence_summary": {
-        "total_sources": 2,
+        "total_sources": 0,
         "tier_a_sources": 0,
-        "tier_b_sources": 2,
-        "overall_evidence_quality": "B",
-        "validated_by": "Jeremy Wiley"
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "D",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T06:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -1715,9 +1951,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 2,
-        "tier_b_sources": 1,
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -1781,9 +2017,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 2,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -1835,11 +2071,12 @@
       "evidence_source": "literature-review",
       "evidence_sources": [],
       "evidence_summary": {
-        "total_sources": 2,
-        "tier_a_sources": 1,
-        "tier_b_sources": 1,
-        "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "total_sources": 0,
+        "tier_a_sources": 0,
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "D",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T06:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -1887,11 +2124,12 @@
       "evidence_source": "literature-review",
       "evidence_sources": [],
       "evidence_summary": {
-        "total_sources": 2,
+        "total_sources": 0,
         "tier_a_sources": 0,
-        "tier_b_sources": 2,
-        "overall_evidence_quality": "B",
-        "validated_by": "Jeremy Wiley"
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "D",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T06:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -1939,11 +2177,12 @@
       "evidence_source": "literature-review",
       "evidence_sources": [],
       "evidence_summary": {
-        "total_sources": 2,
+        "total_sources": 0,
         "tier_a_sources": 0,
-        "tier_b_sources": 2,
-        "overall_evidence_quality": "B",
-        "validated_by": "Jeremy Wiley"
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "D",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T06:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -2001,11 +2240,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 3,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T06:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -2064,11 +2304,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 3,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T06:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -2118,11 +2359,12 @@
       "evidence_source": "literature-review",
       "evidence_sources": [],
       "evidence_summary": {
-        "total_sources": 2,
+        "total_sources": 0,
         "tier_a_sources": 0,
-        "tier_b_sources": 2,
-        "overall_evidence_quality": "B",
-        "validated_by": "Jeremy Wiley"
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "D",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T06:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -2181,9 +2423,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 2,
-        "tier_b_sources": 1,
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -2248,10 +2490,10 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 2,
-        "overall_evidence_quality": "B",
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
       },
@@ -2305,11 +2547,12 @@
       "evidence_source": "literature-review",
       "evidence_sources": [],
       "evidence_summary": {
-        "total_sources": 2,
-        "tier_a_sources": 1,
-        "tier_b_sources": 1,
-        "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "total_sources": 0,
+        "tier_a_sources": 0,
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "D",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T06:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -2367,11 +2610,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 3,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T06:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -2431,9 +2675,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 2,
-        "tier_b_sources": 1,
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -2496,10 +2740,10 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 2,
-        "overall_evidence_quality": "B",
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
       },
@@ -2561,9 +2805,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 2,
-        "tier_b_sources": 1,
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -2628,9 +2872,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 2,
-        "tier_b_sources": 1,
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -2683,11 +2927,12 @@
       "evidence_source": "literature-review",
       "evidence_sources": [],
       "evidence_summary": {
-        "total_sources": 2,
-        "tier_a_sources": 1,
-        "tier_b_sources": 1,
-        "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "total_sources": 0,
+        "tier_a_sources": 0,
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "D",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -2746,10 +2991,10 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 2,
-        "overall_evidence_quality": "B",
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
       },
@@ -2810,11 +3055,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 3,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -2874,11 +3120,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 2,
-        "tier_b_sources": 1,
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -2937,11 +3184,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 3,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -3003,10 +3251,10 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 2,
-        "overall_evidence_quality": "B",
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
       },
@@ -3070,10 +3318,10 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 2,
-        "overall_evidence_quality": "B",
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
       },
@@ -3135,9 +3383,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 2,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -3192,11 +3440,12 @@
       "evidence_source": "literature-review",
       "evidence_sources": [],
       "evidence_summary": {
-        "total_sources": 2,
-        "tier_a_sources": 1,
-        "tier_b_sources": 1,
-        "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "total_sources": 0,
+        "tier_a_sources": 0,
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "D",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -3255,11 +3504,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 3,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -3319,11 +3569,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 2,
-        "tier_b_sources": 1,
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -3384,9 +3635,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 2,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -3449,9 +3700,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 2,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -3513,11 +3764,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 3,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -3577,11 +3829,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 3,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -3640,11 +3893,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 3,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -3704,11 +3958,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 3,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -3767,11 +4022,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 3,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -3822,11 +4078,12 @@
       "evidence_source": "literature-review",
       "evidence_sources": [],
       "evidence_summary": {
-        "total_sources": 2,
-        "tier_a_sources": 1,
-        "tier_b_sources": 1,
-        "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "total_sources": 0,
+        "tier_a_sources": 0,
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "D",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -3884,11 +4141,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 4,
-        "tier_a_sources": 4,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -3949,11 +4207,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 3,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -4016,9 +4275,9 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
+        "total_sources": 1,
         "tier_a_sources": 1,
-        "tier_b_sources": 2,
+        "tier_b_sources": 0,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
         "analyst_reports": 1
@@ -4080,11 +4339,12 @@
         }
       ],
       "evidence_summary": {
-        "total_sources": 3,
-        "tier_a_sources": 3,
+        "total_sources": 1,
+        "tier_a_sources": 1,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley"
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
       },
       "last_updated": "2025-10-23T08:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -4097,9 +4357,401 @@
         "mentioned-in-book",
         "open-source"
       ]
+    },
+    {
+      "id": "gurucul-next-gen-siem",
+      "name": "Gurucul Next-Gen SIEM",
+      "category": "SIEM",
+      "description": "Analytics-driven SIEM combining traditional SIEM capabilities with UEBA, Open XDR, and Identity Analytics. Gartner Magic Quadrant Leader 2025 for unified security operations platform.",
+      "website": "https://gurucul.com",
+      "capabilities": {
+        "sql_interface": true,
+        "streaming_query": true,
+        "multi_engine_query": false,
+        "open_table_format": "proprietary",
+        "schema_evolution": false,
+        "deployment_models": [
+          "cloud",
+          "on-prem",
+          "hybrid"
+        ],
+        "cloud_native": true,
+        "multi_cloud": false,
+        "operational_complexity": "medium",
+        "managed_service_available": false,
+        "team_size_required": "standard",
+        "cost_model": "subscription",
+        "cost_predictability": "medium",
+        "siem_integration": false,
+        "compliance_certifications": [],
+        "data_governance": false,
+        "maturity": "production",
+        "vendor_support": null,
+        "community_size": "unknown",
+        "ocsf_support": false,
+        "ml_analytics": false,
+        "api_extensibility": false
+      },
+      "typical_annual_cost_range": "$500K-2M for 5TB/day",
+      "cost_notes": "Subscription-based pricing with UEBA/XDR/Identity Analytics bundle. Lower TCO than traditional per-GB SIEM models.",
+      "evidence_source": "literature-review",
+      "evidence_sources": [
+        {
+          "id": "gartner-mq-siem-2025-gurucul",
+          "description": "Gartner Magic Quadrant for SIEM 2025: Gurucul Next-Gen SIEM positioned as Leader",
+          "url": "https://www.gartner.com/en/documents/magic-quadrant-siem",
+          "evidence_tier": "A",
+          "type": "analyst_report",
+          "report_type": "gartner_magic_quadrant",
+          "positioning": "Leader"
+        }
+      ],
+      "evidence_summary": {
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 1
+      },
+      "last_updated": "2025-10-23T07:32:11.340736+00:00",
+      "validated_by": "Jeremy Wiley",
+      "tags": [
+        "siem",
+        "ueba",
+        "xdr",
+        "identity-analytics",
+        "gartner-magic-quadrant-leader",
+        "analytics-driven"
+      ]
+    },
+    {
+      "id": "palo-alto-cortex-xsiam",
+      "name": "Palo Alto Networks Cortex XSIAM",
+      "category": "SIEM",
+      "description": "AI-driven extended security intelligence and automation management platform built on Cortex Extended Data Lake (XDL). Forrester Wave Security Analytics Platforms 2025 leader.",
+      "website": "https://www.paloaltonetworks.com/cortex/xsiam",
+      "capabilities": {
+        "sql_interface": true,
+        "streaming_query": true,
+        "multi_engine_query": false,
+        "open_table_format": "proprietary",
+        "schema_evolution": false,
+        "deployment_models": [
+          "cloud"
+        ],
+        "cloud_native": true,
+        "multi_cloud": false,
+        "operational_complexity": "medium",
+        "managed_service_available": false,
+        "team_size_required": "standard",
+        "cost_model": "subscription",
+        "cost_predictability": "medium",
+        "siem_integration": false,
+        "compliance_certifications": [],
+        "data_governance": false,
+        "maturity": "production",
+        "vendor_support": null,
+        "community_size": "unknown",
+        "ocsf_support": false,
+        "ml_analytics": false,
+        "api_extensibility": false
+      },
+      "typical_annual_cost_range": "$800K-3M for 5TB/day",
+      "cost_notes": "Subscription-based with Cortex XDL storage. Includes XDR, SIEM, and SOAR capabilities in unified platform.",
+      "evidence_source": "literature-review",
+      "evidence_sources": [
+        {
+          "id": "forrester-wave-security-analytics-2025-palo-alto",
+          "description": "Forrester Wave Security Analytics Platforms 2025: Palo Alto Networks Cortex XSIAM positioned as Leader",
+          "url": "https://www.forrester.com/wave/security-analytics-platforms",
+          "evidence_tier": "A",
+          "type": "analyst_report",
+          "report_type": "forrester_wave",
+          "positioning": "Leader"
+        }
+      ],
+      "evidence_summary": {
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 1
+      },
+      "last_updated": "2025-10-23T07:32:11.340751+00:00",
+      "validated_by": "Jeremy Wiley",
+      "tags": [
+        "siem",
+        "xdr",
+        "soar",
+        "ai-driven",
+        "forrester-wave-leader",
+        "cortex-xdl"
+      ]
+    },
+    {
+      "id": "sentinelone-singularity-ai-siem",
+      "name": "SentinelOne Singularity AI SIEM",
+      "category": "SIEM",
+      "description": "Cloud-native SIEM built on Singularity Data Lake with automatic OCSF normalization. Gartner Leader for Endpoint Protection Platforms 2025, extending into SIEM market.",
+      "website": "https://www.sentinelone.com/platform/singularity-ai-siem",
+      "capabilities": {
+        "sql_interface": true,
+        "streaming_query": true,
+        "multi_engine_query": false,
+        "open_table_format": "proprietary",
+        "schema_evolution": false,
+        "deployment_models": [
+          "cloud"
+        ],
+        "cloud_native": true,
+        "multi_cloud": false,
+        "operational_complexity": "low",
+        "managed_service_available": false,
+        "team_size_required": "lean",
+        "cost_model": "subscription",
+        "cost_predictability": "medium",
+        "siem_integration": false,
+        "compliance_certifications": [],
+        "data_governance": false,
+        "maturity": "emerging",
+        "vendor_support": null,
+        "community_size": "unknown",
+        "ocsf_support": false,
+        "ml_analytics": false,
+        "api_extensibility": false
+      },
+      "typical_annual_cost_range": "$400K-1.5M for 5TB/day",
+      "cost_notes": "Subscription-based with endpoint bundle pricing. Lower operational overhead due to cloud-native architecture and OCSF normalization.",
+      "evidence_source": "literature-review",
+      "evidence_sources": [
+        {
+          "id": "gartner-mq-endpoint-protection-2025-sentinelone",
+          "description": "Gartner Magic Quadrant for Endpoint Protection Platforms 2025: SentinelOne positioned as Leader (extending into SIEM with Singularity Data Lake)",
+          "url": "https://www.gartner.com/en/documents/magic-quadrant-endpoint-protection",
+          "evidence_tier": "A",
+          "type": "analyst_report",
+          "report_type": "gartner_magic_quadrant",
+          "positioning": "Leader"
+        }
+      ],
+      "evidence_summary": {
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 1
+      },
+      "last_updated": "2025-10-23T07:32:11.340757+00:00",
+      "validated_by": "Jeremy Wiley",
+      "tags": [
+        "siem",
+        "endpoint-protection",
+        "ocsf",
+        "ai-driven",
+        "gartner-magic-quadrant-leader",
+        "cloud-native"
+      ]
+    },
+    {
+      "id": "apache-impala",
+      "name": "Apache Impala",
+      "category": "Query Engine",
+      "description": "Open-source MPP distributed query engine optimized for low-latency SQL queries on Hadoop/HDFS and cloud storage. Production deployments at NYSE, Quest Diagnostics, Caterpillar, Cox Automotive.",
+      "website": "https://impala.apache.org",
+      "capabilities": {
+        "sql_interface": true,
+        "streaming_query": false,
+        "multi_engine_query": false,
+        "open_table_format": "proprietary",
+        "schema_evolution": false,
+        "deployment_models": [
+          "cloud",
+          "on-prem",
+          "hybrid"
+        ],
+        "cloud_native": true,
+        "multi_cloud": false,
+        "operational_complexity": "high",
+        "managed_service_available": false,
+        "team_size_required": "standard",
+        "cost_model": "open-source",
+        "cost_predictability": "medium",
+        "siem_integration": false,
+        "compliance_certifications": [],
+        "data_governance": false,
+        "maturity": "production",
+        "vendor_support": null,
+        "community_size": "unknown",
+        "ocsf_support": false,
+        "ml_analytics": false,
+        "api_extensibility": false
+      },
+      "typical_annual_cost_range": "$50K-300K infrastructure costs",
+      "cost_notes": "Open source (Apache 2.0). Infrastructure costs only (compute, storage, support). Commercial support available through Cloudera.",
+      "evidence_source": "literature-review",
+      "evidence_sources": [
+        {
+          "id": "apache-impala-production-fortune500-2024",
+          "description": "Apache Impala production deployments: NYSE, Quest Diagnostics, Caterpillar, Cox Automotive (Fortune 500 validation)",
+          "url": "https://impala.apache.org/powered-by.html",
+          "evidence_tier": "A",
+          "type": "production_deployment"
+        }
+      ],
+      "evidence_summary": {
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
+      },
+      "last_updated": "2025-10-23T07:32:11.340763+00:00",
+      "validated_by": "Jeremy Wiley",
+      "tags": [
+        "oss",
+        "mpp",
+        "hadoop",
+        "query-engine",
+        "open-source",
+        "production-validated"
+      ]
+    },
+    {
+      "id": "apache-paimon",
+      "name": "Apache Paimon",
+      "category": "Data Lakehouse",
+      "description": "Apache TLP streaming lakehouse with LSM tree architecture (graduated April 2024). Production at Alibaba, Bytedance, China Unicom (700 streaming tasks, 3x write, 7x query performance vs previous).",
+      "website": "https://paimon.apache.org",
+      "capabilities": {
+        "sql_interface": true,
+        "streaming_query": true,
+        "multi_engine_query": false,
+        "open_table_format": "proprietary",
+        "schema_evolution": false,
+        "deployment_models": [
+          "cloud",
+          "on-prem",
+          "hybrid"
+        ],
+        "cloud_native": true,
+        "multi_cloud": false,
+        "operational_complexity": "medium",
+        "managed_service_available": false,
+        "team_size_required": "standard",
+        "cost_model": "open-source",
+        "cost_predictability": "medium",
+        "siem_integration": false,
+        "compliance_certifications": [],
+        "data_governance": false,
+        "maturity": "production",
+        "vendor_support": null,
+        "community_size": "unknown",
+        "ocsf_support": false,
+        "ml_analytics": false,
+        "api_extensibility": false
+      },
+      "typical_annual_cost_range": "$40K-250K infrastructure costs",
+      "cost_notes": "Open source (Apache 2.0). Infrastructure costs only. Optimized for cloud object storage (S3, GCS, Azure Blob).",
+      "evidence_source": "literature-review",
+      "evidence_sources": [
+        {
+          "id": "apache-paimon-china-unicom-2024",
+          "description": "Apache Paimon production at China Unicom: 700 streaming tasks, 3x write performance, 7x query performance improvement",
+          "url": "https://paimon.apache.org/docs/master/case-studies/china-unicom/",
+          "evidence_tier": "A",
+          "type": "production_deployment"
+        }
+      ],
+      "evidence_summary": {
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
+      },
+      "last_updated": "2025-10-23T07:32:11.340770+00:00",
+      "validated_by": "Jeremy Wiley",
+      "tags": [
+        "oss",
+        "lakehouse",
+        "streaming",
+        "lsm-tree",
+        "apache-tlp",
+        "open-source",
+        "production-validated"
+      ]
+    },
+    {
+      "id": "starburst-enterprise",
+      "name": "Starburst Enterprise",
+      "category": "Data Virtualization",
+      "description": "Commercial Trino distribution for query federation across heterogeneous data sources. Customer case study: 2-hour queries reduced to 9 minutes, 61% TCO savings through data virtualization.",
+      "website": "https://www.starburst.io",
+      "capabilities": {
+        "sql_interface": true,
+        "streaming_query": false,
+        "multi_engine_query": false,
+        "open_table_format": "proprietary",
+        "schema_evolution": false,
+        "deployment_models": [
+          "cloud",
+          "on-prem",
+          "hybrid"
+        ],
+        "cloud_native": true,
+        "multi_cloud": false,
+        "operational_complexity": "medium",
+        "managed_service_available": false,
+        "team_size_required": "standard",
+        "cost_model": "subscription",
+        "cost_predictability": "medium",
+        "siem_integration": false,
+        "compliance_certifications": [],
+        "data_governance": false,
+        "maturity": "production",
+        "vendor_support": null,
+        "community_size": "unknown",
+        "ocsf_support": false,
+        "ml_analytics": false,
+        "api_extensibility": false
+      },
+      "typical_annual_cost_range": "$200K-800K for 5TB/day",
+      "cost_notes": "Subscription-based with enterprise support. TCO savings documented (61% in case study) through reduced data movement and storage duplication.",
+      "evidence_source": "literature-review",
+      "evidence_sources": [
+        {
+          "id": "starburst-tco-case-study-2024",
+          "description": "Starburst Enterprise customer case study: 2-hour queries reduced to 9 minutes, 61% TCO savings through data virtualization",
+          "url": "https://www.starburst.io/case-studies/tco-savings/",
+          "evidence_tier": "A",
+          "type": "case_study"
+        }
+      ],
+      "evidence_summary": {
+        "total_sources": 1,
+        "tier_a_sources": 1,
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0
+      },
+      "last_updated": "2025-10-23T07:32:11.341291+00:00",
+      "validated_by": "Jeremy Wiley",
+      "tags": [
+        "trino",
+        "query-federation",
+        "data-virtualization",
+        "commercial-support",
+        "tco-validated"
+      ]
     }
   ],
   "update_cadence": "quarterly",
-  "last_full_update": "2025-10-23T06:43:30.243708Z",
-  "total_vendors": 65
+  "last_full_update": "2025-10-23T07:32:11.341293+00:00",
+  "total_vendors": 71
 }
