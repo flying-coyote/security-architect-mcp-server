@@ -133,7 +133,7 @@ Let's continue with data sovereignty requirements..."
 - ✅ Cost calculator tool (5-year TCO projections with growth modeling)
 - ✅ Vendor database expansion (54 → 64 vendors)
 - ✅ POC test suite generator (vendor-specific evaluation plans)
-- ⏳ IT Harvest API integration (if partnership succeeds) OR web scraping fallback
+- ⏳ Automated vendor update pipeline (web scraping or community contributions)
 - ⏳ Quarterly vendor database update pipeline
 - ⏳ Hypothesis validation pipeline
 
@@ -201,7 +201,7 @@ security-architect-mcp-server/
 ## Current Status
 
 **Phase**: Phase 2 In Progress - 3/6 Deliverables Complete ✅
-**Next Action**: IT Harvest API Integration / Quarterly Update Pipeline
+**Next Action**: Automated Vendor Update Pipeline / Quarterly Maintenance
 
 **Recent Deliverables** (October 16, 2025):
 1. ✅ TCO Calculator implemented (5-year projections)
@@ -286,9 +286,10 @@ security-architect-mcp-server/
 - Chapter 3-4 decision framework logic - extracted from book
 - Use Case Library - created earlier in session (for Phase 3 integration)
 
-**Partnerships**:
-- IT Harvest (pending - for automated vendor updates in Phase 2)
-- Expert interviews (Jake Thomas, Lisa Chao, Paul Agbabian - for Phase 3 integration)
+**Integration Points**:
+- Book manuscript (Chapter 3-4 framework, Appendix D vendor sync)
+- Blog (anonymized case studies from architect decisions)
+- Literature review (vendor capability validation)
 
 ---
 

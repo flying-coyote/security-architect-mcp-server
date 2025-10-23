@@ -31,7 +31,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 - ✅ Vendor database expanded (54 → 64 vendors)
 - ⏳ POC test suite generator (vendor-specific evaluation plans)
 - ⏳ Vendor database reaches 80+ platforms
-- ⏳ IT Harvest API integration OR web scraping fallback
+- ⏳ Automated vendor update pipeline (web scraping or community contributions)
 - ⏳ Hypothesis validation pipeline (capture decisions → update confidence levels)
 
 **12-Month Goals** (Year 1):
@@ -67,12 +67,11 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 - POC test suite generator (vendor-specific evaluation plans with success criteria)
 
 **Phase 2-3 Extensions**:
-- Living Literature Review integration (IT Harvest API OR web scraping fallback)
+- Living Literature Review integration (automated vendor updates)
 - Quarterly vendor database update pipeline
 - Hypothesis validation pipeline (anonymized decisions → confidence updates)
 - Blog post generator (decision conversations → anonymized case studies)
 - Use Case Library integration (detection requirements → platform capability gaps)
-- Expert interview synthesis (Jake Thomas, Lisa Cao, Paul Agbabian insights)
 
 ### Out of Scope
 **Excluded Functionality**:
@@ -94,9 +93,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 **Vendor Database Staleness**:
 - If >6 months stale → Display warning in reports, prompt quarterly update
 - If vendor acquisition/sunset → Flag vendor as deprecated, suggest alternatives
-
-**IT Harvest Partnership Failure**:
-- If partnership declines → Fallback to manual quarterly updates + web scraping assistance
+- If automated updates unavailable → Fallback to manual quarterly updates
 - Community contributions via GitHub PRs (vendor updates submitted by users)
 
 **Architect Abandons Interview Mid-Stream**:
@@ -180,17 +177,17 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 
 ## Assumptions Requiring Verification
 
-### IT Harvest Partnership
-⚠️ **ASSUMPTION**: IT Harvest partnership proposal pending, outcome unknown
-- No confirmed partnership as of October 19, 2025
-- Assumption basis: Proposal drafted (Week 2 Tier 1 email mentioned), no response yet
-- **Verification needed**: Follow up by Week 4 (Nov 4), if no response fallback to web scraping
+### Automated Vendor Database Updates
+⚠️ **ASSUMPTION**: Automated vendor updates achievable through web scraping or APIs
+- No confirmed automation approach as of October 19, 2025
+- Assumption basis: Quarterly updates feasible with open-source tools
+- **Verification needed**: Implement web scraping prototype by Month 4
 - **Impact if false**: Manual quarterly updates required (increased maintenance burden 30-50%)
 
 ### Architect Adoption Targets
 ⚠️ **ASSUMPTION**: 50-100 architects will use MCP server in Year 1
 - No baseline adoption data (new product launch)
-- Assumption basis: Book readers (estimated 500-1,000), blog community (500 subscribers target), expert network referrals
+- Assumption basis: Book readers (estimated 500-1,000), blog community (500 subscribers target)
 - **Verification needed**: Track actual adoption Month 1-6, recalibrate if <10 users by Month 6
 - **Impact if false**: Research hypothesis validation pipeline insufficient (need 50+ decisions for statistical significance)
 
@@ -209,7 +206,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 
 ### Vendor Database Maintenance Sustainability
 ⚠️ **ASSUMPTION**: 160-200 hours/year maintenance effort sustainable long-term
-- Depends on: (1) IT Harvest automation (50% reduction if succeeds), (2) Community contributions (30-50% reduction if materialize)
+- Depends on: (1) Automation success (50% reduction if achieved), (2) Community contributions (30-50% reduction if materialize)
 - Assumption basis: Quarterly updates (10-12 hours/quarter) + annual audit (68 hours) + user support (48-96 hours) = 160-200 hours
 - **Verification needed**: Track actual maintenance time Year 1, if >300 hours recalibrate (reduce vendor count to top 30, increase update interval to bi-annual)
 - **Impact if false**: Unsustainable maintenance burden, project abandonment risk
@@ -274,11 +271,11 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 **Rationale**:
 - Vendor capabilities change slowly (quarterly cadence sufficient)
 - Monthly updates unsustainable (4× maintenance burden)
-- Continuous updates infeasible (no real-time API access without IT Harvest)
+- Continuous updates infeasible (no real-time API access currently available)
 - Timestamp displayed in reports (users aware of staleness)
 **Made by**: Jeremy
 **Date**: October 14, 2025 (ULTRATHINK analysis sustainability section)
-**Reversible?**: Yes (if IT Harvest partnership succeeds with API, could move to monthly)
+**Reversible?**: Yes (if automation achieves better than expected results, could move to monthly)
 **Source**: ULTRATHINK design doc lines 1743-1781
 
 ### Decision 5: Three-Tier Requirement Hierarchy (Mandatory/Preferred/Nice-to-Have)
@@ -321,8 +318,8 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 
 ## Pending Decisions
 
-### Decision 1: IT Harvest Partnership - Proceed or Fallback?
-**Question**: If IT Harvest partnership fails, proceed with web scraping fallback or reduce vendor database scope?
+### Decision 1: Vendor Database Update Automation Approach
+**Question**: What automation approach should be used for vendor database updates?
 **Options**:
 - Option A: Build web scraping automation (vendor websites → capability updates, 30-40 hours development)
 - Option B: Reduce vendor scope (80 → top 30 most common platforms, focus depth over breadth)
@@ -331,7 +328,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 - Option A: Higher development cost, ongoing scraping maintenance, legal/ethical concerns (terms of service violations?)
 - Option B: Reduced value (missing niche vendors), faster maintenance (30 vendors = 50% effort reduction)
 - Option C: Unpredictable quality (community may not materialize), low cost
-**Decision needed by**: Month 4 (December 2025) - after IT Harvest response received or 8 weeks elapsed
+**Decision needed by**: Month 4 (December 2025)
 **Blocking**: Phase 2 completion (quarterly update pipeline depends on data source)
 
 ### Decision 2: POC Test Suite Generator - Vendor-Specific or Generic?
@@ -347,14 +344,14 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 **Decision needed by**: Month 3 (November 2025) - POC generator is Phase 2 next deliverable
 **Blocking**: No (can start with Option B, enhance to Option C later)
 
-### Decision 3: Beta Testing - Internal or External Architects?
-**Question**: Beta test with known experts (Jake Thomas, Lisa Cao, Paul Agbabian) or recruit unknown external architects?
+### Decision 3: Beta Testing - Approach and Recruitment
+**Question**: What approach should be used for beta testing with security architects?
 **Options**:
-- Option A: Internal expert network (3 beta testers from existing relationships)
+- Option A: Recruit from professional network (3-5 beta testers from existing relationships)
 - Option B: External recruitment (blog readers, LinkedIn community, 5-10 testers)
-- Option C: Hybrid (1-2 experts + 3-5 external)
+- Option C: Hybrid (1-2 from network + 3-5 external)
 **Trade-offs**:
-- Option A: High-quality feedback (experts provide detailed critiques), limited diversity (similar backgrounds)
+- Option A: High-quality feedback (detailed critiques), limited diversity (similar backgrounds)
 - Option B: Diverse perspectives (healthcare/financial/multi-national validated), lower quality feedback (may not complete interview)
 - Option C: Balanced quality/diversity, coordination overhead
 **Decision needed by**: Month 2 (end of Phase 1, October 2025) - beta testing starts after Phase 1 complete
@@ -451,7 +448,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 2. ✅ Vendor database expansion (64 vendors) - COMPLETE
 3. ⏳ POC test suite generator (vendor-specific evaluation plans) - NEXT
 4. ⏳ Vendor database reaches 80 platforms (16 more vendors)
-5. ⏳ IT Harvest API integration OR web scraping fallback
+5. ⏳ Automated vendor update pipeline (web scraping or community contributions)
 6. ⏳ Hypothesis validation pipeline (capture decisions → update confidence)
 
 **Excellent Success** (5/6 deliverables):
@@ -484,7 +481,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 - Architecture reports include personalized journey guidance (not generic)
 - POC test suites directly executable (not just templates)
 - Test coverage 90%+ (current: 88%, close)
-- Expert validation from Jake Thomas, Lisa Cao, Paul Agbabian
+- Validation from production deployments and beta testers
 
 **Critical Defects** (block release):
 - ❌ MCP server crashes during interview (unrecoverable errors)
@@ -499,16 +496,16 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 
 ### High-Probability Risks
 
-**Risk 1: IT Harvest Partnership Failure (Likelihood: MEDIUM, 50%)**
+**Risk 1: Automated Vendor Updates Not Achieved (Likelihood: MEDIUM, 50%)**
 - **Impact**: Manual quarterly updates required (increased maintenance 30-50%)
-- **Indicators**: 8 weeks no response from IT Harvest, partnership declined
-- **Mitigation**: Web scraping fallback (30-40 hours development), community contribution model (GitHub PRs), reduce vendor scope (80 → top 30)
+- **Indicators**: Web scraping proves infeasible, community contributions insufficient
+- **Mitigation**: Community contribution model (GitHub PRs), reduce vendor scope (80 → top 30)
 - **Contingency**: If >250 hours/year maintenance, reduce update frequency (quarterly → bi-annual) or vendor count (80 → 50 → 30)
 
 **Risk 2: Architect Adoption Lower Than Projected (Likelihood: MEDIUM)**
 - **Impact**: Hypothesis validation pipeline insufficient (<50 decisions = no statistical significance), blog content pipeline insufficient (<5 posts/year)
 - **Indicators**: <10 architects by Month 6, <30 by Month 12
-- **Mitigation**: Increase marketing (blog posts, expert network referrals, conference speaking), simplify setup (one-click Claude Desktop install)
+- **Mitigation**: Increase marketing (blog posts, conference speaking), simplify setup (one-click Claude Desktop install)
 - **Contingency**: Recalibrate targets (50-100 → 20-50 architects), extend timeline (Year 1 → Year 2)
 
 **Risk 3: Vendor Database Staleness (Likelihood: HIGH)**
@@ -571,7 +568,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 
 **Blocker 3: Beta Tester Unavailability**
 - **Scenario**: Cannot recruit 3 beta testers (healthcare, financial, multi-national contexts)
-- **Probability**: LOW-MEDIUM (expert network strong, but availability uncertain)
+- **Probability**: LOW-MEDIUM (professional network available, but availability uncertain)
 - **Impact**: Phase 1 validation incomplete, journey persona matching unvalidated
 - **Mitigation**: Recruit from blog community (LinkedIn promotion), offer value proposition (free architecture report), extend timeline (Month 2 → Month 4)
 - **Escalation**: If no beta testers by Month 4, self-test with synthetic personas (lower confidence)
@@ -605,7 +602,6 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 - Book Appendix D vendor sync (MCP vendors.json ↔ book Appendix D)
 - Blog content generation (anonymized case study templates from decision_state.json)
 - Hypothesis validation pipeline (decision patterns → confidence level updates)
-- Expert interview synthesis (Jake Thomas, Lisa Cao, Paul Agbabian insights)
 
 ### Domain Background AI Needs
 
@@ -634,7 +630,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 - Tier 1 mandatory: SQL support, multi-source integration, time-series partitioning
 - Tier 2 preferred: Iceberg-native, multi-engine query, OCSF support, streaming ingestion
 - Cost estimates: Per-TB/month, per-query, subscription, open-source (free), hybrid
-- Evidence sources: Book hypotheses, expert interviews (Matthew Mullins, Jake Thomas, Lisa Cao, Paul Agbabian), production deployments
+- Evidence sources: Book hypotheses, production deployments, peer-reviewed research
 
 **Related Projects Context**:
 - **Book** (modern-data-stack-for-cybersecurity-book): 115,500 words, Chapter 3-4 decision framework source, Appendix D vendor comparison matrix
@@ -650,8 +646,8 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 
 **Phase Status**:
 - Phase 1 ✅ COMPLETE (October 16, 2025): 178 tests passing, 88% coverage, 8 tools operational
-- Phase 2 ⏳ IN PROGRESS (2/6 complete): TCO calculator ✅, vendor expansion 64 ✅, POC generator next, IT Harvest pending, hypothesis pipeline pending
-- Phase 3 PENDING: Blog integration, Use Case Library, expert interview synthesis
+- Phase 2 ⏳ IN PROGRESS (2/6 complete): TCO calculator ✅, vendor expansion 64 ✅, POC generator next, automated updates pending, hypothesis pipeline pending
+- Phase 3 PENDING: Blog integration, Use Case Library
 
 ---
 
@@ -676,7 +672,7 @@ Before using this project brief, verify:
 - [ ] Phase 2 status updated (check README.md for deliverable count)
 - [ ] Test coverage current (run pytest, confirm 80%+)
 - [ ] Vendor count accurate (check data/vendor_database.json)
-- [ ] IT Harvest partnership status resolved (if 8 weeks elapsed, update)
+- [ ] Automation approach status updated (check if web scraping or community model selected)
 - [ ] Beta tester recruitment status (if Phase 1 complete, recruit 3-5 testers)
 - [ ] POC test suite generator scope decided (vendor-specific vs generic template)
 
@@ -690,7 +686,7 @@ Before using this project brief, verify:
 **2025-10-19**: Initial creation using Memory Prompts Prompt 3 (26-question methodology)
 - Separated confirmed facts (13 items) from assumptions (7 items)
 - Documented 7 prior decisions with rationale (MCP-not-SaaS, Python-not-TypeScript, evidence-based-vendors, quarterly-updates, three-tier-hierarchy, journey-personas, honest-trade-offs)
-- Identified 4 pending decisions with trade-offs (IT Harvest fallback, POC generator scope, beta testing approach, hypothesis validation automation)
+- Identified 4 pending decisions with trade-offs (automation approach, POC generator scope, beta testing approach, hypothesis validation automation)
 - Mapped 6 non-negotiable constraints (Python 3.10+, MCP SDK 1.2.0+, 80%+ test coverage, vendor neutrality, evidence-based claims, honest trade-offs, research tool only, open source, 200 hours/year max maintenance)
 - Defined 3-tier acceptance criteria (Phase 1 complete ✅, Phase 2 in progress 2/6, 12-month goals 3/5 required)
 - Assessed 5 high/medium-probability risks + 4 unknowns + 3 blockers

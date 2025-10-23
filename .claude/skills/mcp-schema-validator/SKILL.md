@@ -317,7 +317,7 @@ Read: data/vendor_database.json
   },
   "description": "Dremio provides SQL query engine with Iceberg catalog integration...",
   "evidence_tier": 1,
-  "production_deployments": ["Okta (Jake Thomas)", "..."]
+  "production_deployments": ["Enterprise A (2024)", "..."]
 }
 ```
 

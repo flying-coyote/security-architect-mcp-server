@@ -208,11 +208,10 @@ This project inherits quality standards from [second-brain](https://github.com/f
   - Result: 46.5% analyst coverage, 35.2% production validation, 84% Tier A quality
 - ✅ **Automation Pipeline** - Weekly refresh + monthly GitHub metrics tracking
 - ⏳ POC test suite generator (NEXT)
-- ⏳ IT Harvest API integration (if partnership succeeds) OR web scraping fallback
-- ⏳ Quarterly vendor database update pipeline
+- ⏳ Quarterly vendor database update pipeline (automated refresh operational)
 - ⏳ Hypothesis validation pipeline
 
-**Progress**: 4/8 deliverables complete (automation added as deliverable)
+**Progress**: 4/6 deliverables complete
 
 **Timeline**: 5-7 weeks (90-130 hours total)
 
@@ -324,11 +323,6 @@ All personal skills from `~/.claude/skills/` are available:
 - **Integration**: Anonymized architect decisions → blog posts (Phase 3)
 - **Value**: Real-world case studies, community engagement, hypothesis validation
 
-### Expert Network
-- **Source**: second-brain expert network (1,444 thought leaders)
-- **Integration**: Expert interviews validate vendor assessments
-- **Value**: Practitioner feedback ensures real-world accuracy
-
 ## Related Projects
 
 ### Core Projects
@@ -433,7 +427,7 @@ mypy src/
 5. **Decision Interview** - 12-step guided conversation prompt
 
 ### Medium-term (Phase 2-3, Month 3-6)
-1. **Literature Review Integration** - IT Harvest API or web scraping
+1. **Literature Review Integration** - Quarterly vendor database updates (automation operational)
 2. **Cost Calculator** - TCO projection tool
 3. **Blog Content Generator** - Anonymized case studies
 4. **Use Case Library** - Detection requirements mapping

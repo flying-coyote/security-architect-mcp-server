@@ -81,7 +81,7 @@ Maintain evidence-based, bias-free quality standards for the 64+ vendor database
 
 **Score 5 (Exceptional):**
 - ✅ Tier 1 evidence: Production deployments with measured outcomes
-- ✅ Specific metrics documented: "Okta sustains 100K QPS with DuckDB"
+- ✅ Specific metrics documented: "Production environment sustains 100K QPS"
 - ✅ Multiple independent confirmations
 - ❌ Cannot be based solely on vendor marketing
 
@@ -136,11 +136,11 @@ Grep: Vendor descriptions for specific metrics
 
 ❌ **Under-scoring proven capabilities:**
 ```json
-// WRONG: Dremio has documented Iceberg support (Jake Thomas, production)
+// WRONG: Platform has documented Iceberg support (production validated)
 {"data_lake_support": 3}  // Should be 5
 
 // CORRECT: Tier 1 evidence exists
-{"data_lake_support": 5}  // Production deployment at Okta documented
+{"data_lake_support": 5}  // Production deployment documented
 ```
 
 ### Step 3: Marketing Hype Detection
@@ -151,7 +151,7 @@ Grep: Vendor descriptions for specific metrics
 ```json
 {
   "name": "DuckDB",
-  "description": "Embedded columnar database optimized for analytical queries. Sustains 100K QPS with sub-second latency in Okta's production deployment (Jake Thomas, 2024). Open source (MIT license), no infrastructure overhead. Limited: No native distributed processing, single-node only. Best for: Edge processing, embedded analytics, cost-sensitive deployments."
+  "description": "Embedded columnar database optimized for analytical queries. Sustains 100K QPS with sub-second latency in production deployments (2024 validation). Open source (MIT license), no infrastructure overhead. Limited: No native distributed processing, single-node only. Best for: Edge processing, embedded analytics, cost-sensitive deployments."
 }
 ```
 
@@ -307,10 +307,10 @@ Resolution needed:
 {
   "evidence_tier": 1,
   "production_deployments": [
-    "Okta (Jake Thomas) - 100K QPS, sub-second latency",
-    "Company B (Contact Name) - 10TB/day, 85% cost reduction"
+    "Enterprise A - 100K QPS, sub-second latency (2024)",
+    "Enterprise B - 10TB/day, 85% cost reduction (2024)"
   ],
-  "description": "... Production-validated at Okta: 100K QPS with sub-second latency (Jake Thomas, 2024)."
+  "description": "... Production-validated: 100K QPS with sub-second latency (2024 validation)."
 }
 ```
 
@@ -324,7 +324,7 @@ Resolution needed:
 ```
 
 **Production Deployment Standards:**
-- ✅ Company name + contact name (if public)
+- ✅ Organization type or anonymized reference
 - ✅ Specific metrics (QPS, latency, volume, cost reduction)
 - ✅ Validation date (within 24 months)
 - ✅ Evidence tier 1 ONLY if production deployments documented
@@ -400,7 +400,7 @@ REQUIRED FIELDS:
 CAPABILITY SCORING:
 
 query_performance: 5
-Evidence: ✅ Tier 1 - Okta production: 100K QPS (Jake Thomas)
+Evidence: ✅ Tier 1 - Production deployment: 100K QPS (2024 validation)
 Status: ✅ VALIDATED
 
 schema_flexibility: 4
@@ -441,8 +441,8 @@ PRODUCTION DEPLOYMENT VALIDATION:
 
 Evidence Tier: 1 (Production)
 Production Deployments:
-✅ "Okta (Jake Thomas) - 100K QPS, sub-second latency"
-✅ Contact verifiable, metrics specific
+✅ "Enterprise A - 100K QPS, sub-second latency (2024)"
+✅ Metrics specific, validation documented
 ✅ Validation date: 2024 (within 24 months)
 
 Status: ✅ TIER 1 EVIDENCE VALIDATED
