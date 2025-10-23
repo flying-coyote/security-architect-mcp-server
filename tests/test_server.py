@@ -21,10 +21,17 @@ async def test_list_resources():
     """Test that resources are listed correctly."""
     resources = await handle_list_resources()
 
-    assert len(resources) == 1
-    assert str(resources[0].uri) == "vendor://database/stats"
-    assert resources[0].name == "Vendor Database Statistics"
-    assert resources[0].mimeType == "application/json"
+    # Should have 2 resources: vendor database stats and decision state
+    assert len(resources) == 2
+
+    resource_uris = [str(r.uri) for r in resources]
+    assert "vendor://database/stats" in resource_uris
+    assert "decision://state" in resource_uris
+
+    # Check vendor database stats resource
+    vendor_stats = next(r for r in resources if str(r.uri) == "vendor://database/stats")
+    assert vendor_stats.name == "Vendor Database Statistics"
+    assert vendor_stats.mimeType == "application/json"
 
 
 @pytest.mark.asyncio

@@ -168,17 +168,7 @@
       "typical_annual_cost_range": "$144K-420K for 500GB/day",
       "cost_notes": "Ingestion: $12K/month. Retention (365 days): $18K/month. Search jobs: $1-5K/month. Total: $31-35K/month.",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-siem-2024-azure-sentinel",
-          "description": "Gartner Magic Quadrant for SIEM 2024: Microsoft Azure Sentinel positioned as Leader (same as Microsoft Sentinel)",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-siem",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 4,
         "tier_a_sources": 1,
@@ -236,17 +226,7 @@
       "typical_annual_cost_range": "$50K-200K for 5TB/day",
       "cost_notes": "$5 per TB scanned. Optimized with Iceberg partitioning to reduce scan costs 70-90%. No infrastructure costs (serverless).",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "forrester-wave-cloud-dw-2024-athena",
-          "description": "Forrester Wave for Cloud Data Warehouse 2024: Amazon Athena recognized as Strong Performer",
-          "url": "https://www.forrester.com/wave/cloud-data-warehouse-2024",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "forrester_wave",
-          "positioning": "Strong Performer"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 6,
         "tier_a_sources": 4,
@@ -378,17 +358,7 @@
       "typical_annual_cost_range": "$500K-3M for 10TB/day",
       "cost_notes": "Consumption pricing (compute + storage). Costs can escalate with inefficient queries or continuous compute. Typical security workload: $50-150/TB/month all-in.",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-cloud-database-2024-snowflake",
-          "description": "Gartner Magic Quadrant for Cloud Database Management Systems 2024: Snowflake positioned as Leader",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-cloud-database",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 5,
         "tier_a_sources": 3,
@@ -449,17 +419,7 @@
       "typical_annual_cost_range": "$400K-2.5M for 10TB/day",
       "cost_notes": "Consumption pricing (DBUs + storage). Strong ML capabilities justify premium for data science-heavy use cases. TCO analysis shows lakehouse advantage over traditional platforms.",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-data-science-2024-databricks",
-          "description": "Gartner Magic Quadrant for Data Science and Machine Learning Platforms 2024: Databricks positioned as Leader",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-data-science",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 5,
         "tier_a_sources": 3,
@@ -684,17 +644,7 @@
       "typical_annual_cost_range": "$100K-500K for 5TB/day",
       "cost_notes": "$6.25/TB scanned",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-cloud-database-2024-bigquery",
-          "description": "Gartner Magic Quadrant for Cloud Database Management Systems 2024: Google BigQuery positioned as Leader",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-cloud-database",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 2,
         "tier_a_sources": 1,
@@ -748,17 +698,7 @@
       "typical_annual_cost_range": "$3M-12M for 5TB/day",
       "cost_notes": "Per-GB ingestion pricing",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-siem-2024-splunk",
-          "description": "Gartner Magic Quadrant for SIEM 2024: Splunk Enterprise Security positioned as Leader",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-siem",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 2,
         "tier_a_sources": 1,
@@ -812,17 +752,7 @@
       "typical_annual_cost_range": "$1M-5M for 5TB/day",
       "cost_notes": "Per-GB ingestion",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-siem-2024-elastic",
-          "description": "Gartner Magic Quadrant for SIEM 2024: Elastic Security positioned as Niche Player",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-siem",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Niche Player"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 2,
         "tier_a_sources": 1,
@@ -877,17 +807,7 @@
       "typical_annual_cost_range": "$300K-1.5M for 5TB/day",
       "cost_notes": "Per-GB with unlimited plans available",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "forrester-wave-siem-2024-logscale",
-          "description": "Forrester Wave for SIEM 2024: CrowdStrike Falcon LogScale recognized as Strong Performer",
-          "url": "https://www.forrester.com/wave/siem-2024",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "forrester_wave",
-          "positioning": "Strong Performer"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 2,
         "tier_a_sources": 1,
@@ -1064,17 +984,7 @@
       "typical_annual_cost_range": "$315K-880K annually",
       "cost_notes": "Subscription pricing with VirusTotal/Mandiant threat intel",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-siem-2024-chronicle",
-          "description": "Gartner Magic Quadrant for SIEM 2024: Google Chronicle positioned as Leader",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-siem",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 2,
         "tier_a_sources": 1,
@@ -1186,17 +1096,7 @@
       "typical_annual_cost_range": "$1M-5M for 5TB/day",
       "cost_notes": "Subscription pricing (EPS/FPM based)",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-siem-2024-qradar",
-          "description": "Gartner Magic Quadrant for SIEM 2024: IBM QRadar positioned as Challenger",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-siem",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Challenger"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 2,
         "tier_a_sources": 1,
@@ -1303,17 +1203,7 @@
       "typical_annual_cost_range": "$20K-200K for moderate workloads",
       "cost_notes": "$0.015/GB ingested",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "forrester-wave-streaming-2023-kinesis",
-          "description": "Forrester Wave for Streaming Data Platforms 2023: Amazon Kinesis positioned as Strong Performer",
-          "url": "https://www.forrester.com/wave/streaming-data-platforms-2023",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "forrester_wave",
-          "positioning": "Strong Performer"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 2,
         "tier_a_sources": 1,
@@ -1430,17 +1320,7 @@
       "typical_annual_cost_range": "$50K-400K annually",
       "cost_notes": "Consumption-based eCKUs with autoscaling",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "forrester-wave-streaming-2023-confluent",
-          "description": "Forrester Wave for Streaming Data Platforms 2023: Confluent positioned as Leader",
-          "url": "https://www.forrester.com/wave/streaming-data-platforms-2023",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "forrester_wave",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 2,
         "tier_a_sources": 1,
@@ -1556,17 +1436,7 @@
       "typical_annual_cost_range": "$25K-200K annually",
       "cost_notes": "MAR pricing per connector (March 2025), subscription-based",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-data-integration-2024-fivetran",
-          "description": "Gartner Magic Quadrant for Data Integration Tools 2024: Fivetran positioned as Leader",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-data-integration",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 1,
@@ -1675,17 +1545,7 @@
       "typical_annual_cost_range": "$12K-50K annually",
       "cost_notes": "Consumption-based, unlimited users, 271% ROI potential",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-data-integration-2024-matillion",
-          "description": "Gartner Magic Quadrant for Data Integration Tools 2024: Matillion positioned as Visionary",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-data-integration",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Visionary"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 2,
@@ -1741,17 +1601,7 @@
       "typical_annual_cost_range": "$50K-500K annually",
       "cost_notes": "Capacity-based subscription, 4 editions, OSS version free",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-data-integration-2024-talend",
-          "description": "Gartner Magic Quadrant for Data Integration Tools 2024: Qlik Talend positioned as Niche Player",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-data-integration",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Niche Player"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 1,
@@ -2139,17 +1989,7 @@
       "typical_annual_cost_range": "$20K-200K annually",
       "cost_notes": "Pay for governed assets only (no scan cost), new pricing model Jan 2025",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-data-catalog-2024-purview",
-          "description": "Gartner Magic Quadrant for Metadata Management Solutions 2024: Microsoft Purview positioned as Leader",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-metadata-management",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 2,
@@ -2206,17 +2046,7 @@
       "typical_annual_cost_range": "$198K-500K annually",
       "cost_notes": "Asset-based pricing (2025), enterprise ~$198K/year",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-data-catalog-2024-alation",
-          "description": "Gartner Magic Quadrant for Metadata Management Solutions 2024: Alation positioned as Leader",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-metadata-management",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 1,
@@ -2388,17 +2218,7 @@
       "typical_annual_cost_range": "$50K-500K annually",
       "cost_notes": "Pro: $15/host/month, Enterprise: $23/host/month, usage-based add-ons",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-apm-2024-datadog",
-          "description": "Gartner Magic Quadrant for Application Performance Monitoring 2024: Datadog positioned as Leader",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-apm",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 2,
@@ -2453,17 +2273,7 @@
       "typical_annual_cost_range": "$100K-800K annually",
       "cost_notes": "Host-based + usage pricing, OpenTelemetry-native reduces lock-in",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-apm-2024-splunk-o11y",
-          "description": "Gartner Magic Quadrant for Application Performance Monitoring 2024: Splunk Observability positioned as Challenger",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-apm",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Challenger"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 1,
@@ -2518,17 +2328,7 @@
       "typical_annual_cost_range": "$30K-400K annually",
       "cost_notes": "100GB/month free, $0.30/GB ingested, generous free tier",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-apm-2024-newrelic",
-          "description": "Gartner Magic Quadrant for Application Performance Monitoring 2024: New Relic positioned as Visionary",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-apm",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Visionary"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 2,
@@ -2585,17 +2385,7 @@
       "typical_annual_cost_range": "$100K-1M annually",
       "cost_notes": "Host-based + usage, Davis AI included, premium pricing",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-apm-2024-dynatrace",
-          "description": "Gartner Magic Quadrant for Application Performance Monitoring 2024: Dynatrace positioned as Leader",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-apm",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 2,
@@ -2703,17 +2493,7 @@
       "typical_annual_cost_range": "$144K-420K for 500GB/day",
       "cost_notes": "$2.46/GB ingestion + retention costs",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-siem-2024-sentinel",
-          "description": "Gartner Magic Quadrant for SIEM 2024: Microsoft Sentinel positioned as Leader",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-siem",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 1,
@@ -2957,17 +2737,7 @@
       "typical_annual_cost_range": "$200K-1.5M",
       "cost_notes": "User-based pricing, unlimited data storage",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-siem-2024-exabeam",
-          "description": "Gartner Magic Quadrant for SIEM 2024: Exabeam positioned as Niche Player",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-siem",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Niche Player"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 1,
@@ -3024,17 +2794,7 @@
       "typical_annual_cost_range": "$300K-2M",
       "cost_notes": "Per-GB ingestion, includes UEBA and SOAR",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-siem-2024-securonix",
-          "description": "Gartner Magic Quadrant for SIEM 2024: Securonix positioned as Leader",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-siem",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 1,
@@ -3089,17 +2849,7 @@
       "typical_annual_cost_range": "$100K-500K",
       "cost_notes": "User-based pricing, includes EDR and UEBA",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-mq-siem-2024-rapid7",
-          "description": "Gartner Magic Quadrant for SIEM 2024: Rapid7 InsightIDR positioned as Niche Player",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-siem",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_magic_quadrant",
-          "positioning": "Niche Player"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 1,
@@ -3336,17 +3086,7 @@
       "typical_annual_cost_range": "$25K-250K",
       "cost_notes": "Consumption-based, $0.028/million events, Kafka-compatible",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "forrester-wave-streaming-2023-eventhubs",
-          "description": "Forrester Wave for Streaming Data Platforms 2023: Azure Event Hubs positioned as Strong Performer",
-          "url": "https://www.forrester.com/wave/streaming-data-platforms-2023",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "forrester_wave",
-          "positioning": "Strong Performer"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 1,
@@ -3401,17 +3141,7 @@
       "typical_annual_cost_range": "$20K-200K",
       "cost_notes": "$40/TiB throughput, 10GB/month free, serverless autoscaling",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "forrester-wave-streaming-2023-pubsub",
-          "description": "Forrester Wave for Streaming Data Platforms 2023: Google Cloud Pub/Sub positioned as Strong Performer",
-          "url": "https://www.forrester.com/wave/streaming-data-platforms-2023",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "forrester_wave",
-          "positioning": "Strong Performer"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 1,
@@ -3961,17 +3691,7 @@
       "typical_annual_cost_range": "$150K-800K annually",
       "cost_notes": "Subscription pricing, enterprise data virtualization leader",
       "evidence_source": "literature-review",
-      "evidence_sources": [
-        {
-          "id": "gartner-data-virtualization-2024-denodo",
-          "description": "Gartner reports: Denodo recognized as Leader in Data Virtualization Solutions",
-          "url": "https://www.gartner.com/en/documents/data-virtualization",
-          "evidence_tier": "A",
-          "type": "analyst_report",
-          "report_type": "gartner_report",
-          "positioning": "Leader"
-        }
-      ],
+      "evidence_sources": [],
       "evidence_summary": {
         "total_sources": 3,
         "tier_a_sources": 1,

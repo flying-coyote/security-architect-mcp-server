@@ -1,0 +1,14 @@
+{
+  "sync_timestamp": "2025-10-23T02:46:25.596149Z",
+  "source_version": "unknown",
+  "source_path": "/home/jerem/security-data-literature-review/vendor-landscape/vendor-database.json",
+  "vendors_synced": 65,
+  "evidence_sources_total": 77,
+  "tier_a_percentage": 88.31168831168831,
+  "tier_b_percentage": 11.688311688311687,
+  "tier_c_percentage": 0.0,
+  "tier_d_percentage": 0.0,
+  "sync_status": "success",
+  "warnings": [],
+  "errors": []
+}
