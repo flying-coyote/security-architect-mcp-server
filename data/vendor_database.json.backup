@@ -1130,14 +1130,24 @@
       "typical_annual_cost_range": "$500K-2M for 5TB/day",
       "cost_notes": "Subscription pricing with 400-day hot retention",
       "evidence_source": "literature-review",
-      "evidence_sources": [],
+      "evidence_sources": [
+        {
+          "id": "gartner-mq-siem-2024-devo",
+          "description": "Gartner Magic Quadrant for SIEM 2024: Devo positioned as Niche Player",
+          "url": "https://www.gartner.com/en/documents/magic-quadrant-siem",
+          "evidence_tier": "A",
+          "type": "analyst_report",
+          "report_type": "gartner_magic_quadrant",
+          "positioning": "Niche Player"
+        }
+      ],
       "evidence_summary": {
-        "total_sources": 2,
-        "tier_a_sources": 1,
+        "total_sources": 3,
+        "tier_a_sources": 2,
         "tier_b_sources": 1,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
-        "analyst_reports": 1
+        "analyst_reports": 2
       },
       "last_updated": "2025-10-23T04:00:00Z",
       "validated_by": "Jeremy Wiley",
@@ -1249,14 +1259,24 @@
       "typical_annual_cost_range": "$200K-1M for 5TB/day",
       "cost_notes": "Credit-based consumption model",
       "evidence_source": "literature-review",
-      "evidence_sources": [],
+      "evidence_sources": [
+        {
+          "id": "gartner-mq-siem-2024-sumologic",
+          "description": "Gartner Magic Quadrant for SIEM 2024: Sumo Logic positioned as Niche Player",
+          "url": "https://www.gartner.com/en/documents/magic-quadrant-siem",
+          "evidence_tier": "A",
+          "type": "analyst_report",
+          "report_type": "gartner_magic_quadrant",
+          "positioning": "Niche Player"
+        }
+      ],
       "evidence_summary": {
-        "total_sources": 2,
-        "tier_a_sources": 1,
+        "total_sources": 3,
+        "tier_a_sources": 2,
         "tier_b_sources": 1,
         "overall_evidence_quality": "A",
         "validated_by": "Jeremy Wiley",
-        "analyst_reports": 1
+        "analyst_reports": 2
       },
       "last_updated": "2025-10-23T04:00:00Z",
       "validated_by": "Jeremy Wiley",

@@ -65,7 +65,8 @@
         "native-ip-types",
         "high-compression",
         "liger-stack",
-        "production-validated"
+        "production-validated",
+        "open-source"
       ]
     },
     {
@@ -130,7 +131,8 @@
         "federation",
         "distributed-sql",
         "production-validated",
-        "liger-stack"
+        "liger-stack",
+        "open-source"
       ]
     },
     {
@@ -340,7 +342,8 @@
         "liger-stack",
         "production-validated",
         "netflix-scale",
-        "hypothesis-validated"
+        "hypothesis-validated",
+        "open-source"
       ]
     },
     {
@@ -646,7 +649,8 @@
       "tags": [
         "oss",
         "real-time",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -964,7 +968,8 @@
         "oss",
         "industry-standard",
         "event-streaming",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -1026,7 +1031,8 @@
         "stateful-processing",
         "exactly-once",
         "flink-2.0",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -1410,7 +1416,8 @@
         "oss",
         "600-connectors",
         "ai-assisted",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -1538,7 +1545,8 @@
         "real-time-etl",
         "low-code",
         "drag-and-drop",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -2006,7 +2014,8 @@
         "s3-compatible",
         "kubernetes-native",
         "ai-optimized",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -2068,7 +2077,8 @@
         "s3-compatible",
         "distributed-storage",
         "exabyte-scale",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -2370,7 +2380,8 @@
         "hadoop-native",
         "data-lineage",
         "business-glossary",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -2813,7 +2824,8 @@
         "unlimited-agents",
         "mitre-attck",
         "elastic-based",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -2875,7 +2887,8 @@
         "generous-free-tier",
         "low-tco",
         "rapid-deployment",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -2937,7 +2950,8 @@
         "prometheus-optimized",
         "cost-effective",
         "grafana-native",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -3255,7 +3269,8 @@
         "geo-replication",
         "tiered-storage",
         "kafka-alternative",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -3318,7 +3333,8 @@
         "no-zookeeper",
         "wasm-transforms",
         "cpp-rewrite",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -3511,7 +3527,8 @@
         "lightweight",
         "flexible-routing",
         "easy-deployment",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -3573,7 +3590,8 @@
         "real-time-computation",
         "fault-tolerant",
         "guaranteed-processing",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -3636,7 +3654,8 @@
         "federated",
         "meta-origin",
         "100-connectors",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -3698,7 +3717,8 @@
         "schema-free",
         "self-service",
         "hadoop-optimized",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -3761,7 +3781,8 @@
         "sub-second",
         "linkedin-origin",
         "uber-stripe",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -3878,7 +3899,8 @@
         "uniform",
         "databricks-origin",
         "iceberg-compat",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -3941,7 +3963,8 @@
         "incremental-processing",
         "uber-origin",
         "record-level-updates",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     },
     {
@@ -4071,7 +4094,8 @@
         "query-optimizer",
         "adapter-framework",
         "powers-drill-flink",
-        "mentioned-in-book"
+        "mentioned-in-book",
+        "open-source"
       ]
     }
   ],
