@@ -4515,7 +4515,7 @@
         "siem_integration": false,
         "compliance_certifications": [],
         "data_governance": false,
-        "maturity": "emerging",
+        "maturity": "production",
         "vendor_support": null,
         "community_size": "unknown",
         "ocsf_support": false,
