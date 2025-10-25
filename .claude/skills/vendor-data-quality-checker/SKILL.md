@@ -525,3 +525,15 @@ PUBLICATION READINESS: [Ready / Needs fixes / Major revision]
 **Created**: 2025-10-17
 **Scope**: security-architect-mcp-server project
 **Purpose**: Maintain evidence-based vendor database quality (64→80 vendors)
+
+## SECURITY: Source Validation
+
+**Risk Level**: LOW RISK
+
+**Context**: This skill validates structured data against known schemas/standards.
+
+**Trusted sources**: Git-controlled project files, known specifications (Anthropic MCP spec, vendor database schema)
+**No external document processing**: Only validates against whitelisted schemas
+**Input validation**: Validates expected JSON/schema format, rejects malformed data
+
+**This skill operates on trusted structured data only. Standard validation provides sufficient security.**
