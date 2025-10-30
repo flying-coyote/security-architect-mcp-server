@@ -883,12 +883,95 @@ Ready to start? Tell me about your organization's constraints, or ask to see all
 
 Welcome to the Security Architecture Decision Framework!
 
-I'll guide you through a 12-step interview to identify the right security data platform for YOUR organization. This replaces the 40-page RFP with a personalized conversation.
+I'll guide you through a systematic interview to identify the right security data platform for YOUR organization. This replaces the 40-page RFP with a personalized conversation.
 
-**Time**: 15-30 minutes
-**Goal**: Filter {VENDOR_DB.total_vendors} platforms → 3-5 finalists tailored to your constraints
+**Updated Flow** (October 2025): We now start with foundational architecture decisions before organizational constraints. This mirrors the logical progression: decide your architecture approach, then filter vendors within that architecture.
+
+**Time**: 20-35 minutes
+**Goal**: Filter {VENDOR_DB.total_vendors} platforms → 3-5 finalists tailored to your architecture + constraints
 
 Let's begin.
+
+---
+
+## Phase 1: Foundational Architecture Decisions (Questions F1-F4)
+
+*These questions establish your architectural commitments before filtering by organizational constraints. Think of these as multi-year decisions that shape your entire security data platform.*
+
+---
+
+**Question F1: Table Format Decision**
+
+Which table format do you prefer for your security data lakehouse?
+
+*Context: This is a multi-year architectural commitment. Table format affects vendor lock-in, query engine compatibility, operational complexity, and catalog choice. Netflix uses Iceberg for their security data platform. Databricks primarily uses Delta Lake.*
+
+Options:
+- **Apache Iceberg** (Netflix production-validated, strong community, Polaris catalog native, query engine flexibility)
+- **Delta Lake** (Databricks native, Unity Catalog integration, strong ACID guarantees, less vendor flexibility)
+- **Apache Hudi** (Uber origins, strong CDC support, less security community adoption)
+- **Proprietary format** (Snowflake, vendor lock-in but simplicity)
+- **Undecided** - I need guidance on table format choice
+
+Enter: `iceberg` | `delta_lake` | `hudi` | `proprietary` | `undecided`
+
+---
+
+**Question F2: Catalog Decision**
+
+Which catalog for metadata management?
+
+*Context: Catalog choice affects governance (row-level security, column masking), RBAC, multi-engine query support, and operational complexity. Your table format choice (F1) influences catalog compatibility.*
+
+Options:
+- **Polaris** (Snowflake open source, Iceberg-native, production-ready, multi-engine)
+- **Unity Catalog** (Databricks, Delta Lake native, strong governance, some Iceberg support)
+- **Nessie** (OSS, Git-like versioning, flexible but emerging maturity)
+- **AWS Glue** (AWS native, serverless, Athena/EMR integration, limited non-AWS support)
+- **Hive Metastore** (Legacy, widely supported, operational complexity, no modern governance)
+- **Undecided** - I need catalog guidance
+
+Enter: `polaris` | `unity_catalog` | `nessie` | `glue` | `hive_metastore` | `undecided`
+
+---
+
+**Question F3: Transformation Strategy**
+
+How will you transform security data?
+
+*Context: Transformation strategy affects team skillset requirements, operational complexity, and vendor lock-in risk. dbt enables SQL-based transformations familiar to security analysts. Spark requires data engineering expertise but offers more flexibility.*
+
+Options:
+- **dbt** (SQL-based, analytics engineer friendly, strong testing framework, growing security community)
+- **Spark** (PySpark/Scala, data engineering required, flexible but complex, mature ecosystem)
+- **Vendor built-in** (Splunk SPL, Sentinel KQL, proprietary query languages, vendor lock-in)
+- **Custom Python** (Pandas, Polars, flexible but maintenance burden, team-dependent)
+- **Undecided** - I need transformation strategy guidance
+
+Enter: `dbt` | `spark` | `vendor_builtin` | `custom_python` | `undecided`
+
+---
+
+**Question F4: Query Engine Characteristics**
+
+Which query engine characteristics matter most for your SOC workflows?
+
+*Context: Query engine choice affects latency (dashboards, real-time detection), concurrency (many analysts querying), operational complexity, and cost. ClickHouse offers low-latency for interactive dashboards. Trino handles high concurrency. Athena provides serverless simplicity.*
+
+Options:
+- **Low-latency interactive queries** (ClickHouse, Pinot - <1 second P95, SOC dashboard use case, operational complexity)
+- **High concurrency** (Trino, Presto - many analysts querying simultaneously, 100+ concurrent queries)
+- **Serverless simplicity** (AWS Athena - no infrastructure management, pay-per-query, 2-10 second latency acceptable)
+- **Cost-optimized** (DuckDB - single-process, in-memory efficiency, <50 analysts, ~1GB/s query throughput)
+- **Flexible** - any SQL engine acceptable, no strong preference
+
+Enter: `low_latency` | `high_concurrency` | `serverless` | `cost_optimized` | `flexible`
+
+---
+
+## Phase 2: Organizational Constraints (Questions 1-7)
+
+*Now that you've established your architectural preferences, let's apply organizational constraints to filter vendors within that architecture.*
 
 ---
 
@@ -993,16 +1076,23 @@ Options:
 
 ---
 
-## Section 5: Tier 1 Mandatory Requirements (Questions 10-11)
+## Phase 3: Feature Requirements (Questions 10-12)
+
+*Within your chosen architecture, which specific features are mandatory vs. preferred?*
+
+---
+
+## Section 5: Tier 1 Mandatory Features (Questions 10-11)
 
 **Question 10**: Which capabilities are MANDATORY (missing = immediately disqualified)?
+
+*Note: Table format and catalog were decided in Phase 1 (F1-F2). These are feature requirements within your architecture.*
 
 Select all that apply:
 - [ ] SQL query interface (SOC analysts know SQL, not proprietary languages) → `sql_interface: true`
 - [ ] 90-day+ hot retention (threat hunting workload requirement) → `long_term_retention: true`
 - [ ] Multi-source integration (Zeek, Sysmon, CloudTrail, EDR telemetry) → `multi_source_integration: true`
 - [ ] Time-series partitioning (prevent 20-45 minute query timeouts) → `time_series_partitioning: true`
-- [ ] Open table format (Iceberg/Delta for vendor flexibility) → `open_table_format: true`
 - [ ] Real-time streaming (<30 second detection latency) → `streaming_query: true`
 - [ ] On-premises deployment (compliance requirement) → Filter by `data_sovereignty: on-prem-only`
 - [ ] Multi-cloud support (AWS + Azure + GCP unified query) → `multi_cloud: true`
@@ -1015,12 +1105,12 @@ Select all that apply:
 
 ---
 
-## Section 6: Tier 2 Strongly Preferred (Question 12)
+## Section 6: Tier 2 Preferred Features (Question 12)
 
 **Question 12**: Rate these capabilities by importance (1 = nice-to-have, 3 = strongly preferred):
 
-- [ ] Open table format (Iceberg/Delta): Weight ___ (1-3)
-- [ ] Multi-engine query capability: Weight ___ (1-3)
+*Note: These are preferences WITHIN your architecture. Table format and query engine characteristics were decided in Phase 1.*
+
 - [ ] OCSF normalization support: Weight ___ (1-3)
 - [ ] Real-time streaming ingestion: Weight ___ (1-3)
 - [ ] Built-in ML anomaly detection: Weight ___ (1-3)
@@ -1028,6 +1118,7 @@ Select all that apply:
 - [ ] Multi-cloud support: Weight ___ (1-3)
 - [ ] Managed service available: Weight ___ (1-3)
 - [ ] SIEM integration: Weight ___ (1-3)
+- [ ] API extensibility: Weight ___ (1-3)
 
 ---
 
@@ -1037,38 +1128,50 @@ Thank you! I have all the information needed to filter the vendor landscape.
 
 **Please provide your answers**, and I'll:
 
-1. Apply Tier 1 mandatory filters (eliminate platforms missing must-haves)
-2. Score remaining vendors on Tier 2 preferences (3× weight multiplier)
-3. Identify 3-5 finalists matching YOUR specific constraints
-4. (Future) Match you to a Chapter 4 journey pattern (Jennifer/Marcus/Priya)
-5. (Future) Generate a comprehensive architecture recommendation report
+1. **Apply Phase 1 foundational filters** (eliminate vendors not supporting your architecture: table format F1, catalog F2, transformation strategy F3, query engine F4)
+2. **Apply Phase 2 constraint filters** (eliminate vendors not matching team size, budget, sovereignty, vendor tolerance)
+3. **Apply Phase 3 feature filters** (eliminate vendors missing mandatory capabilities from Q10)
+4. **Score remaining vendors on Phase 3 preferences** (Q12 preferences with 3× weight multiplier)
+5. **Identify 3-5 finalists** matching YOUR architecture + constraints
+6. **Calculate TCO** for top finalists (5-year projections)
+7. **(Future)** Match you to a Chapter 4 journey pattern (Jennifer/Marcus/Priya)
+8. **(Future)** Generate comprehensive architecture recommendation report
 
-**To execute the filtering**:
+**To execute the filtering workflow**:
 
 ```
-# After you provide answers, I'll run:
+# Step 1: Apply foundational filters (NEW - Phase 1)
+apply_foundational_filters(
+    table_format="YOUR_F1_ANSWER",        # iceberg, delta_lake, hudi, proprietary
+    catalog="YOUR_F2_ANSWER",             # polaris, unity_catalog, nessie, glue, hive_metastore
+    transformation="YOUR_F3_ANSWER",      # dbt, spark, vendor_builtin, custom_python
+    query_engine_pref="YOUR_F4_ANSWER"    # low_latency, high_concurrency, serverless, cost_optimized
+)
+
+# Step 2: Apply organizational constraints (Phase 2)
 filter_vendors_tier1(
-    team_size="YOUR_ANSWER",
-    budget="YOUR_ANSWER",
-    data_sovereignty="YOUR_ANSWER",
-    vendor_tolerance="YOUR_ANSWER",
-    tier_1_requirements={{
-        "sql_interface": true,  # Based on your Q10 selections
-        # ... other mandatory requirements
+    team_size="YOUR_Q1_ANSWER",          # lean, standard, large
+    budget="YOUR_Q4_ANSWER",             # <500K, 500K-2M, 2M-10M, 10M+
+    data_sovereignty="YOUR_Q7_ANSWER",   # cloud-first, hybrid, on-prem-only, multi-region
+    vendor_tolerance="YOUR_Q9_ANSWER",   # oss-first, oss-with-support, commercial-only
+    tier_1_requirements={{               # Phase 3 mandatory features (Q10)
+        "sql_interface": true,
+        # ... other mandatory requirements from Q10
     }}
 )
 
-# Then score finalists:
+# Step 3: Score finalists on preferences (Phase 3)
 score_vendors_tier2(
     vendor_ids=[...],  # From filter_vendors_tier1 output
-    preferences={{
-        "open_table_format": 3,  # Based on your Q12 ratings
-        # ... other preferences
+    preferences={{     # Phase 3 preferred features (Q12)
+        "ocsf_support": 3,
+        "streaming_query": 2,
+        # ... other preferences from Q12
     }}
 )
 ```
 
-Ready to answer? Start with Section 1, Question 1."""
+**Ready to answer? Start with Phase 1, Question F1 (Table Format Decision).**"""
             )
         )
 

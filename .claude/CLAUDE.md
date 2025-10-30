@@ -27,9 +27,9 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
 **Status**: Complete - ready for Phase 1 implementation
 
 ## Current Status
-**Phase**: Phase 2 In Progress - Vendor Database Enrichment + Expansion Complete
-**Last Updated**: October 23, 2025 (Session 2: Evidence backfill, vendor expansion, production ready)
-**Current Branch**: mcp-hybrid-week1-simplification
+**Phase**: Phase 2 Complete - Production Deployed, Beta Testing Ready
+**Last Updated**: October 30, 2025 (Blog alignment analysis, documentation refresh)
+**Current Branch**: main
 
 **Recent Achievements - Sessions 2 & 3** (October 23, 2025):
 1. ✅ **Evidence Backfill Complete** - Strategic correction over quantity inflation
@@ -319,9 +319,17 @@ All personal skills from `~/.claude/skills/` are available:
 - **Value**: Evidence-based vendor capabilities, validated cost models, enterprise-grade credibility
 
 ### Blog Integration
-- **Repository**: https://github.com/flying-coyote/security-data-commons
-- **Integration**: Anonymized architect decisions → blog posts (Phase 3)
-- **Value**: Real-world case studies, community engagement, hypothesis validation
+- **Repository**: https://github.com/flying-coyote/security-data-commons-blog
+- **Blog URL**: https://securitydatacommons.substack.com
+- **Status**: 43 posts (10 published, 33 drafted #11-43), 3x/week cadence (Mon/Wed/Fri)
+- **MCP Featured**: Post #10 "Introducing the Security Architecture Decision Tool" (Oct 23, 2025)
+- **Content Structure**: 7 waves optimized for narrative flow
+  - Wave 1 (#11-16): Critical architecture decisions (Iceberg vs Delta, catalog, dbt, governance) - **Foundational decisions FIRST**
+  - Wave 2 (#17-21): LIGER engine implementation (Netflix ClickHouse, Kafka-Iceberg, query engines, routing)
+  - Waves 3-7 (#22-43): Detection maturity, OCSF strategy, anti-patterns, MLOps, federated enterprises
+- **Strategic Insight**: Blog renumbering (Oct 30, 2025) revealed that foundational architecture decisions (table format, catalog choice) must precede implementation details (query engine, routing). This discovery should inform MCP decision interview flow redesign - ask foundational questions before constraint filtering completes vendor selection.
+- **Integration** (Phase 3): Anonymized architect decisions → blog posts, validate blog frameworks with real MCP conversations
+- **Value**: Real-world case studies, community engagement, hypothesis validation, content generation from MCP data
 
 ## Related Projects
 
@@ -452,4 +460,6 @@ When resuming work on this project, focus on:
 
 **Usage**: This file is loaded in every Claude Code conversation to provide consistent project context. Update when phase transitions occur, major milestones are completed, or implementation architecture changes.
 
-**Last Updated**: October 23, 2025, Sessions 2-3 (71 vendors, 110 evidence sources, 84% Tier A quality, MCP server verified working in Claude Desktop, ready for beta testing)
+**Last Updated**: October 30, 2025 (Blog alignment analysis complete, README/CLAUDE.md refreshed, 71 vendors, 110 evidence sources, 84% Tier A quality, production deployed, beta testing ready)
+
+**Recent Session**: Blog-MCP alignment analysis (Oct 30) - Identified strategic insight from blog renumbering: foundational architecture decisions (table format, catalog) must precede implementation details. See `BLOG-MCP-ALIGNMENT-ANALYSIS-2025-10-30.md` for comprehensive analysis.

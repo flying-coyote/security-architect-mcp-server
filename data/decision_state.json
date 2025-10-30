@@ -14,12 +14,13 @@
     "retention_policy": "Keep decisions for 12 months, archive older decisions"
   },
   "decision_schema": {
-    "description": "Schema for storing security architecture decisions made using this MCP server",
+    "description": "Schema for storing security architecture decisions made using this MCP server (Updated Oct 2025: Added foundational_decisions tracking)",
     "required_fields": [
       "decision_id",
       "decision_type",
       "timestamp",
       "architect_context",
+      "foundational_decisions",
       "result"
     ],
     "example_decision": {
@@ -34,16 +35,29 @@
         "data_sovereignty": "hybrid",
         "vendor_tolerance": "oss-with-support"
       },
+      "foundational_decisions": {
+        "table_format": "iceberg",
+        "catalog": "polaris",
+        "transformation_strategy": "dbt",
+        "query_engine_preference": "low_latency"
+      },
       "filters_applied": {
+        "foundational": {
+          "table_format": "iceberg",
+          "catalog": "polaris",
+          "transformation_strategy": "dbt",
+          "query_engine_preference": "low_latency",
+          "eliminated_count": 28
+        },
         "tier_1": {
           "team_size": "standard",
           "budget": "500K-2M",
           "data_sovereignty": "hybrid",
           "vendor_tolerance": "oss-with-support",
           "mandatory_requirements": {
-            "sql_interface": true,
-            "open_table_format": true
-          }
+            "sql_interface": true
+          },
+          "eliminated_count": 42
         },
         "tier_2": {
           "preferences": {
@@ -54,7 +68,8 @@
         }
       },
       "result": {
-        "initial_vendor_count": 82,
+        "initial_vendor_count": 71,
+        "post_foundational_count": 43,
         "post_tier1_count": 12,
         "finalists": [
           {

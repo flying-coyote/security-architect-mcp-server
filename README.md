@@ -1,8 +1,8 @@
 # Security Architecture Decision MCP Server
 
 **Created**: 2025-10-14
-**Status**: Phase 2 In Progress - 64 Vendors, 8 Tools, POC Generator Operational
-**Last Updated**: 2025-10-16
+**Status**: Phase 2 Complete, Production Deployed - 71 Vendors, 7 Tools, Beta Testing Ready
+**Last Updated**: 2025-10-30
 **Purpose**: AI-powered interactive decision support tool for cybersecurity architects
 
 ---
@@ -80,24 +80,29 @@ Let's continue with data sovereignty requirements..."
 
 ### Resources (Data Exposed to Claude)
 
-1. **Vendor Database**: 64 security data platforms across 9 categories with capability matrix
+1. **Vendor Database**: 71 security data platforms across 9 categories with capability matrix
+   - 110 evidence sources (84% Tier A quality = 92 Tier A sources)
+   - 46.5% analyst coverage (33 vendors with Gartner MQ, Forrester Wave)
+   - 35.2% production validation (25 OSS vendors with Fortune 500 deployments)
 2. **Decision State**: Current architect's conversation progress (session persistence)
 3. **Chapter Framework**: Chapter 3-4 decision tree logic from book
 
 ### Tools (Functions Callable by Claude)
 
-1. **list_vendors()**: Browse 64 vendors by category (SIEM, Query Engine, Lakehouse, etc.)
-2. **filter_vendors_tier1()**: Apply mandatory filters (team, budget, sovereignty) - Tier 1
-3. **score_vendors_tier2()**: Score vendors on preferred capabilities with weights 1-3 - Tier 2
-4. **generate_architecture_report()**: Generate 8-12 page Markdown recommendation report
-5. **match_journey_persona()**: Match to Chapter 4 journey (Jennifer/Marcus/Priya)
-6. **calculate_tco()**: Calculate 5-year Total Cost of Ownership for a vendor
-7. **compare_vendors_tco()**: Compare TCO across multiple vendors (ranked by total cost)
-8. **generate_poc_test_suite()**: Generate vendor-specific POC test plan with scenarios, success criteria, and evaluation rubric
+1. **list_vendors()**: Browse 71 vendors by category (SIEM, Query Engine, Lakehouse, etc.)
+2. **apply_foundational_filters()**: NEW - Phase 1 foundational architecture filtering (table format, catalog, transformation, query engine)
+3. **filter_vendors_tier1()**: Apply mandatory organizational filters (team, budget, sovereignty) - Tier 1 (Phase 2)
+4. **score_vendors_tier2()**: Score vendors on preferred capabilities with weights 1-3 - Tier 2 (Phase 3)
+5. **generate_architecture_report()**: Generate 8-12 page Markdown recommendation report
+6. **match_journey_persona()**: Match to Chapter 4 journey (Jennifer/Marcus/Priya)
+7. **calculate_tco()**: Calculate 5-year Total Cost of Ownership for a vendor
+8. **compare_vendors_tco()**: Compare TCO across multiple vendors (ranked by total cost)
+
+**Decision Flow**: Phase 1 (foundational) → Phase 2 (organizational constraints) → Phase 3 (feature preferences) → Report
 
 ### Prompts (Pre-Written Templates)
 
-1. **Decision Interview**: 12-step guided questionnaire
+1. **Decision Interview**: 12-step guided questionnaire with Phase 1 foundational questions (table format, catalog, transformation, query engine) asked before organizational constraints
 2. **Journey Matching**: Explains persona match and architecture pattern
 
 ---
@@ -108,38 +113,44 @@ Let's continue with data sovereignty requirements..."
 
 **Deliverables**:
 - ✅ MCP server basic structure (Python 3.10+, MCP SDK 1.2.0+)
-- ✅ Vendor database (64 vendors across 9 categories, evidence-based)
+- ✅ Vendor database (71 vendors across 9 categories, evidence-based)
 - ✅ Decision interview prompt (12-step guided conversation)
 - ✅ Filter/score tools (Tier 1-2 logic from Chapter 3)
 - ✅ Architecture report generator (8-12 page Markdown output)
 - ✅ Journey matching tool (Jennifer/Marcus/Priya personas)
 
-**Completed**: October 16, 2025
+**Completed**: October 23, 2025
 
 **Achievements**:
-- 178 tests passing, 88% code coverage
-- 8 MCP tools operational (list, filter, score, report, journey, TCO calculator, TCO comparison, POC generator)
-- 64 vendors with comprehensive capability matrix (25+ dimensions)
-- Full decision workflow: constraints → filtering → scoring → report → journey match → TCO analysis → POC testing
+- 144 tests passing, 87% code coverage
+- 7 MCP tools operational (list, filter, score, report, journey, TCO calculator, TCO comparison)
+- 71 vendors with comprehensive capability matrix (25+ dimensions)
+- 110 evidence sources (84% Tier A quality = 92 Tier A sources)
+- 46.5% analyst coverage, 35.2% production validation
+- Full decision workflow: constraints → filtering → scoring → report → journey match → TCO analysis
 - 18,000-word vendor specification documentation
 - 5-year TCO projections with platform/ops/hidden cost breakdowns
-- Vendor-specific POC test plans with use case scenarios and evaluation rubrics
+- Production deployment verified (Claude Desktop integration working)
 
 ---
 
-### Phase 2: Living Literature Review Integration (Month 3-4) - **⏳ IN PROGRESS**
+### Phase 2: Living Literature Review Integration (Month 3-4) - **✅ COMPLETE**
 
 **Deliverables**:
 - ✅ Cost calculator tool (5-year TCO projections with growth modeling)
-- ✅ Vendor database expansion (54 → 64 vendors)
-- ✅ POC test suite generator (vendor-specific evaluation plans)
-- ⏳ Automated vendor update pipeline (web scraping or community contributions)
-- ⏳ Quarterly vendor database update pipeline
-- ⏳ Hypothesis validation pipeline
+- ✅ Vendor database expansion (54 → 71 vendors, 6 added Session 2)
+- ✅ Analyst evidence enrichment (110 sources, 84% Tier A quality)
+  - Phase 1: 18 commercial leaders (Gartner MQ, Forrester Wave)
+  - Phase 2: 10 medium-priority commercial vendors
+  - Phase 3: 24 OSS vendors (production deployments, adoption metrics)
+  - Session 2: Evidence backfill (79 vendor-level sources corrected)
+- ✅ Automation pipeline (weekly refresh, monthly GitHub metrics tracking)
+- ✅ MCP server production deployment (verified working in Claude Desktop, Session 3)
+- ⏳ Hypothesis validation pipeline (deferred to Phase 3)
 
-**Progress**: 3/6 deliverables complete (50%)
+**Completed**: October 23, 2025
 
-**Timeline**: 5-7 weeks (90-130 hours total)
+**Progress**: 5/6 core deliverables complete
 
 ---
 
@@ -200,29 +211,38 @@ security-architect-mcp-server/
 
 ## Current Status
 
-**Phase**: Phase 2 In Progress - 3/6 Deliverables Complete ✅
-**Next Action**: Automated Vendor Update Pipeline / Quarterly Maintenance
+**Phase**: Phase 2 Complete, Production Deployed ✅
+**Next Action**: Beta Testing Recruitment (3-5 security architects)
 
-**Recent Deliverables** (October 16, 2025):
-1. ✅ TCO Calculator implemented (5-year projections)
-2. ✅ Vendor database expanded (54 → 64 vendors)
-3. ✅ POC Test Suite Generator (vendor-specific evaluation plans)
-4. ✅ 178 tests passing, 88% coverage
-5. ✅ 8 MCP tools operational
-6. ✅ Cost model-aware TCO projections (per-GB, consumption, subscription, OSS, hybrid)
-7. ✅ Hidden cost modeling (egress, support, migration)
-8. ✅ POC test scenarios with use cases (threat hunting, compliance, incident response)
+**Recent Achievements** (October 23, 2025, Sessions 2-3):
+1. ✅ Vendor database expanded (65 → 71 vendors)
+   - Gurucul Next-Gen SIEM (Gartner MQ Leader 2025)
+   - Palo Alto XSIAM (Forrester Strong Performer 2025)
+   - SentinelOne Singularity (Gartner Endpoint Leader 2025)
+   - Apache Impala, Apache Paimon, Starburst Enterprise
+2. ✅ Evidence backfill complete (110 sources, 84% Tier A quality)
+3. ✅ Automation operational (weekly refresh, monthly GitHub metrics)
+4. ✅ MCP server production deployment verified (Claude Desktop working)
+5. ✅ 144 tests passing, 87% coverage
+6. ✅ 7 MCP tools operational
+
+**Latest Update** (October 30, 2025, Session 4):
+1. ✅ **Phase 1 Foundational Filtering Implementation** - Blog-driven redesign complete
+   - Added `apply_foundational_filters()` function (table format, catalog, transformation, query engine)
+   - Updated decision interview with Phase 1 questions (F1-F4) asked **before** organizational constraints
+   - Added 12 foundational capability fields to all 71 vendors
+   - 16 new tests for foundational filtering logic (all passing)
+   - **Rationale**: Blog renumbering revealed foundational decisions must precede implementation details
 
 **Database Metrics**:
-- Total Vendors: 64 (+10 high-value platforms)
-- Categories: 9 vendor categories across data ecosystem
-- Query Engines: 9 platforms (including ClickHouse, Pinot, Rockset, PrestoDB)
-- SIEM Platforms: 15 platforms (including Wazuh, Loki, Graylog, Sysdig)
-- Open Source: 17 platforms (27%)
-- Cloud-Native: 42 platforms (66%)
-- Evidence-Based: All entries cite 2025 sources
+- **Total Vendors**: 71 (comprehensive security data platform coverage)
+- **Evidence Sources**: 110 (84% Tier A = 92 Tier A sources)
+- **Analyst Coverage**: 46.5% (33/71 vendors with Gartner MQ/Forrester Wave)
+- **Production Validation**: 35.2% (25/71 OSS vendors with Fortune 500 deployments)
+- **Categories**: 9 vendor categories across data ecosystem
+- **Quality Grade**: A (Excellent) - 92.7/100
 
-**Ready for Beta Testing**: Yes (comprehensive vendor coverage + TCO analysis)
+**Status**: Production Ready, Beta Testing Recruitment in Progress
 
 ---
 
@@ -242,19 +262,27 @@ security-architect-mcp-server/
 
 ### Blog Integration
 
-**Content Pipeline**:
+**Security Data Commons Blog**:
+- **URL**: https://securitydatacommons.substack.com
+- **Status**: 43 posts (10 published, 33 drafted #11-43)
+- **Publishing Cadence**: 3x/week (Monday/Wednesday/Friday)
+- **MCP Featured**: Post #10 "Introducing the Security Architecture Decision Tool" (Oct 23, 2025)
+
+**Content Structure** (7 Waves):
+- **Wave 1 (#11-16)**: Critical architecture decisions (Iceberg vs Delta, catalog choice, dbt, governance)
+- **Wave 2 (#17-21)**: LIGER engine implementation (Netflix ClickHouse, Kafka-Iceberg, query engines)
+- **Waves 3-7 (#22-43)**: Detection maturity, OCSF strategy, anti-patterns, MLOps, federated enterprises
+
+**Strategic Insight**: Blog renumbering (Oct 30, 2025) revealed that foundational architecture decisions (table format, catalog) must precede implementation details (query engine, routing). This informs MCP decision interview flow design.
+
+**Content Pipeline** (Phase 3):
 1. Architect completes MCP decision conversation
 2. Architect grants permission for anonymized case study
 3. MCP tool generates blog post draft
 4. Human editor reviews + polishes
 5. Publish to Security Data Commons blog (Friday expert insights series)
 
-**Target**: 10-20 blog posts/year from anonymized MCP decisions
-
-**Example Blog Posts**:
-- "Journey to Dremio: How HIPAA Requirements Shaped Our Architecture"
-- "Why We Chose AWS Athena Over Snowflake: A Financial Services Perspective"
-- "When Splunk Still Makes Sense: Real-Time Detection Trade-Offs"
+**Target**: 10-20 blog posts/year from anonymized MCP decisions validating blog frameworks
 
 ---
 

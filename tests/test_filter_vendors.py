@@ -16,6 +16,7 @@ from src.models import (
 )
 from src.tools.filter_vendors import (
     FilterResult,
+    apply_foundational_filters,
     apply_tier1_filters,
     filter_by_budget,
     filter_by_data_sovereignty,
@@ -165,7 +166,7 @@ def test_filter_by_vendor_tolerance_oss_first(vendor_db):
 
     # All vendors should pass (OSS_FIRST accepts everything)
     assert len(eliminated) == 0
-    assert len(viable) == 64
+    assert len(viable) == 71
 
 
 def test_filter_by_vendor_tolerance_commercial_only(vendor_db):
@@ -322,7 +323,7 @@ def test_no_filters_applied(vendor_db):
 
     assert result.filtered_count == result.initial_count
     assert len(result.eliminated_vendors) == 0
-    assert result.filtered_count == 64
+    assert result.filtered_count == 71
 
 
 def test_single_filter_budget_only(vendor_db):
@@ -375,7 +376,7 @@ def test_filter_result_to_dict(vendor_db):
     assert "eliminated_vendors" in result_dict
     assert "summary" in result_dict
 
-    assert result_dict["initial_count"] == 64
+    assert result_dict["initial_count"] == 71
     assert isinstance(result_dict["filtered_vendor_ids"], list)
     assert isinstance(result_dict["eliminated_vendors"], dict)
 
@@ -434,3 +435,360 @@ def test_filter_result_summary_format():
     assert "0" in summary
     assert "2" in summary
     assert "eliminated" in summary.lower()
+
+
+# ============================================================================
+# PHASE 1: FOUNDATIONAL ARCHITECTURE FILTERING TESTS (Added Oct 2025)
+# ============================================================================
+
+
+def test_foundational_filter_iceberg_preference(vendor_db):
+    """
+    Test foundational filtering with Iceberg table format preference.
+
+    Expected: Iceberg-native vendors pass, Delta-only vendors eliminated.
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        table_format="iceberg",
+    )
+
+    # Iceberg-native vendors should pass
+    viable_ids = [v.id for v in result.filtered_vendors]
+    assert "apache-iceberg" in viable_ids
+    assert "amazon-athena" in viable_ids  # Iceberg native
+    assert "dremio" in viable_ids  # Iceberg native
+    assert "snowflake" in viable_ids  # Iceberg support
+    assert "trino" in viable_ids  # Iceberg support
+
+    # Delta-only vendors should be eliminated
+    eliminated_ids = list(result.eliminated_vendors.keys())
+    assert "databricks" in eliminated_ids  # Delta native, no Iceberg
+    assert "delta-lake" in eliminated_ids  # Delta native
+
+    # Should have substantial filtering
+    assert result.filtered_count < result.initial_count
+
+
+def test_foundational_filter_delta_lake_preference(vendor_db):
+    """
+    Test foundational filtering with Delta Lake table format preference.
+
+    Expected: Delta-native vendors pass, Iceberg-only vendors eliminated.
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        table_format="delta_lake",
+    )
+
+    # Delta-native vendors should pass
+    viable_ids = [v.id for v in result.filtered_vendors]
+    assert "databricks" in viable_ids  # Delta native
+    assert "delta-lake" in viable_ids  # Delta native
+    assert "trino" in viable_ids  # Delta support
+
+    # Iceberg-only vendors should be eliminated
+    eliminated_ids = list(result.eliminated_vendors.keys())
+    assert "apache-iceberg" in eliminated_ids  # Iceberg only
+    assert "amazon-athena" in eliminated_ids  # Iceberg only
+    assert "dremio" in eliminated_ids  # Iceberg only
+
+
+def test_foundational_filter_polaris_catalog_preference(vendor_db):
+    """
+    Test foundational filtering with Polaris catalog preference.
+
+    Expected: Polaris-compatible vendors pass, Unity-only vendors eliminated.
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        catalog="polaris",
+    )
+
+    # Polaris-compatible vendors should pass
+    viable_ids = [v.id for v in result.filtered_vendors]
+    assert "apache-iceberg" in viable_ids  # Polaris native
+    assert "trino" in viable_ids  # Polaris support
+    assert "starburst" in viable_ids  # Polaris support
+
+    # Unity-only vendors should be eliminated
+    eliminated_ids = list(result.eliminated_vendors.keys())
+    assert "databricks" in eliminated_ids  # Unity Catalog only
+
+
+def test_foundational_filter_unity_catalog_preference(vendor_db):
+    """
+    Test foundational filtering with Unity Catalog preference.
+
+    Expected: Unity-compatible vendors pass, Polaris-only vendors eliminated.
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        catalog="unity_catalog",
+    )
+
+    # Unity-compatible vendors should pass
+    viable_ids = [v.id for v in result.filtered_vendors]
+    assert "databricks" in viable_ids  # Unity native
+    assert "delta-lake" in viable_ids  # Unity native
+
+    # Polaris-only vendors should be eliminated
+    eliminated_ids = list(result.eliminated_vendors.keys())
+    # Many vendors will lack Unity support
+
+
+def test_foundational_filter_glue_catalog_preference(vendor_db):
+    """
+    Test foundational filtering with AWS Glue catalog preference.
+
+    Expected: AWS-compatible vendors pass.
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        catalog="glue",
+    )
+
+    # Glue-compatible vendors should pass
+    viable_ids = [v.id for v in result.filtered_vendors]
+    assert "amazon-athena" in viable_ids  # Glue native
+    assert "apache-iceberg" in viable_ids  # Glue support
+    assert "trino" in viable_ids  # Glue support
+    assert "dremio" in viable_ids  # Glue support
+
+
+def test_foundational_filter_dbt_transformation(vendor_db):
+    """
+    Test foundational filtering with dbt transformation strategy.
+
+    Expected: dbt-compatible vendors pass, non-dbt vendors eliminated.
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        transformation_strategy="dbt",
+    )
+
+    # dbt-compatible vendors should pass
+    viable_ids = [v.id for v in result.filtered_vendors]
+    assert "amazon-athena" in viable_ids  # dbt support
+    assert "snowflake" in viable_ids  # dbt support
+    assert "databricks" in viable_ids  # dbt support
+    assert "google-bigquery" in viable_ids  # dbt support
+    assert "clickhouse" in viable_ids  # dbt support
+
+    # Vendors without dbt support should be eliminated
+    eliminated_ids = list(result.eliminated_vendors.keys())
+    # Many SIEMs and specialized platforms lack dbt support
+    assert result.eliminated_count > 0
+
+
+def test_foundational_filter_spark_transformation(vendor_db):
+    """
+    Test foundational filtering with Spark transformation strategy.
+
+    Expected: Spark-compatible vendors pass.
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        transformation_strategy="spark",
+    )
+
+    # Spark-compatible vendors should pass
+    viable_ids = [v.id for v in result.filtered_vendors]
+    assert "databricks" in viable_ids  # Spark native
+    assert "trino" in viable_ids  # Spark support
+    assert "starburst" in viable_ids  # Spark support
+    assert "apache-flink" in viable_ids  # Spark support
+
+
+def test_foundational_filter_low_latency_query_engine(vendor_db):
+    """
+    Test foundational filtering with low-latency query engine preference.
+
+    Expected: Sub-second query engines pass (P95 < 1000ms).
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        query_engine_preference="low_latency",
+    )
+
+    # Low-latency vendors should pass
+    viable_ids = [v.id for v in result.filtered_vendors]
+    assert "clickhouse" in viable_ids  # 200ms P95
+    assert "dremio" in viable_ids  # 500ms P95
+    assert "apache-druid" in viable_ids  # 500ms P95
+
+    # High-latency vendors should be eliminated
+    eliminated_ids = list(result.eliminated_vendors.keys())
+    assert "amazon-athena" in eliminated_ids  # 2000ms P95
+
+    # Should have substantial filtering
+    assert result.eliminated_count > 0
+
+
+def test_foundational_filter_high_concurrency_query_engine(vendor_db):
+    """
+    Test foundational filtering with high-concurrency query engine preference.
+
+    Expected: Vendors supporting 80+ concurrent queries pass.
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        query_engine_preference="high_concurrency",
+    )
+
+    # High-concurrency vendors should pass
+    viable_ids = [v.id for v in result.filtered_vendors]
+    assert "snowflake" in viable_ids  # 100 concurrent
+    assert "amazon-athena" in viable_ids  # 100 concurrent
+    assert "clickhouse" in viable_ids  # 100 concurrent
+    assert "dremio" in viable_ids  # 100 concurrent
+
+
+def test_foundational_filter_combined_iceberg_polaris_dbt(vendor_db):
+    """
+    Test combined foundational filtering: Iceberg + Polaris + dbt.
+
+    This is the "LIGER Stack" default configuration from the blog.
+    Expected: Very narrow vendor list (Trino, Starburst).
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        table_format="iceberg",
+        catalog="polaris",
+        transformation_strategy="dbt",
+    )
+
+    # LIGER-compatible vendors should pass
+    viable_ids = [v.id for v in result.filtered_vendors]
+    assert "trino" in viable_ids  # Iceberg + Polaris + dbt
+    assert "starburst" in viable_ids  # Iceberg + Polaris + dbt
+
+    # Delta-native vendors should be eliminated
+    eliminated_ids = list(result.eliminated_vendors.keys())
+    assert "databricks" in eliminated_ids  # Delta only
+    assert "amazon-athena" in eliminated_ids  # Glue catalog, not Polaris
+    # Apache Iceberg (table format) eliminated for lack of dbt integration
+    assert "apache-iceberg" in eliminated_ids
+
+    # Should have significant filtering (70+ vendors → <10)
+    assert result.filtered_count < 15
+
+
+def test_foundational_filter_combined_delta_unity_spark(vendor_db):
+    """
+    Test combined foundational filtering: Delta + Unity + Spark.
+
+    This is the "Databricks-native" configuration.
+    Expected: Very narrow vendor list (Databricks, Delta Lake).
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        table_format="delta_lake",
+        catalog="unity_catalog",
+        transformation_strategy="spark",
+    )
+
+    # Delta + Unity + Spark vendors should pass
+    viable_ids = [v.id for v in result.filtered_vendors]
+    assert "databricks" in viable_ids
+    assert "delta-lake" in viable_ids
+
+    # Iceberg-native vendors should be eliminated
+    eliminated_ids = list(result.eliminated_vendors.keys())
+    assert "apache-iceberg" in eliminated_ids
+    assert "amazon-athena" in eliminated_ids
+    assert "dremio" in eliminated_ids
+
+    # Very narrow vendor list (2-5 vendors)
+    assert result.filtered_count <= 5
+
+
+def test_foundational_filter_undecided_no_elimination(vendor_db):
+    """
+    Test foundational filtering with "undecided" for all criteria.
+
+    Expected: No vendors eliminated (all pass through).
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        table_format="undecided",
+        catalog="undecided",
+        transformation_strategy="undecided",
+        query_engine_preference="flexible",
+    )
+
+    # All vendors should pass
+    assert result.filtered_count == result.initial_count
+    assert result.eliminated_count == 0
+
+
+def test_foundational_filter_flexible_query_engine(vendor_db):
+    """
+    Test foundational filtering with flexible query engine preference.
+
+    Expected: No elimination based on query engine characteristics.
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        query_engine_preference="flexible",
+    )
+
+    # All vendors should pass (no filtering)
+    assert result.filtered_count == result.initial_count
+    assert result.eliminated_count == 0
+
+
+def test_foundational_filter_no_parameters(vendor_db):
+    """
+    Test foundational filtering with no parameters.
+
+    Expected: No vendors eliminated (all pass through).
+    """
+    result = apply_foundational_filters(vendor_db)
+
+    # All vendors should pass
+    assert result.filtered_count == result.initial_count
+    assert result.eliminated_count == 0
+
+
+def test_foundational_filter_result_structure(vendor_db):
+    """
+    Test that foundational filter result has expected structure.
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        table_format="iceberg",
+    )
+
+    # Check result structure
+    assert hasattr(result, "initial_count")
+    assert hasattr(result, "filtered_vendors")
+    assert hasattr(result, "eliminated_vendors")
+    assert hasattr(result, "filtered_count")
+    assert hasattr(result, "eliminated_count")
+
+    # Check summary method exists
+    summary = result.summary()
+    assert isinstance(summary, str)
+    assert "71" in summary  # Initial count
+    assert "viable" in summary.lower()  # Result description
+    assert result.filtered_count > 0  # Some vendors passed
+    assert result.eliminated_count > 0  # Some vendors eliminated
+
+
+def test_foundational_filter_elimination_reasons(vendor_db):
+    """
+    Test that elimination reasons are properly recorded.
+    """
+    result = apply_foundational_filters(
+        vendor_db,
+        table_format="iceberg",
+        catalog="polaris",
+    )
+
+    # Check that eliminated vendors have reasons
+    for vendor_id, reason in result.eliminated_vendors.items():
+        assert isinstance(reason, str)
+        assert len(reason) > 0
+        # Reason should mention the missing capability
+        assert "table format" in reason.lower() or "catalog" in reason.lower()

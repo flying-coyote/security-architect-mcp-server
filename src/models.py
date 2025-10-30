@@ -128,6 +128,69 @@ class VendorCapabilities(BaseModel):
         description="Supports schema evolution without data migration"
     )
 
+    # ========================================================================
+    # FOUNDATIONAL ARCHITECTURE CAPABILITIES (Added Oct 2025)
+    # Phase 1 filtering: Table format, Catalog, Transformation, Query Engine
+    # ========================================================================
+
+    # Table format support (specific formats)
+    iceberg_support: bool = Field(
+        default=False,
+        description="Supports Apache Iceberg table format (native or via connector)"
+    )
+    delta_lake_support: bool = Field(
+        default=False,
+        description="Supports Delta Lake table format (native or via connector)"
+    )
+    hudi_support: bool = Field(
+        default=False,
+        description="Supports Apache Hudi table format"
+    )
+
+    # Catalog support
+    polaris_catalog_support: bool = Field(
+        default=False,
+        description="Supports Polaris catalog (Snowflake open source, Iceberg-native)"
+    )
+    unity_catalog_support: bool = Field(
+        default=False,
+        description="Supports Unity Catalog (Databricks, Delta Lake native)"
+    )
+    nessie_catalog_support: bool = Field(
+        default=False,
+        description="Supports Nessie catalog (OSS, Git-like versioning)"
+    )
+    glue_catalog_support: bool = Field(
+        default=False,
+        description="Supports AWS Glue catalog (AWS native, serverless)"
+    )
+    hive_metastore_support: bool = Field(
+        default=False,
+        description="Supports Hive Metastore catalog (legacy, widely supported)"
+    )
+
+    # Transformation integration
+    dbt_integration: bool = Field(
+        default=False,
+        description="Integrates with dbt (data build tool) for SQL-based transformations"
+    )
+    spark_transformation_support: bool = Field(
+        default=False,
+        description="Supports Apache Spark for data transformations (PySpark/Scala)"
+    )
+
+    # Query engine characteristics
+    query_latency_p95: int | None = Field(
+        default=None,
+        description="Query latency P95 in milliseconds (e.g., 500 for <1 second)"
+    )
+    query_concurrency: int | None = Field(
+        default=None,
+        description="Maximum concurrent queries supported (e.g., 100)"
+    )
+
+    # ========================================================================
+
     # Deployment and infrastructure
     deployment_models: list[DeploymentModel] = Field(
         description="Supported deployment models (cloud, on-prem, hybrid)"
@@ -347,7 +410,19 @@ class DecisionState(BaseModel):
         description="Organization profile (industry, size, maturity)"
     )
 
-    # Tier 1 constraints (mandatory filters)
+    # ========================================================================
+    # PHASE 1: FOUNDATIONAL ARCHITECTURE DECISIONS (Added Oct 2025)
+    # Asked BEFORE organizational constraints to establish architecture approach
+    # ========================================================================
+
+    foundational_decisions: dict[str, str] = Field(
+        default_factory=dict,
+        description="Foundational architecture decisions (table_format, catalog, transformation_strategy, query_engine_preference)"
+    )
+
+    # ========================================================================
+
+    # Phase 2: Organizational constraints (mandatory filters)
     team_size: TeamSize | None = None
     budget: BudgetRange | None = None
     data_sovereignty: DataSovereignty | None = None

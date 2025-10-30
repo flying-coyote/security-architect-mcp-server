@@ -1,13 +1,18 @@
 """
-Tier 1 Filtering Logic - Mandatory Requirement Filters
+Foundational + Tier 1 Filtering Logic - Mandatory Requirement Filters
 
-Implements Chapter 3 decision framework from "Modern Data Stack for Cybersecurity" book.
+Implements Chapter 3 decision framework from "Modern Data Stack for Cybersecurity" book
+with Phase 1 foundational architecture decisions added (October 2025).
 
-Tier 1 filters are MANDATORY - vendors missing these requirements are immediately
-eliminated from consideration. These represent organizational constraints that
-cannot be compromised.
+PHASE 1: FOUNDATIONAL ARCHITECTURE FILTERING (NEW - Oct 2025)
+Applied BEFORE organizational constraints. Establishes architectural approach.
+1. Table format - Iceberg vs Delta Lake vs Hudi vs Proprietary
+2. Catalog - Polaris vs Unity Catalog vs Nessie vs Glue vs Hive Metastore
+3. Transformation - dbt vs Spark vs Vendor built-in vs Custom Python
+4. Query engine - Low-latency vs High-concurrency vs Serverless vs Cost-optimized
 
-Filters:
+PHASE 2: ORGANIZATIONAL CONSTRAINT FILTERING (Tier 1)
+Applied AFTER foundational filtering. Filters vendors within chosen architecture.
 1. Team capacity - Eliminates platforms requiring more engineers than available
 2. Budget - Eliminates platforms exceeding budget ceiling
 3. Data sovereignty - Eliminates platforms violating compliance requirements
@@ -335,6 +340,214 @@ def filter_by_tier1_requirements(
 
     return viable, eliminated
 
+
+# ============================================================================
+# PHASE 1: FOUNDATIONAL ARCHITECTURE FILTERING (Added Oct 2025)
+# ============================================================================
+
+def apply_foundational_filters(
+    database: VendorDatabase,
+    table_format: str | None = None,
+    catalog: str | None = None,
+    transformation_strategy: str | None = None,
+    query_engine_preference: str | None = None,
+) -> FilterResult:
+    """
+    Apply Phase 1 foundational architecture filters to vendor database.
+
+    These filters establish architectural commitments BEFORE organizational
+    constraints. Filters vendors based on architecture decisions (table format,
+    catalog, transformation, query engine).
+
+    Args:
+        database: VendorDatabase to filter
+        table_format: Preferred table format (iceberg, delta_lake, hudi, proprietary, undecided)
+        catalog: Preferred catalog (polaris, unity_catalog, nessie, glue, hive_metastore, undecided)
+        transformation_strategy: Preferred transformation (dbt, spark, vendor_builtin, custom_python, undecided)
+        query_engine_preference: Query engine characteristics (low_latency, high_concurrency, serverless, cost_optimized, flexible)
+
+    Returns:
+        FilterResult with viable vendors and elimination reasons
+    """
+    initial_count = len(database.vendors)
+    viable = database.vendors.copy()
+    all_eliminated = {}
+
+    # Filter 1: Table format preference
+    if table_format and table_format != "undecided":
+        eliminated_vendors = {}
+        filtered_vendors = []
+
+        for vendor in viable:
+            caps = vendor.capabilities
+
+            if table_format == "iceberg":
+                if not caps.iceberg_support:
+                    eliminated_vendors[vendor.id] = (
+                        f"Does not support Apache Iceberg table format (architectural requirement). "
+                        f"Table format: {caps.open_table_format.value}."
+                    )
+                else:
+                    filtered_vendors.append(vendor)
+
+            elif table_format == "delta_lake":
+                if not caps.delta_lake_support:
+                    eliminated_vendors[vendor.id] = (
+                        f"Does not support Delta Lake table format (architectural requirement). "
+                        f"Table format: {caps.open_table_format.value}."
+                    )
+                else:
+                    filtered_vendors.append(vendor)
+
+            elif table_format == "hudi":
+                if not caps.hudi_support:
+                    eliminated_vendors[vendor.id] = (
+                        f"Does not support Apache Hudi table format (architectural requirement). "
+                        f"Table format: {caps.open_table_format.value}."
+                    )
+                else:
+                    filtered_vendors.append(vendor)
+
+            elif table_format == "proprietary":
+                if caps.open_table_format not in ["proprietary"]:
+                    eliminated_vendors[vendor.id] = (
+                        f"Does not use proprietary table format (architectural requirement). "
+                        f"Table format: {caps.open_table_format.value}."
+                    )
+                else:
+                    filtered_vendors.append(vendor)
+
+            else:
+                # Unknown format, assume viable
+                filtered_vendors.append(vendor)
+
+        viable = filtered_vendors
+        all_eliminated.update(eliminated_vendors)
+
+    # Filter 2: Catalog preference
+    if catalog and catalog != "undecided":
+        eliminated_vendors = {}
+        filtered_vendors = []
+
+        for vendor in viable:
+            caps = vendor.capabilities
+
+            if catalog == "polaris" and not caps.polaris_catalog_support:
+                eliminated_vendors[vendor.id] = (
+                    f"Does not support Polaris catalog (architectural requirement)."
+                )
+            elif catalog == "unity_catalog" and not caps.unity_catalog_support:
+                eliminated_vendors[vendor.id] = (
+                    f"Does not support Unity Catalog (architectural requirement)."
+                )
+            elif catalog == "nessie" and not caps.nessie_catalog_support:
+                eliminated_vendors[vendor.id] = (
+                    f"Does not support Nessie catalog (architectural requirement)."
+                )
+            elif catalog == "glue" and not caps.glue_catalog_support:
+                eliminated_vendors[vendor.id] = (
+                    f"Does not support AWS Glue catalog (architectural requirement)."
+                )
+            elif catalog == "hive_metastore" and not caps.hive_metastore_support:
+                eliminated_vendors[vendor.id] = (
+                    f"Does not support Hive Metastore catalog (architectural requirement)."
+                )
+            else:
+                filtered_vendors.append(vendor)
+
+        viable = filtered_vendors
+        all_eliminated.update(eliminated_vendors)
+
+    # Filter 3: Transformation strategy preference
+    if transformation_strategy and transformation_strategy != "undecided":
+        eliminated_vendors = {}
+        filtered_vendors = []
+
+        for vendor in viable:
+            caps = vendor.capabilities
+
+            if transformation_strategy == "dbt" and not caps.dbt_integration:
+                eliminated_vendors[vendor.id] = (
+                    f"Does not integrate with dbt (architectural requirement)."
+                )
+            elif transformation_strategy == "spark" and not caps.spark_transformation_support:
+                eliminated_vendors[vendor.id] = (
+                    f"Does not support Apache Spark transformations (architectural requirement)."
+                )
+            elif transformation_strategy in ["vendor_builtin", "custom_python", "flexible"]:
+                # These strategies are vendor-agnostic, all vendors viable
+                filtered_vendors.append(vendor)
+            else:
+                filtered_vendors.append(vendor)
+
+        viable = filtered_vendors
+        all_eliminated.update(eliminated_vendors)
+
+    # Filter 4: Query engine characteristics preference
+    if query_engine_preference and query_engine_preference != "flexible":
+        eliminated_vendors = {}
+        filtered_vendors = []
+
+        for vendor in viable:
+            caps = vendor.capabilities
+
+            if query_engine_preference == "low_latency":
+                # Require P95 latency < 1000ms (1 second)
+                if caps.query_latency_p95 is not None and caps.query_latency_p95 >= 1000:
+                    eliminated_vendors[vendor.id] = (
+                        f"Query latency P95 {caps.query_latency_p95}ms exceeds low-latency requirement (<1 second). "
+                        f"Consider high_concurrency or serverless preference."
+                    )
+                else:
+                    filtered_vendors.append(vendor)
+
+            elif query_engine_preference == "high_concurrency":
+                # Require concurrency >= 50 concurrent queries
+                if caps.query_concurrency is not None and caps.query_concurrency < 50:
+                    eliminated_vendors[vendor.id] = (
+                        f"Query concurrency {caps.query_concurrency} below high-concurrency requirement (≥50). "
+                        f"Consider low_latency or serverless preference."
+                    )
+                else:
+                    filtered_vendors.append(vendor)
+
+            elif query_engine_preference == "serverless":
+                # Require managed service available
+                if not caps.managed_service_available:
+                    eliminated_vendors[vendor.id] = (
+                        f"No managed/serverless service available (architectural requirement). "
+                        f"Consider low_latency or cost_optimized preference."
+                    )
+                else:
+                    filtered_vendors.append(vendor)
+
+            elif query_engine_preference == "cost_optimized":
+                # Require open-source or consumption-based pricing
+                if caps.cost_model.value not in ["open-source", "consumption"]:
+                    eliminated_vendors[vendor.id] = (
+                        f"Cost model {caps.cost_model.value} not cost-optimized (require open-source or consumption). "
+                        f"Consider serverless preference."
+                    )
+                else:
+                    filtered_vendors.append(vendor)
+
+            else:
+                # Unknown preference, assume viable
+                filtered_vendors.append(vendor)
+
+        viable = filtered_vendors
+        all_eliminated.update(eliminated_vendors)
+
+    return FilterResult(
+        initial_count=initial_count,
+        filtered_vendors=viable,
+        eliminated_vendors=all_eliminated,
+    )
+
+
+# ============================================================================
+# PHASE 2: ORGANIZATIONAL CONSTRAINT FILTERING (Tier 1)
+# ============================================================================
 
 def apply_tier1_filters(
     database: VendorDatabase,
