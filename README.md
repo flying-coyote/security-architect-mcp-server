@@ -1,7 +1,7 @@
 # Security Architecture Decision MCP Server
 
 **Created**: 2025-10-14
-**Status**: Phase 2 Complete, Production Deployed - 71 Vendors, 7 Tools, Beta Testing Ready
+**Status**: Phase 2 Complete, Production Deployed - 71 Vendors, 9 Tools, Beta Testing Ready
 **Last Updated**: 2025-10-30
 **Purpose**: AI-powered interactive decision support tool for cybersecurity architects
 
@@ -229,10 +229,12 @@ security-architect-mcp-server/
 **Latest Update** (October 30, 2025, Session 4):
 1. ✅ **Phase 1 Foundational Filtering Implementation** - Blog-driven redesign complete
    - Added `apply_foundational_filters()` function (table format, catalog, transformation, query engine)
+   - **Registered as MCP Tool #2** (9 tools total, was 8)
    - Updated decision interview with Phase 1 questions (F1-F4) asked **before** organizational constraints
    - Added 12 foundational capability fields to all 71 vendors
    - 16 new tests for foundational filtering logic (all passing)
    - **Rationale**: Blog renumbering revealed foundational decisions must precede implementation details
+   - **Status**: Ready for Claude Desktop testing (see `docs/PHASE1-TESTING-GUIDE.md`)
 
 **Database Metrics**:
 - **Total Vendors**: 71 (comprehensive security data platform coverage)
