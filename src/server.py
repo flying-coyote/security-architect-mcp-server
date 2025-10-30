@@ -18,7 +18,7 @@ from mcp.server.stdio import stdio_server
 from mcp.types import Prompt, PromptMessage, Resource, TextContent, Tool
 
 from src.models import BudgetRange, DataSovereignty, TeamSize, VendorCategory, VendorTolerance
-from src.tools.filter_vendors import apply_tier1_filters
+from src.tools.filter_vendors import apply_foundational_filters, apply_tier1_filters
 from src.tools.score_vendors import score_vendors_tier2
 from src.tools.calculate_tco import calculate_tco, compare_vendors_tco
 from src.tools.generate_poc_test_suite import generate_poc_test_suite
@@ -102,6 +102,49 @@ async def handle_list_tools() -> list[Tool]:
                     "category": {
                         "type": "string",
                         "description": "Optional: Filter vendors by category (e.g., 'SIEM', 'Query Engine', 'Data Lakehouse', 'Data Virtualization')",
+                    }
+                },
+            }
+        ),
+        Tool(
+            name="apply_foundational_filters",
+            description="""Apply Phase 1 foundational architecture filters (table format, catalog, transformation, query engine).
+
+            **NEW (October 2025)**: Foundational filters establish architectural commitments BEFORE organizational constraints.
+            This prevents vendor lock-in by deciding table format, catalog, transformation strategy, and query engine
+            characteristics first, then filtering vendors within that architecture.
+
+            Filters available:
+            - table_format: Apache Iceberg, Delta Lake, Hudi, proprietary, undecided
+            - catalog: Polaris, Unity Catalog, Nessie, AWS Glue, Hive Metastore, undecided
+            - transformation_strategy: dbt, Spark, vendor built-in, custom Python, undecided
+            - query_engine_preference: low-latency (<1s P95), high-concurrency (100+ queries), serverless, cost-optimized, flexible
+
+            Returns viable vendors matching architecture + elimination reasons for filtered vendors.
+
+            **Decision Flow**: Phase 1 (foundational) → Phase 2 (constraints via filter_vendors_tier1) → Phase 3 (features via score_vendors_tier2)""",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "table_format": {
+                        "type": "string",
+                        "enum": ["iceberg", "delta_lake", "hudi", "proprietary", "undecided"],
+                        "description": "Table format preference (iceberg = Netflix/Polaris, delta_lake = Databricks/Unity, hudi = Uber, proprietary = Snowflake, undecided = no preference)"
+                    },
+                    "catalog": {
+                        "type": "string",
+                        "enum": ["polaris", "unity_catalog", "nessie", "glue", "hive_metastore", "undecided"],
+                        "description": "Catalog for metadata management (polaris = Iceberg-native, unity_catalog = Delta-native, nessie = OSS Git-like, glue = AWS serverless, hive_metastore = legacy)"
+                    },
+                    "transformation_strategy": {
+                        "type": "string",
+                        "enum": ["dbt", "spark", "vendor_builtin", "custom_python", "undecided"],
+                        "description": "Transformation approach (dbt = SQL-based, spark = PySpark/Scala, vendor_builtin = SPL/KQL, custom_python = Pandas/Polars, undecided = no preference)"
+                    },
+                    "query_engine_preference": {
+                        "type": "string",
+                        "enum": ["low_latency", "high_concurrency", "serverless", "cost_optimized", "flexible"],
+                        "description": "Query engine characteristics (low_latency = ClickHouse <1s P95, high_concurrency = Trino 100+ queries, serverless = Athena no-ops, cost_optimized = DuckDB efficiency, flexible = any SQL engine)"
                     }
                 },
             }
@@ -439,6 +482,63 @@ async def handle_call_tool(name: str, arguments: Any) -> list[TextContent]:
             "total": len(vendors_data),
             "category_filter": category_str,
             "vendors": vendors_data
+        }
+
+        return [TextContent(
+            type="text",
+            text=json.dumps(result, indent=2)
+        )]
+
+    elif name == "apply_foundational_filters":
+        # Parse foundational filter parameters
+        table_format = arguments.get("table_format")
+        catalog = arguments.get("catalog")
+        transformation_strategy = arguments.get("transformation_strategy")
+        query_engine_preference = arguments.get("query_engine_preference")
+
+        # Apply foundational filters
+        filter_result = apply_foundational_filters(
+            VENDOR_DB,
+            table_format=table_format,
+            catalog=catalog,
+            transformation_strategy=transformation_strategy,
+            query_engine_preference=query_engine_preference,
+        )
+
+        # Convert viable vendors to serializable format
+        viable_vendors = [
+            {
+                "id": v.id,
+                "name": v.name,
+                "category": v.category.value,
+                "description": v.description,
+                "cost_range": v.typical_annual_cost_range,
+                "team_required": v.capabilities.team_size_required.value,
+                "operational_complexity": v.capabilities.operational_complexity,
+                "deployment_models": [d.value for d in v.capabilities.deployment_models],
+                "iceberg_support": v.capabilities.iceberg_support,
+                "delta_lake_support": v.capabilities.delta_lake_support,
+                "dbt_integration": v.capabilities.dbt_integration,
+                "query_latency_p95": v.capabilities.query_latency_p95,
+                "tags": v.tags
+            }
+            for v in filter_result.filtered_vendors
+        ]
+
+        # Build result
+        result = {
+            "summary": filter_result.summary(),
+            "filters_applied": {
+                "table_format": table_format,
+                "catalog": catalog,
+                "transformation_strategy": transformation_strategy,
+                "query_engine_preference": query_engine_preference,
+            },
+            "initial_count": filter_result.initial_count,
+            "filtered_count": filter_result.filtered_count,
+            "eliminated_count": filter_result.eliminated_count,
+            "viable_vendors": viable_vendors,
+            "eliminated_vendors": filter_result.eliminated_vendors
         }
 
         return [TextContent(
