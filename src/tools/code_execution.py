@@ -217,7 +217,7 @@ class CodeExecutor:
             'len', 'range', 'enumerate', 'zip', 'map', 'filter',
             'sum', 'min', 'max', 'abs', 'round', 'sorted', 'reversed',
             'any', 'all', 'bool', 'int', 'float', 'str', 'list', 'dict',
-            'tuple', 'set', 'frozenset', 'print'
+            'tuple', 'set', 'frozenset', 'print', 'hasattr', 'getattr', 'isinstance'
         }
 
         sandbox_globals = {
