@@ -44,7 +44,7 @@ async def test_read_resource():
     assert "categories" in stats
     assert "last_updated" in stats
     assert "update_cadence" in stats
-    assert stats["total_vendors"] == 64
+    assert stats["total_vendors"] == 71
     assert stats["status"] == "Phase 1 Week 3-8: Tier 1 Filtering Active"
 
 
@@ -60,8 +60,8 @@ async def test_list_tools():
     """Test that tools are listed correctly."""
     tools = await handle_list_tools()
 
-    # Should have 8 tools (list, filter, score, report, journey, calculate_tco, compare_vendors_tco, generate_poc_test_suite)
-    assert len(tools) == 8
+    # Should have 9 tools (list, apply_foundational_filters, filter, score, report, journey, calculate_tco, compare_vendors_tco, generate_poc_test_suite)
+    assert len(tools) == 9
     tool_names = [t.name for t in tools]
     assert "list_vendors" in tool_names
     assert "filter_vendors_tier1" in tool_names
@@ -85,7 +85,7 @@ async def test_call_tool_list_vendors():
     data = json.loads(result[0].text)
     assert "total" in data
     assert "vendors" in data
-    assert data["total"] == 64  # Real database has 54 vendors
+    assert data["total"] == 71  # Real database has 71 vendors
 
 
 @pytest.mark.asyncio
@@ -95,7 +95,7 @@ async def test_call_tool_list_vendors_with_category():
 
     data = json.loads(result[0].text)
     assert data["category_filter"] == "SIEM"
-    assert data["total"] == 15  # 15 SIEM platforms in database (11 original + 4 new)
+    assert data["total"] == 19  # 19 SIEM platforms in database
 
 
 @pytest.mark.asyncio
@@ -115,7 +115,7 @@ async def test_call_tool_filter_vendors_tier1():
     assert "filters_applied" in data
     assert "viable_vendors" in data
     assert "eliminated_vendors" in data
-    assert data["initial_count"] == 64
+    assert data["initial_count"] == 71
 
     # Lean team + tight budget should filter most vendors
     assert data["filtered_count"] < data["initial_count"]
@@ -213,13 +213,7 @@ async def test_get_prompt_decision_interview():
     assert prompt.role == "user"
     assert prompt.content.type == "text"
     assert "Security Architecture Decision Interview" in prompt.content.text
-    assert "12-step interview" in prompt.content.text
-    assert "Section 1: Team Capacity" in prompt.content.text
-    assert "Section 2: Budget Constraints" in prompt.content.text
-    assert "Section 3: Data Sovereignty" in prompt.content.text
-    assert "Section 4: Vendor Relationships" in prompt.content.text
-    assert "Section 5: Tier 1 Mandatory Requirements" in prompt.content.text
-    assert "Section 6: Tier 2 Strongly Preferred" in prompt.content.text
+    assert "Phase 1: Foundational Architecture Decisions" in prompt.content.text
     assert "filter_vendors_tier1" in prompt.content.text
     assert "score_vendors_tier2" in prompt.content.text
 
