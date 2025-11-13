@@ -97,12 +97,26 @@ class TestCodeExecutor:
 
     def setup_method(self):
         """Set up test fixtures."""
-        # Mock vendor database
-        self.mock_vendors = [
-            Mock(id="vendor1", name="Splunk", budget_range="1M-5M", score=85),
-            Mock(id="vendor2", name="Elastic", budget_range="100K-500K", score=75),
-            Mock(id="vendor3", name="DuckDB", budget_range="<100K", score=90)
-        ]
+        # Mock vendor database with proper attributes
+        vendor1 = Mock(spec=['id', 'name', 'budget_range', 'score'])
+        vendor1.id = "vendor1"
+        vendor1.name = "Splunk"
+        vendor1.budget_range = "1M-5M"
+        vendor1.score = 85
+
+        vendor2 = Mock(spec=['id', 'name', 'budget_range', 'score'])
+        vendor2.id = "vendor2"
+        vendor2.name = "Elastic"
+        vendor2.budget_range = "100K-500K"
+        vendor2.score = 75
+
+        vendor3 = Mock(spec=['id', 'name', 'budget_range', 'score'])
+        vendor3.id = "vendor3"
+        vendor3.name = "DuckDB"
+        vendor3.budget_range = "<100K"
+        vendor3.score = 90
+
+        self.mock_vendors = [vendor1, vendor2, vendor3]
 
         # Mock functions
         self.mock_functions = {
@@ -133,9 +147,8 @@ for vendor in vendors:
 
         assert result["success"] is True
         assert result["error"] is None
-        assert "result" in result["result"]
         expected_names = ["Splunk", "Elastic", "DuckDB"]
-        assert result["result"]["result"] == expected_names
+        assert result["result"] == expected_names
 
     def test_rejects_unsafe_code(self):
         """Test rejection of unsafe code."""
@@ -418,9 +431,8 @@ result = matching[:5]
         result = executor.execute(code)
 
         assert result["success"] is True
-        assert "result" in result["result"]
-        assert isinstance(result["result"]["result"], list)
-        assert len(result["result"]["result"]) <= 5
+        assert isinstance(result["result"], list)
+        assert len(result["result"]) <= 5
 
 
 if __name__ == "__main__":

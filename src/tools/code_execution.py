@@ -95,10 +95,10 @@ class SecurityValidator:
                     if node.attr in cls.BANNED_ATTRIBUTES:
                         return False, f"Access to '{node.attr}' is not allowed"
 
-                # Prevent eval/exec
+                # Prevent eval/exec/open and other dangerous builtins
                 elif isinstance(node, ast.Call):
                     if isinstance(node.func, ast.Name):
-                        if node.func.id in ['eval', 'exec', 'compile', '__import__']:
+                        if node.func.id in ['eval', 'exec', 'compile', '__import__', 'open', 'file', 'input', 'raw_input']:
                             return False, f"Call to '{node.func.id}' is not allowed"
 
             return True, None
