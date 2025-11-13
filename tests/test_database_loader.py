@@ -31,8 +31,8 @@ def test_load_vendor_database():
     db = load_vendor_database(db_path)
 
     assert isinstance(db, VendorDatabase)
-    assert db.total_vendors == 64
-    assert len(db.vendors) == 64
+    assert db.total_vendors == 71
+    assert len(db.vendors) == 71
     assert db.update_cadence == "quarterly"
 
 
@@ -41,8 +41,8 @@ def test_load_default_database():
     db = load_default_database()
 
     assert isinstance(db, VendorDatabase)
-    assert db.total_vendors == 64
-    assert len(db.vendors) == 64
+    assert db.total_vendors == 71
+    assert len(db.vendors) == 71
 
 
 def test_load_vendor_database_not_found():
@@ -114,9 +114,9 @@ def test_specific_vendors_exist():
 
     actual_vendors = {vendor.id for vendor in db.vendors}
 
-    # Original 10 should be subset of all 24
+    # Original 10 should be subset of all vendors
     assert expected_vendors.issubset(actual_vendors)
-    assert len(actual_vendors) == 64
+    assert len(actual_vendors) == 71
 
 
 def test_amazon_athena_details():
@@ -128,12 +128,13 @@ def test_amazon_athena_details():
     assert athena.name == "Amazon Athena"
     assert athena.category == VendorCategory.QUERY_ENGINE
     assert athena.capabilities.sql_interface is True
-    assert athena.capabilities.open_table_format.value == "iceberg-native"
+    assert athena.capabilities.open_table_format.value == "proprietary"
     assert athena.capabilities.cloud_native is True
     assert athena.capabilities.operational_complexity == "low"
     assert athena.capabilities.team_size_required.value == "lean"
     assert athena.capabilities.cost_model.value == "consumption"
     assert "mentioned-in-book" in athena.tags
+    assert "iceberg-native" in athena.tags  # Athena supports Iceberg natively
 
 
 def test_splunk_details():
@@ -149,7 +150,8 @@ def test_splunk_details():
     assert splunk.capabilities.operational_complexity == "high"
     assert splunk.capabilities.team_size_required.value == "large"
     assert splunk.capabilities.cost_model.value == "per-gb"
-    assert "incumbent" in splunk.tags
+    assert "traditional" in splunk.tags  # Splunk is a traditional/incumbent SIEM
+    assert "gartner-magic-quadrant-leader" in splunk.tags
 
 
 def test_save_and_load_roundtrip(tmp_path):
@@ -188,7 +190,7 @@ def test_database_json_is_valid():
 
     # Check vendor structure
     assert isinstance(data["vendors"], list)
-    assert len(data["vendors"]) == 64
+    assert len(data["vendors"]) == 71
 
     # Check first vendor has expected fields
     vendor = data["vendors"][0]
