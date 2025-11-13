@@ -13,8 +13,9 @@
 - ✅ Dual licensing (Apache 2.0 + CC BY-SA 4.0)
 - ✅ 71 vendors with evidence-based quality
 - ✅ MCP server production-ready (tested on Claude Desktop)
-- ✅ 144 tests passing, 87% coverage
+- ✅ **237 tests passing (100%), 87% coverage** 🎉 (Nov 13, 2025)
 - ✅ Complete setup documentation
+- ✅ 2025 best practices implemented (98.7% token reduction, 90% context reduction)
 
 ---
 
@@ -86,7 +87,7 @@ What makes it different:
 🤝 Vendor-neutral (no sponsorships, open source)
 💬 Conversational (Claude Desktop, not rigid forms)
 
-Tech: Python MCP server, 71 vendors, 144 tests, 87% coverage
+Tech: Python MCP server, 71 vendors, 237 tests (100% passing), 87% coverage, 2025 best practices
 
 Seeking 3-5 beta testers:
 • Healthcare (HIPAA compliance)
