@@ -1,98 +1,362 @@
 {
   "permissions": {
-    "allow": [],
-    "deny": [
-      "Read(./.env)",
-      "Read(./.env.*)",
-      "Read(./secrets/**)",
-      "Read(./data/decision_states/**)"
+    "allow": [
+      "Bash(git fetch:*)",
+      "Bash(git push:*)",
+      "Read(//home/jerem/**)",
+      "Bash(python3:*)",
+      "Bash(cat:*)",
+      "Bash(./venv/bin/python -m pytest tests/test_filter_vendors.py::test_foundational_filter_iceberg_preference -v)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(./venv/bin/python3:*)"
     ],
+    "deny": [],
     "ask": []
   },
+  "enableAllProjectMcpServers": true,
   "allowedTools": [
     {
       "tool": "Read",
       "pattern": "file_path",
-      "regex": "^/home/jerem/security-architect-mcp-server/.*$",
-      "comment": "Auto-approve reading MCP server repository files"
+      "regex": "^/home/jerem/(project1|modern-data-stack-for-cybersecurity-book|security-data-commons-blog|security-data-literature-review|security-architect-mcp-server|data-quality-flow-health-validation|itu-t-sg17-x-icd-schemas|network-visualization-services|Zeek-to-OCSF-mapping)/.*$",
+      "comment": "Auto-approve reading files across all 9 project repositories"
     },
     {
-      "tool": "Read",
+      "tool": "Edit",
       "pattern": "file_path",
-      "regex": "^/home/jerem/(modern-data-stack-for-cybersecurity-book|security-data-literature-review)/.*$",
-      "comment": "Cross-reference book chapters and vendor research"
+      "regex": "^/home/jerem/(project1|modern-data-stack-for-cybersecurity-book|security-data-commons-blog|security-data-literature-review|security-architect-mcp-server|data-quality-flow-health-validation|itu-t-sg17-x-icd-schemas|network-visualization-services|Zeek-to-OCSF-mapping)/.*$",
+      "comment": "Auto-approve editing files across all 9 project repositories"
+    },
+    {
+      "tool": "Write",
+      "pattern": "file_path",
+      "regex": "^/home/jerem/(project1|modern-data-stack-for-cybersecurity-book|security-data-commons-blog|security-data-literature-review|security-architect-mcp-server|data-quality-flow-health-validation|itu-t-sg17-x-icd-schemas|network-visualization-services|Zeek-to-OCSF-mapping)/.*$",
+      "comment": "Auto-approve writing files across all 9 project repositories"
+    },
+    {
+      "tool": "Glob",
+      "pattern": "pattern",
+      "regex": ".*",
+      "comment": "Auto-approve file pattern matching"
+    },
+    {
+      "tool": "Grep",
+      "pattern": "pattern",
+      "regex": ".*",
+      "comment": "Auto-approve content search"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^git (status|log|diff|show|branch|remote).*$",
+      "regex": "^git (status|log|diff|show|branch|remote|blame|reflog|describe|tag).*$",
       "comment": "Git read-only operations"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^git (add|commit|push|pull|fetch).*$",
-      "comment": "Git write operations"
+      "regex": "^git (add|rm|commit|push|pull|fetch|checkout|switch|merge|rebase|stash|restore|reset --soft).*$",
+      "comment": "Git write operations (safe)"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^(ls|tree|pwd|cat|head|tail|wc|grep|find).*$",
+      "regex": "^(ls|tree|pwd|which|file|stat|realpath|basename|dirname).*$",
       "comment": "File system navigation"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^(mkdir|touch|cp|mv).*$",
-      "comment": "Safe file operations"
+      "regex": "^(echo|printf|cat|head|tail|less|more|wc|nl).*$",
+      "comment": "Text output and inspection"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^python3?.*$",
-      "comment": "Run Python scripts"
+      "regex": "^(grep|egrep|fgrep|rg|ack|ag|find|locate|fd).*$",
+      "comment": "Search utilities"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^(pytest|black|ruff|mypy|coverage).*$",
+      "regex": "^(awk|sed|cut|tr|sort|uniq|paste|join|column).*$",
+      "comment": "Text processing utilities"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(mkdir|mktemp|touch|cp|mv|ln).*$",
+      "comment": "Safe file operations (no rm)"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(chmod|chown).*$",
+      "comment": "File permissions"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(cd|pushd|popd).*$",
+      "comment": "Directory navigation"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(for|while|until|do|done|if|then|elif|else|fi|case|esac|select).*$",
+      "comment": "Shell control structures"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(bash|sh|source|\\.|export|set|unset|eval|test|\\[).*$",
+      "comment": "Shell execution and environment"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(\\./|\\.\\./|/home/jerem/).*(\\.(sh|bash|py)|\\.venv/bin/).*$",
+      "comment": "Execute scripts and virtual environment binaries"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^python3?( .*)?$",
+      "comment": "Python execution (any version)"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(pip|pip3|uv|poetry|pipenv) (install|uninstall|list|show|freeze|search).*$",
+      "comment": "Python package management"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(pytest|nose|unittest|tox|coverage|black|ruff|flake8|pylint|mypy|isort|autopep8).*$",
       "comment": "Python testing and code quality tools"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^(pip|uv) (install|list|show).*$",
-      "comment": "Python package management (no uninstall)"
+      "regex": "^(npm|yarn|pnpm|bun) (install|run|test|build|start|dev).*$",
+      "comment": "Node.js package management and scripts"
     },
     {
       "tool": "Bash",
       "pattern": "command",
-      "regex": "^source.*venv/bin/activate.*$",
-      "comment": "Activate Python virtual environment"
+      "regex": "^(node|deno|ts-node).*$",
+      "comment": "JavaScript/TypeScript execution"
     },
     {
-      "tool": "WebSearch",
-      "pattern": "query",
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(docker|docker-compose) (ps|images|logs|exec|build|up|down|start|stop|restart).*$",
+      "comment": "Docker operations (no rm)"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(ollama|llama) (list|ps|pull|run|show|create).*$",
+      "comment": "Ollama AI model operations"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(make|cmake|ninja|cargo|rustc|go|javac|gcc|g\\+\\+).*$",
+      "comment": "Build tools and compilers"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(jq|yq|xmllint|pandoc|csvkit).*$",
+      "comment": "Data format utilities"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(curl|wget|http|httpie) (?!.*sudo).*$",
+      "comment": "HTTP clients (no sudo)"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(tar|gzip|gunzip|zip|unzip|bzip2|xz|7z).*$",
+      "comment": "Archive utilities"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(ps|top|htop|kill|killall|pkill|jobs|bg|fg|nohup|screen|tmux).*$",
+      "comment": "Process management"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(date|cal|uptime|whoami|hostname|uname|env|printenv).*$",
+      "comment": "System information"
+    },
+    {
+      "tool": "Bash",
+      "pattern": "command",
+      "regex": "^(zeek|bro|tcpdump|tshark|wireshark).*$",
+      "comment": "Security analysis tools (Zeek, network analysis)"
+    },
+    {
+      "tool": "SlashCommand",
+      "pattern": "command",
+      "regex": "^/(session:archive-and-update|maintenance:(weekly-review|update-status)|academic-citation-manager|git-workflow-helper|systematic-debugger|tdd-enforcer|ultrathink-analyst|voice-consistency-enforcer|contradiction-detector|cybersecurity-concept-analyzer|expert-communication-writer|hypothesis-validator|publication-quality-checker|research-synthesis-extractor).*$",
+      "comment": "Auto-approve all custom slash commands (project + personal)"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(github\\.com|raw\\.githubusercontent\\.com|gist\\.github\\.com)$",
+      "comment": "GitHub resources"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(docs\\.anthropic\\.com|www\\.anthropic\\.com|docs\\.claude\\.com)$",
+      "comment": "Claude/Anthropic documentation"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(scholar\\.google\\.com|arxiv\\.org|dl\\.acm\\.org|ieeexplore\\.ieee\\.org|researchgate\\.net|semanticscholar\\.org)$",
+      "comment": "Academic research sources"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(schema\\.ocsf\\.io|d3fend\\.mitre\\.org|attack\\.mitre\\.org|cve\\.mitre\\.org|nvd\\.nist\\.gov|cisa\\.gov)$",
+      "comment": "Cybersecurity standards and threat intelligence"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(www\\.itu\\.int|www\\.iso\\.org|metanorma\\.org)$",
+      "comment": "International standards organizations"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(pypi\\.org|docs\\.python\\.org|peps\\.python\\.org)$",
+      "comment": "Python ecosystem"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(npmjs\\.com|nodejs\\.org|developer\\.mozilla\\.org)$",
+      "comment": "JavaScript/Node.js ecosystem"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(stackoverflow\\.com|stackexchange\\.com)$",
+      "comment": "Technical Q&A sites"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(dremio\\.com|starburst\\.io|trino\\.io|prestodb\\.io|spark\\.apache\\.org)$",
+      "comment": "Query engines and data platforms"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(iceberg\\.apache\\.org|hudi\\.apache\\.org|delta\\.io|parquet\\.apache\\.org)$",
+      "comment": "Table formats and data file formats"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(docs\\.snowflake\\.com|docs\\.databricks\\.com|cloud\\.google\\.com|docs\\.aws\\.amazon\\.com|learn\\.microsoft\\.com)$",
+      "comment": "Cloud platform documentation"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(docs\\.splunk\\.com|www\\.elastic\\.co|docs\\.elastic\\.co)$",
+      "comment": "SIEM platform documentation"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(zeek\\.org|docs\\.zeek\\.org|corelight\\.com)$",
+      "comment": "Zeek network analysis"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(grafana\\.com|prometheus\\.io|kibana\\.elastic\\.co)$",
+      "comment": "Observability and visualization"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(.*\\.substack\\.com|substack\\.com|medium\\.com|.*\\.medium\\.com|dev\\.to)$",
+      "comment": "Publishing platforms and blogs"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(linkedin\\.com|www\\.linkedin\\.com|twitter\\.com|x\\.com)$",
+      "comment": "Professional social networks"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(cribl\\.io|tenzir\\.com|docs\\.tenzir\\.com|clickhouse\\.com|altinity\\.com|tabular\\.io)$",
+      "comment": "Data pipeline and infrastructure vendors"
+    },
+    {
+      "tool": "WebFetch",
+      "pattern": "domain",
+      "regex": "^(blog\\.streambased\\.io|www\\.chuvakin\\.org|promptarmor\\.substack\\.com|securetrajectories\\.substack\\.com)$",
+      "comment": "Thought leader blogs and research sources"
+    },
+    {
+      "tool": "mcp__playwright__browser_navigate",
+      "pattern": "url",
       "regex": ".*",
-      "comment": "Research vendors and technologies"
+      "comment": "Allow browser navigation for automation"
     },
     {
-      "tool": "WebFetch",
-      "pattern": "domain",
-      "regex": "^(github\\.com|docs\\.anthropic\\.com)$",
-      "comment": "MCP SDK and Claude documentation"
+      "tool": "mcp__playwright__browser_snapshot",
+      "pattern": "*",
+      "regex": ".*",
+      "comment": "Allow browser snapshots"
     },
     {
-      "tool": "WebFetch",
-      "pattern": "domain",
-      "regex": "^(pypi\\.org|peps\\.python\\.org|docs\\.python\\.org)$",
-      "comment": "Python documentation"
+      "tool": "mcp__playwright__browser_click",
+      "pattern": "element",
+      "regex": ".*",
+      "comment": "Allow browser interactions"
     },
     {
-      "tool": "WebFetch",
-      "pattern": "domain",
-      "regex": "^(dremio\\.com|starburst\\.io|databricks\\.com|snowflake\\.com|splunk\\.com)$",
-      "comment": "Vendor documentation for database accuracy"
+      "tool": "mcp__playwright__browser_wait_for",
+      "pattern": "*",
+      "regex": ".*",
+      "comment": "Allow browser wait operations"
+    },
+    {
+      "tool": "mcp__playwright__browser_evaluate",
+      "pattern": "function",
+      "regex": ".*",
+      "comment": "Allow JavaScript evaluation in browser"
+    },
+    {
+      "tool": "mcp__playwright__browser_take_screenshot",
+      "pattern": "*",
+      "regex": ".*",
+      "comment": "Allow screenshots"
+    },
+    {
+      "tool": "mcp__playwright__browser_close",
+      "pattern": "*",
+      "regex": ".*",
+      "comment": "Allow closing browser"
     }
   ]
 }

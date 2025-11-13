@@ -1,0 +1,286 @@
+# Serverless Framework Configuration for Security Architect MCP Server
+# Implements 2025 best practices for MCP serverless deployment
+
+service: security-architect-mcp
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.11
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+
+  # Memory and timeout configuration
+  memorySize: 512  # MB - adjust based on vendor database size
+  timeout: 30       # seconds - max for API Gateway
+
+  # Environment variables
+  environment:
+    STAGE: ${self:provider.stage}
+    VENDOR_DB_BUCKET: ${self:custom.vendorDbBucket}
+    DECISION_STATE_TABLE: ${self:custom.decisionStateTable}
+    PROGRESSIVE_DISCOVERY: true
+    CODE_EXECUTION_ENABLED: true
+    MAX_EXECUTION_TIME: 25  # Leave buffer for Lambda timeout
+    MAX_MEMORY_MB: 256
+    LOG_LEVEL: ${self:custom.logLevel.${self:provider.stage}, 'info'}
+
+  # IAM role statements
+  iam:
+    role:
+      statements:
+        # S3 access for vendor database
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+            - s3:ListBucket
+          Resource:
+            - arn:aws:s3:::${self:custom.vendorDbBucket}
+            - arn:aws:s3:::${self:custom.vendorDbBucket}/*
+
+        # DynamoDB for decision state
+        - Effect: Allow
+          Action:
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:Query
+            - dynamodb:Scan
+          Resource:
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.decisionStateTable}
+
+        # CloudWatch Logs
+        - Effect: Allow
+          Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+          Resource: '*'
+
+        # X-Ray tracing (optional)
+        - Effect: Allow
+          Action:
+            - xray:PutTraceSegments
+            - xray:PutTelemetryRecords
+          Resource: '*'
+
+  # API Gateway configuration
+  httpApi:
+    cors:
+      allowedOrigins:
+        - '*'  # Configure for production
+      allowedHeaders:
+        - Content-Type
+        - X-MCP-Version
+        - Authorization
+      allowedMethods:
+        - GET
+        - POST
+        - OPTIONS
+
+  # Lambda Layers
+  layers:
+    - arn:aws:lambda:${self:provider.region}:${aws:accountId}:layer:mcp-sdk:1
+    - arn:aws:lambda:${self:provider.region}:${aws:accountId}:layer:security-vendor-db:1
+
+  # VPC configuration (optional, for RDS/ElastiCache)
+  # vpc:
+  #   securityGroupIds:
+  #     - ${self:custom.securityGroupId}
+  #   subnetIds:
+  #     - ${self:custom.subnetId1}
+  #     - ${self:custom.subnetId2}
+
+functions:
+  # Main MCP server endpoint
+  mcp:
+    handler: lambda_handler.lambda_handler
+    description: Security Architect MCP Server - Streamable HTTP
+    events:
+      # HTTP API (recommended for REST APIs)
+      - httpApi:
+          path: /mcp
+          method: POST
+
+      # Optional: WebSocket for real-time (future)
+      # - websocket:
+      #     route: $default
+
+    # Reserved concurrency (optional)
+    reservedConcurrency: 5  # Adjust based on expected load
+
+    # Provisioned concurrency (optional, reduces cold starts)
+    # provisionedConcurrency: 2
+
+    # Environment overrides
+    environment:
+      FUNCTION_NAME: mcp-main
+
+  # Health check endpoint
+  health:
+    handler: lambda_handler.lambda_handler
+    description: Health check for MCP server
+    events:
+      - httpApi:
+          path: /health
+          method: GET
+    environment:
+      FUNCTION_NAME: health-check
+
+  # Warm-up function (keeps Lambda warm)
+  warmup:
+    handler: lambda_handler.warmup_handler
+    description: Keep Lambda containers warm
+    events:
+      # CloudWatch Events - run every 5 minutes
+      - schedule:
+          rate: rate(5 minutes)
+          enabled: ${self:custom.warmupEnabled.${self:provider.stage}, false}
+    timeout: 10
+    memorySize: 128
+
+  # Batch processing (optional, for large vendor updates)
+  batchProcessor:
+    handler: batch_handler.process_vendor_updates
+    description: Process vendor database updates
+    events:
+      # S3 trigger when vendor database updated
+      - s3:
+          bucket: ${self:custom.vendorDbBucket}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: vendors/
+            - suffix: .json
+    timeout: 300  # 5 minutes for batch processing
+    memorySize: 1024
+
+# Custom variables
+custom:
+  vendorDbBucket: security-architect-vendors-${self:provider.stage}
+  decisionStateTable: security-architect-decisions-${self:provider.stage}
+
+  # Stage-specific configurations
+  logLevel:
+    dev: debug
+    staging: info
+    prod: warn
+
+  warmupEnabled:
+    dev: false
+    staging: true
+    prod: true
+
+  # Serverless plugins
+  pythonRequirements:
+    dockerizePip: true
+    layer: true  # Create Lambda layer with dependencies
+    slim: true   # Remove unnecessary files
+    strip: false # Don't strip binaries
+    pipCmdExtraArgs:
+      - --no-cache-dir
+
+  # API Gateway throttling
+  apiGatewayThrottling:
+    maxRequestsPerSecond: 100
+    maxConcurrentRequests: 50
+
+  # Cost optimization
+  prune:
+    automatic: true
+    includeLayers: true
+    number: 3  # Keep last 3 versions
+
+# Resources (CloudFormation)
+resources:
+  Resources:
+    # S3 Bucket for vendor database
+    VendorDatabaseBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.vendorDbBucket}
+        VersioningConfiguration:
+          Status: Enabled
+        LifecycleConfiguration:
+          Rules:
+            - Id: DeleteOldVersions
+              Status: Enabled
+              NoncurrentVersionExpirationInDays: 30
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
+
+    # DynamoDB Table for decision state
+    DecisionStateTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.decisionStateTable}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: timestamp
+            AttributeType: N
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: timestamp
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST  # On-demand pricing
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
+        SSESpecification:
+          SSEEnabled: true
+
+    # CloudWatch Dashboard
+    MCPServerDashboard:
+      Type: AWS::CloudWatch::Dashboard
+      Properties:
+        DashboardName: ${self:service}-${self:provider.stage}
+        DashboardBody: !Sub |
+          {
+            "widgets": [
+              {
+                "type": "metric",
+                "properties": {
+                  "metrics": [
+                    ["AWS/Lambda", "Invocations", {"stat": "Sum"}],
+                    [".", "Errors", {"stat": "Sum"}],
+                    [".", "Duration", {"stat": "Average"}],
+                    [".", "ConcurrentExecutions", {"stat": "Maximum"}]
+                  ],
+                  "period": 300,
+                  "stat": "Average",
+                  "region": "${AWS::Region}",
+                  "title": "Lambda Metrics"
+                }
+              }
+            ]
+          }
+
+  # Outputs
+  Outputs:
+    ApiEndpoint:
+      Description: MCP Server API endpoint
+      Value: !Sub https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com
+      Export:
+        Name: ${self:service}-${self:provider.stage}-endpoint
+
+    VendorDatabaseBucket:
+      Description: S3 bucket for vendor database
+      Value: !Ref VendorDatabaseBucket
+      Export:
+        Name: ${self:service}-${self:provider.stage}-vendor-bucket
+
+    DecisionStateTable:
+      Description: DynamoDB table for decision state
+      Value: !Ref DecisionStateTable
+      Export:
+        Name: ${self:service}-${self:provider.stage}-decision-table
+
+# Plugins
+plugins:
+  - serverless-python-requirements
+  - serverless-plugin-warmup
+  - serverless-api-gateway-throttling
+  - serverless-prune-plugin

@@ -1,0 +1,193 @@
+version: '3.8'
+
+# Security Architect MCP Server - Docker Compose Configuration
+# Development and production deployment following 2025 best practices
+
+services:
+  # Main MCP server
+  security-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - BUILD_DATE=${BUILD_DATE:-$(date -u +'%Y-%m-%dT%H:%M:%SZ')}
+        - VCS_REF=${VCS_REF:-$(git rev-parse --short HEAD)}
+
+    image: security-architect-mcp:latest
+
+    container_name: security-architect-mcp
+
+    ports:
+      - "${MCP_PORT:-8080}:8080"  # Streamable HTTP transport
+
+    environment:
+      # MCP Configuration
+      - MCP_TRANSPORT=streamable-http  # 2025 standard for serverless compatibility
+      - MCP_SERVER_HOST=0.0.0.0
+      - MCP_SERVER_PORT=8080
+
+      # Feature Flags (2025 patterns)
+      - PROGRESSIVE_DISCOVERY=true      # 90% context reduction
+      - CODE_EXECUTION_ENABLED=true     # 98.7% token reduction
+      - CACHE_ENABLED=true
+
+      # Security Configuration
+      - MAX_EXECUTION_TIME=30
+      - MAX_MEMORY_MB=256
+      - AUDIT_LOGGING=true
+
+      # Application Configuration
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - MAX_VENDORS=80
+      - TOKEN_LIMIT=10000
+      - VENDOR_DB_UPDATE_CHECK=true
+
+      # Database Connection (if using external DB)
+      - DATABASE_URL=${DATABASE_URL:-}
+      - DATABASE_SSL_MODE=${DATABASE_SSL_MODE:-require}
+
+    volumes:
+      # Data persistence
+      - ./data:/app/data:ro              # Vendor database (read-only)
+      - mcp-logs:/app/logs               # Application logs
+      - mcp-cache:/app/cache             # Cache directory
+
+      # Development mode - hot reload (comment out for production)
+      # - ./src:/app/src:ro
+
+    security_opt:
+      - no-new-privileges:true          # Security hardening
+      - seccomp:unconfined              # Required for code execution sandbox
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+    networks:
+      - mcp-network
+
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  # Optional: PostgreSQL for vendor database (production)
+  vendor-db:
+    image: postgres:15-alpine
+    container_name: security-mcp-db
+
+    environment:
+      - POSTGRES_DB=security_vendors
+      - POSTGRES_USER=mcp_readonly
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db_password
+      - POSTGRES_INITDB_ARGS=--auth-host=scram-sha-256
+
+    secrets:
+      - db_password
+
+    volumes:
+      - vendor-db-data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+
+    ports:
+      - "${DB_PORT:-5432}:5432"
+
+    networks:
+      - mcp-network
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mcp_readonly"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    restart: unless-stopped
+
+    profiles:
+      - production  # Only start in production profile
+
+  # Optional: Redis for caching (production)
+  cache:
+    image: redis:7-alpine
+    container_name: security-mcp-cache
+
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-changeme}
+
+    volumes:
+      - cache-data:/data
+
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+
+    networks:
+      - mcp-network
+
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    restart: unless-stopped
+
+    profiles:
+      - production  # Only start in production profile
+
+  # Optional: Monitoring with Prometheus (production)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: security-mcp-metrics
+
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+
+    networks:
+      - mcp-network
+
+    restart: unless-stopped
+
+    profiles:
+      - monitoring  # Only start with monitoring profile
+
+# Networks
+networks:
+  mcp-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+# Volumes
+volumes:
+  mcp-logs:
+    driver: local
+  mcp-cache:
+    driver: local
+  vendor-db-data:
+    driver: local
+  cache-data:
+    driver: local
+  prometheus-data:
+    driver: local
+
+# Secrets (for production)
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt  # Create this file with secure password

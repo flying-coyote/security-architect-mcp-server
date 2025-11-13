@@ -1,0 +1,264 @@
+{
+  "DashboardName": "Security-Architect-MCP-Server",
+  "DashboardBody": {
+    "widgets": [
+      {
+        "type": "metric",
+        "x": 0,
+        "y": 0,
+        "width": 12,
+        "height": 6,
+        "properties": {
+          "title": "Request Rate & Errors",
+          "metrics": [
+            ["AWS/Lambda", "Invocations", {"stat": "Sum", "label": "Total Requests"}],
+            [".", "Errors", {"stat": "Sum", "label": "Errors", "color": "#d62728"}],
+            [".", "Throttles", {"stat": "Sum", "label": "Throttled", "color": "#ff9896"}]
+          ],
+          "period": 300,
+          "stat": "Average",
+          "region": "us-east-1",
+          "view": "timeSeries",
+          "stacked": false,
+          "annotations": {
+            "horizontal": [
+              {
+                "label": "Error Threshold",
+                "value": 10,
+                "fill": "above",
+                "color": "#d62728"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "metric",
+        "x": 12,
+        "y": 0,
+        "width": 12,
+        "height": 6,
+        "properties": {
+          "title": "Performance Metrics",
+          "metrics": [
+            ["AWS/Lambda", "Duration", {"stat": "Average", "label": "Avg Duration (ms)"}],
+            ["...", {"stat": "p99", "label": "P99 Duration (ms)", "color": "#ff9896"}],
+            ["...", {"stat": "Maximum", "label": "Max Duration (ms)", "color": "#d62728"}]
+          ],
+          "period": 300,
+          "stat": "Average",
+          "region": "us-east-1",
+          "view": "timeSeries",
+          "yAxis": {
+            "left": {
+              "min": 0,
+              "max": 30000
+            }
+          },
+          "annotations": {
+            "horizontal": [
+              {
+                "label": "Timeout Warning",
+                "value": 25000,
+                "fill": "above",
+                "color": "#ff9896"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "metric",
+        "x": 0,
+        "y": 6,
+        "width": 8,
+        "height": 6,
+        "properties": {
+          "title": "Token Savings (98.7% Reduction)",
+          "metrics": [
+            ["Custom/MCP", "TokensSaved", {"stat": "Sum", "label": "Tokens Saved"}],
+            [".", "TokensUsed", {"stat": "Sum", "label": "Tokens Used"}],
+            [".", "ReductionPercentage", {"stat": "Average", "label": "Reduction %"}]
+          ],
+          "period": 3600,
+          "stat": "Sum",
+          "region": "us-east-1",
+          "view": "singleValue",
+          "setPeriodToTimeRange": true
+        }
+      },
+      {
+        "type": "metric",
+        "x": 8,
+        "y": 6,
+        "width": 8,
+        "height": 6,
+        "properties": {
+          "title": "Progressive Discovery Stats",
+          "metrics": [
+            ["Custom/MCP", "ToolsLoaded", {"stat": "Average", "label": "Tools Loaded"}],
+            [".", "ContextSavedKB", {"stat": "Sum", "label": "Context Saved (KB)"}],
+            [".", "DiscoveryQueries", {"stat": "Sum", "label": "Discovery Queries"}]
+          ],
+          "period": 300,
+          "stat": "Average",
+          "region": "us-east-1",
+          "view": "singleValue"
+        }
+      },
+      {
+        "type": "metric",
+        "x": 16,
+        "y": 6,
+        "width": 8,
+        "height": 6,
+        "properties": {
+          "title": "Cost Optimization",
+          "metrics": [
+            ["AWS/Lambda", "ConcurrentExecutions", {"stat": "Maximum", "label": "Concurrent Executions"}],
+            ["Custom/MCP", "EstimatedCost", {"stat": "Sum", "label": "Est. Cost ($)"}],
+            [".", "CostPerRequest", {"stat": "Average", "label": "Cost/Request ($)"}]
+          ],
+          "period": 3600,
+          "stat": "Average",
+          "region": "us-east-1",
+          "view": "singleValue"
+        }
+      },
+      {
+        "type": "metric",
+        "x": 0,
+        "y": 12,
+        "width": 12,
+        "height": 6,
+        "properties": {
+          "title": "Method Performance Breakdown",
+          "metrics": [
+            ["Custom/MCP", "Duration", {"stat": "Average", "dimensions": {"Method": "search_tools"}}],
+            ["...", {"dimensions": {"Method": "execute_vendor_analysis"}}],
+            ["...", {"dimensions": {"Method": "filter_vendors_tier1"}}],
+            ["...", {"dimensions": {"Method": "calculate_tco"}}],
+            ["...", {"dimensions": {"Method": "generate_report"}}]
+          ],
+          "period": 300,
+          "stat": "Average",
+          "region": "us-east-1",
+          "view": "barChart"
+        }
+      },
+      {
+        "type": "metric",
+        "x": 12,
+        "y": 12,
+        "width": 12,
+        "height": 6,
+        "properties": {
+          "title": "Security Metrics",
+          "metrics": [
+            ["Custom/MCP", "SecurityValidationFailures", {"stat": "Sum", "label": "Validation Failures", "color": "#d62728"}],
+            [".", "SandboxTimeouts", {"stat": "Sum", "label": "Sandbox Timeouts", "color": "#ff9896"}],
+            [".", "AuditLogEntries", {"stat": "Sum", "label": "Audit Entries"}]
+          ],
+          "period": 300,
+          "stat": "Sum",
+          "region": "us-east-1",
+          "view": "timeSeries",
+          "stacked": false
+        }
+      },
+      {
+        "type": "log",
+        "x": 0,
+        "y": 18,
+        "width": 24,
+        "height": 6,
+        "properties": {
+          "title": "Recent Errors & Warnings",
+          "query": "SOURCE '/aws/lambda/security-mcp-prod-mcp'\n| fields @timestamp, @message\n| filter @type = \"REPORT\" and (@message like /ERROR/ or @message like /WARNING/)\n| sort @timestamp desc\n| limit 20",
+          "region": "us-east-1",
+          "view": "table"
+        }
+      },
+      {
+        "type": "metric",
+        "x": 0,
+        "y": 24,
+        "width": 6,
+        "height": 6,
+        "properties": {
+          "title": "Memory Utilization",
+          "metrics": [
+            ["AWS/Lambda", "MemoryUtilization", {"stat": "Average", "label": "Avg Memory %"}],
+            ["...", {"stat": "Maximum", "label": "Max Memory %", "color": "#ff9896"}]
+          ],
+          "period": 300,
+          "stat": "Average",
+          "region": "us-east-1",
+          "view": "gauge",
+          "yAxis": {
+            "left": {
+              "min": 0,
+              "max": 100
+            }
+          }
+        }
+      },
+      {
+        "type": "metric",
+        "x": 6,
+        "y": 24,
+        "width": 6,
+        "height": 6,
+        "properties": {
+          "title": "Cold Start Rate",
+          "metrics": [
+            ["Custom/MCP", "ColdStarts", {"stat": "Sum", "label": "Cold Starts"}],
+            [".", "WarmStarts", {"stat": "Sum", "label": "Warm Starts"}]
+          ],
+          "period": 300,
+          "stat": "Sum",
+          "region": "us-east-1",
+          "view": "pie"
+        }
+      },
+      {
+        "type": "metric",
+        "x": 12,
+        "y": 24,
+        "width": 6,
+        "height": 6,
+        "properties": {
+          "title": "API Gateway Metrics",
+          "metrics": [
+            ["AWS/ApiGateway", "Count", {"stat": "Sum", "label": "API Requests"}],
+            [".", "4XXError", {"stat": "Sum", "label": "4XX Errors", "color": "#ff9896"}],
+            [".", "5XXError", {"stat": "Sum", "label": "5XX Errors", "color": "#d62728"}]
+          ],
+          "period": 300,
+          "stat": "Sum",
+          "region": "us-east-1",
+          "view": "timeSeries",
+          "stacked": true
+        }
+      },
+      {
+        "type": "metric",
+        "x": 18,
+        "y": 24,
+        "width": 6,
+        "height": 6,
+        "properties": {
+          "title": "S3 Vendor Database Access",
+          "metrics": [
+            ["AWS/S3", "GetRequests", {"stat": "Sum", "dimensions": {"BucketName": "security-mcp-vendors-prod"}}],
+            [".", "ListRequests", {"stat": "Sum", "dimensions": {"BucketName": "security-mcp-vendors-prod"}}]
+          ],
+          "period": 3600,
+          "stat": "Sum",
+          "region": "us-east-1",
+          "view": "singleValue"
+        }
+      }
+    ]
+  }
+}
