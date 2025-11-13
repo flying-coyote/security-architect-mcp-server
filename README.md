@@ -366,6 +366,35 @@ serverless deploy --stage prod
 kubectl apply -f k8s/deployment.yaml
 ```
 
+### Testing
+
+The project includes a comprehensive test suite with 239 tests across 11 test modules.
+
+**Safe Test Execution** (avoids WSL instability):
+```bash
+cd /home/jerem/security-architect-mcp-server
+
+# Run all tests without coverage (recommended)
+./venv/bin/python -m pytest tests/ --no-cov -v
+
+# Run specific test file
+./venv/bin/python -m pytest tests/test_models.py -v --no-cov
+
+# Run with coverage (if system is stable)
+./venv/bin/python -m pytest tests/ --cov=src --cov-report=term-missing
+```
+
+**Test Suite Structure**:
+- ✅ 11/11 `test_database_loader.py` - Database loading and validation
+- ✅ 15/15 `test_models.py` - Data model validation
+- ✅ `test_code_execution.py` - 2025 code execution patterns
+- ✅ `test_progressive_discovery.py` - Progressive tool discovery
+- ✅ `test_filter_vendors.py` - Vendor filtering logic
+- ✅ `test_calculate_tco.py` - TCO calculation
+- Additional modules for scoring, reporting, POC generation
+
+**Important Note**: Use `./venv/bin/python` directly instead of `source venv/bin/activate` to avoid potential environment issues in WSL.
+
 ## 2025 Pattern Examples
 
 ### Code Execution (98.7% Token Reduction)
