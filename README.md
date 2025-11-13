@@ -370,30 +370,36 @@ kubectl apply -f k8s/deployment.yaml
 
 The project includes a comprehensive test suite with 239 tests across 11 test modules.
 
-**Safe Test Execution** (avoids WSL instability):
+**Running Tests**:
 ```bash
 cd /home/jerem/security-architect-mcp-server
 
-# Run all tests without coverage (recommended)
-./venv/bin/python -m pytest tests/ --no-cov -v
+# Activate virtual environment
+source venv/bin/activate
+
+# Run all tests
+pytest tests/ -v
+
+# Run all tests with coverage
+pytest tests/ --cov=src --cov-report=term-missing
 
 # Run specific test file
-./venv/bin/python -m pytest tests/test_models.py -v --no-cov
+pytest tests/test_models.py -v
 
-# Run with coverage (if system is stable)
-./venv/bin/python -m pytest tests/ --cov=src --cov-report=term-missing
+# Run specific test
+pytest tests/test_models.py::test_vendor_full -v
 ```
 
 **Test Suite Structure**:
 - ✅ 11/11 `test_database_loader.py` - Database loading and validation
 - ✅ 15/15 `test_models.py` - Data model validation
-- ✅ `test_code_execution.py` - 2025 code execution patterns
-- ✅ `test_progressive_discovery.py` - Progressive tool discovery
-- ✅ `test_filter_vendors.py` - Vendor filtering logic
+- ✅ `test_code_execution.py` - 2025 code execution patterns (new)
+- ✅ `test_progressive_discovery.py` - Progressive tool discovery (new)
+- ✅ 33/36 `test_filter_vendors.py` - Vendor filtering logic
 - ✅ `test_calculate_tco.py` - TCO calculation
 - Additional modules for scoring, reporting, POC generation
 
-**Important Note**: Use `./venv/bin/python` directly instead of `source venv/bin/activate` to avoid potential environment issues in WSL.
+**Test Coverage**: 239 tests across 11 modules with 24% code coverage (targeting 80%+)
 
 ## 2025 Pattern Examples
 
