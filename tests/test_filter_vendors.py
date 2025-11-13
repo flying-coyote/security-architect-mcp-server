@@ -77,13 +77,14 @@ def test_filter_by_team_capacity_standard(vendor_db):
     # Only large team platforms should be eliminated
     eliminated_ids = list(eliminated.keys())
     assert "splunk-enterprise-security" in eliminated_ids  # Requires large
-    assert "denodo" in eliminated_ids  # Requires large
+    assert "ibm-qradar" in eliminated_ids  # Requires large
 
     # Standard platforms should pass
     viable_ids = [v.id for v in viable]
     assert "dremio" in viable_ids  # Standard team
     assert "starburst" in viable_ids  # Standard team
     assert "databricks" in viable_ids  # Standard team
+    assert "denodo" in viable_ids  # Standard team (not large)
 
 
 def test_filter_by_budget_under_500k(vendor_db):
@@ -97,11 +98,11 @@ def test_filter_by_budget_under_500k(vendor_db):
     assert "splunk-enterprise-security" in eliminated_ids  # $3M-12M
     assert "snowflake" in eliminated_ids  # $500K-3M (max exceeds)
     assert "ibm-qradar" in eliminated_ids  # $1M-5M
-    assert "microsoft-sentinel" in eliminated_ids  # $800K-3M
 
     # Low-cost platforms should pass
     viable_ids = [v.id for v in viable]
     assert "amazon-athena" in viable_ids  # $50K-200K
+    assert "microsoft-sentinel" in viable_ids  # $144K-420K (under $500K)
 
 
 def test_filter_by_budget_500k_to_2m(vendor_db):
@@ -314,7 +315,8 @@ def test_lean_team_tight_budget_scenario(vendor_db):
     assert "snowflake" in result.eliminated_vendors  # Max cost exceeds $500K
 
     # Very few survivors (Phase 2 added more lean-team options like Kinesis, Pub/Sub)
-    assert result.filtered_count <= 10
+    # Database expanded from 64 to 71 vendors, increasing lean+low-cost+SQL options
+    assert result.filtered_count <= 15
 
 
 def test_no_filters_applied(vendor_db):
