@@ -1,0 +1,279 @@
+{
+  "title": "Security Data Platform Architecture Decision Tool",
+  "subtitle": "Filter 71 vendors → 3-5 finalists in 5 minutes",
+  "questions": [
+    {
+      "id": "f0_isolation_pattern",
+      "order": 1,
+      "title": "Infrastructure Isolation Pattern",
+      "description": "Is your security data isolated on dedicated infrastructure (separate VPC/VNet from corporate data platforms)?",
+      "context": "This is THE most important architectural decision for catalog and query engine selection. Isolation pattern determines whether you need fine-grained access control (row-level security, column masking) or can use simpler table-level RBAC. Isolated platforms achieve 15-50% faster queries by avoiding RLS overhead.",
+      "type": "single_choice",
+      "required": true,
+      "options": [
+        {
+          "id": "isolated_dedicated",
+          "label": "Isolated dedicated infrastructure",
+          "description": "Security data on separate VPC/VNet (isolated from PII/financial data), security team-only access",
+          "impact": "Table-level RBAC sufficient, 0% RLS overhead, performance-first query engine selection",
+          "vendor_count_estimate": 45,
+          "recommendations": {
+            "catalog": ["Polaris (vendor-neutral)", "Nessie (Git workflows)", "Unity Catalog (if AI/ML governance)"],
+            "table_format": ["Iceberg (recommended for isolated platforms)"],
+            "query_engine": ["Trino (federated)", "ClickHouse (low-latency)", "DuckDB (ad-hoc)"],
+            "performance_overhead": "0%",
+            "tco": "Low (open-source catalogs, baseline compute)",
+            "production_examples": ["Netflix (isolated VPC, Polaris)", "Huntress (isolated AWS, Iceberg)", "Okta (Jake Thomas, DuckDB)"]
+          }
+        },
+        {
+          "id": "shared_corporate",
+          "label": "Shared corporate platform",
+          "description": "Security logs + PII + financial data co-located on same platform",
+          "impact": "Fine-grained access control required (Unity Catalog + RLS + column masking)",
+          "vendor_count_estimate": 32,
+          "recommendations": {
+            "catalog": ["Unity Catalog (REQUIRED for fine-grained access)"],
+            "table_format": ["Delta Lake or Iceberg (both support Unity RLS)"],
+            "query_engine": ["Databricks SQL (Unity native)", "Trino (with row filters)"],
+            "performance_overhead": "15-50%",
+            "tco": "High ($10K-50K/year Unity licensing + compute overhead)",
+            "production_examples": ["Multi-tenant MSSPs", "Federated global security teams"]
+          }
+        },
+        {
+          "id": "multi_tenant_mssp",
+          "label": "Multi-tenant MSSP",
+          "description": "Multiple customer tenants on shared infrastructure",
+          "impact": "Row-level security essential (Customer A analysts only see Customer A logs)",
+          "vendor_count_estimate": 18,
+          "recommendations": {
+            "catalog": ["Unity Catalog (REQUIRED for tenant isolation)"],
+            "table_format": ["Delta Lake or Iceberg (Unity compatible)"],
+            "query_engine": ["Databricks SQL", "Trino (with row filters)"],
+            "performance_overhead": "5-30%",
+            "tco": "High (worth cost for multi-tenant isolation)",
+            "production_examples": ["Arctic Wolf (hypothesized)", "Expel (hypothesized)", "Red Canary (hypothesized)"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "f1_table_format",
+      "order": 2,
+      "title": "Table Format Decision",
+      "description": "Which table format do you prefer for your security data lakehouse?",
+      "context": "This is a multi-year architectural commitment. Table format affects vendor lock-in, query engine compatibility, operational complexity, and catalog choice.",
+      "type": "single_choice",
+      "required": true,
+      "options": [
+        {
+          "id": "iceberg",
+          "label": "Apache Iceberg",
+          "description": "Netflix production-validated, strong community, Polaris catalog native, query engine flexibility",
+          "impact": "Broad query engine support (Trino, Dremio, ClickHouse, DuckDB), vendor neutrality",
+          "vendor_count_estimate": 28,
+          "catalogs_compatible": ["Polaris", "Nessie", "Unity Catalog", "AWS Glue"]
+        },
+        {
+          "id": "delta_lake",
+          "label": "Delta Lake",
+          "description": "Databricks native, Unity Catalog integration, strong ACID guarantees",
+          "impact": "Excellent for Databricks ecosystem, less vendor flexibility",
+          "vendor_count_estimate": 15,
+          "catalogs_compatible": ["Unity Catalog (primary)", "Polaris (limited)"]
+        },
+        {
+          "id": "hudi",
+          "label": "Apache Hudi",
+          "description": "Uber origins, strong CDC support",
+          "impact": "Less security community adoption",
+          "vendor_count_estimate": 8,
+          "catalogs_compatible": ["AWS Glue", "Hive Metastore"]
+        },
+        {
+          "id": "proprietary",
+          "label": "Proprietary format",
+          "description": "Snowflake, vendor lock-in but simplicity",
+          "impact": "Vendor lock-in, operational simplicity",
+          "vendor_count_estimate": 12,
+          "catalogs_compatible": ["Vendor-specific"]
+        }
+      ]
+    },
+    {
+      "id": "f2_catalog",
+      "order": 3,
+      "title": "Catalog Decision",
+      "description": "Which catalog for metadata management?",
+      "context": "Catalog choice affects governance (row-level security, column masking), RBAC, multi-engine query support, and operational complexity. Your isolation pattern (F0) and table format choice (F1) influence catalog compatibility.",
+      "type": "single_choice",
+      "required": true,
+      "depends_on": {
+        "f0_isolation_pattern": {
+          "isolated_dedicated": {
+            "recommended": ["polaris", "nessie"],
+            "note": "Polaris/Nessie elevated to top-tier for isolated platforms (no RLS disadvantage)"
+          },
+          "shared_corporate": {
+            "recommended": ["unity_catalog"],
+            "note": "Unity Catalog REQUIRED for fine-grained access control"
+          },
+          "multi_tenant_mssp": {
+            "recommended": ["unity_catalog"],
+            "note": "Unity Catalog REQUIRED for row-level security"
+          }
+        }
+      },
+      "options": [
+        {
+          "id": "polaris",
+          "label": "Polaris",
+          "description": "Snowflake open source, Iceberg-native, production-ready, multi-engine",
+          "impact": "Vendor-neutral, table-level RBAC only",
+          "vendor_count_estimate": 12,
+          "best_for": "isolated_dedicated"
+        },
+        {
+          "id": "unity_catalog",
+          "label": "Unity Catalog",
+          "description": "Databricks, Delta Lake native, strong governance, some Iceberg support",
+          "impact": "Fine-grained access control (RLS, column masking), higher TCO",
+          "vendor_count_estimate": 18,
+          "best_for": "shared_corporate,multi_tenant_mssp"
+        },
+        {
+          "id": "nessie",
+          "label": "Nessie",
+          "description": "OSS, Git-like versioning, flexible but emerging maturity",
+          "impact": "Git workflows for detection rule testing, table-level RBAC",
+          "vendor_count_estimate": 8,
+          "best_for": "isolated_dedicated"
+        },
+        {
+          "id": "glue",
+          "label": "AWS Glue",
+          "description": "AWS native, serverless, Athena/EMR integration, limited non-AWS support",
+          "impact": "AWS lock-in, serverless simplicity",
+          "vendor_count_estimate": 10,
+          "best_for": "isolated_dedicated"
+        },
+        {
+          "id": "hive_metastore",
+          "label": "Hive Metastore",
+          "description": "Legacy, widely supported, operational complexity, no modern governance",
+          "impact": "Technical debt, limited governance",
+          "vendor_count_estimate": 15,
+          "best_for": "none"
+        }
+      ]
+    },
+    {
+      "id": "f3_transformation",
+      "order": 4,
+      "title": "Transformation Strategy",
+      "description": "How will you transform security data?",
+      "context": "Transformation strategy affects team skillset requirements, operational complexity, and vendor lock-in risk.",
+      "type": "single_choice",
+      "required": true,
+      "options": [
+        {
+          "id": "dbt",
+          "label": "dbt (data build tool)",
+          "description": "SQL-based, analytics engineer friendly, strong testing framework",
+          "impact": "Familiar to security analysts, growing security community",
+          "vendor_count_estimate": 25
+        },
+        {
+          "id": "spark",
+          "label": "Apache Spark",
+          "description": "PySpark/Scala, data engineering required, flexible but complex",
+          "impact": "Requires data engineering expertise, mature ecosystem",
+          "vendor_count_estimate": 30
+        },
+        {
+          "id": "vendor_builtin",
+          "label": "Vendor built-in",
+          "description": "Splunk SPL, Sentinel KQL, proprietary query languages",
+          "impact": "Vendor lock-in, operational simplicity",
+          "vendor_count_estimate": 20
+        },
+        {
+          "id": "custom_python",
+          "label": "Custom Python",
+          "description": "Pandas, Polars, flexible but maintenance burden",
+          "impact": "Team-dependent, flexibility",
+          "vendor_count_estimate": 15
+        }
+      ]
+    },
+    {
+      "id": "f4_query_engine",
+      "order": 5,
+      "title": "Query Engine Characteristics",
+      "description": "Which query engine characteristics matter most for your SOC workflows?",
+      "context": "Query engine choice affects latency (dashboards, real-time detection), concurrency (many analysts querying), operational complexity, and cost.",
+      "type": "single_choice",
+      "required": true,
+      "depends_on": {
+        "f0_isolation_pattern": {
+          "isolated_dedicated": {
+            "recommended": ["low_latency", "cost_optimized"],
+            "note": "Isolated platforms enable performance-first engine selection (ClickHouse, DuckDB)"
+          },
+          "shared_corporate": {
+            "recommended": ["high_concurrency"],
+            "note": "Shared platforms require RLS-aware engines (Databricks SQL, Trino)"
+          },
+          "multi_tenant_mssp": {
+            "recommended": ["high_concurrency"],
+            "note": "MSSP requires row-level security enforcement"
+          }
+        }
+      },
+      "options": [
+        {
+          "id": "low_latency",
+          "label": "Low-latency interactive queries",
+          "description": "ClickHouse, Pinot - <1 second P95, SOC dashboard use case",
+          "impact": "Operational complexity, real-time detection",
+          "vendor_count_estimate": 10,
+          "best_for": "isolated_dedicated",
+          "example": "ClickHouse (Netflix pattern)"
+        },
+        {
+          "id": "high_concurrency",
+          "label": "High concurrency",
+          "description": "Trino, Presto - many analysts querying simultaneously, 100+ concurrent queries",
+          "impact": "Scalability for large teams",
+          "vendor_count_estimate": 15,
+          "best_for": "shared_corporate,multi_tenant_mssp"
+        },
+        {
+          "id": "serverless",
+          "label": "Serverless simplicity",
+          "description": "AWS Athena - no infrastructure management, pay-per-query",
+          "impact": "2-10 second latency acceptable, operational simplicity",
+          "vendor_count_estimate": 5,
+          "best_for": "isolated_dedicated"
+        },
+        {
+          "id": "cost_optimized",
+          "label": "Cost-optimized",
+          "description": "DuckDB - single-process, in-memory efficiency, <50 analysts",
+          "impact": "~1GB/s query throughput, low cost",
+          "vendor_count_estimate": 8,
+          "best_for": "isolated_dedicated",
+          "example": "DuckDB (Okta pattern)"
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "version": "1.0.0",
+    "last_updated": "2025-11-14",
+    "author": "Jeremy Wiley",
+    "source": "Modern Data Stack for Cybersecurity book + ARCHITECTURE-PATTERNS-SECURITY-DATA.md",
+    "total_vendors": 71
+  }
+}

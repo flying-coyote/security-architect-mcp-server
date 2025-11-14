@@ -351,13 +351,19 @@ def apply_foundational_filters(
     catalog: str | None = None,
     transformation_strategy: str | None = None,
     query_engine_preference: str | None = None,
+    isolation_pattern: str | None = None,
 ) -> FilterResult:
     """
     Apply Phase 1 foundational architecture filters to vendor database.
 
     These filters establish architectural commitments BEFORE organizational
     constraints. Filters vendors based on architecture decisions (table format,
-    catalog, transformation, query engine).
+    catalog, transformation, query engine, isolation pattern).
+
+    **NEW (November 2025)**: Isolation pattern parameter guides catalog and query
+    engine recommendations without eliminating vendors. Isolated platforms enable
+    performance-first selection (0% RLS overhead). Shared platforms require
+    fine-grained access control.
 
     Args:
         database: VendorDatabase to filter
@@ -365,6 +371,7 @@ def apply_foundational_filters(
         catalog: Preferred catalog (polaris, unity_catalog, nessie, glue, hive_metastore, undecided)
         transformation_strategy: Preferred transformation (dbt, spark, vendor_builtin, custom_python, undecided)
         query_engine_preference: Query engine characteristics (low_latency, high_concurrency, serverless, cost_optimized, flexible)
+        isolation_pattern: Infrastructure isolation (isolated_dedicated, shared_corporate, multi_tenant_mssp, undecided)
 
     Returns:
         FilterResult with viable vendors and elimination reasons
@@ -372,6 +379,22 @@ def apply_foundational_filters(
     initial_count = len(database.vendors)
     viable = database.vendors.copy()
     all_eliminated = {}
+
+    # Note on Isolation Pattern (November 2025):
+    # Isolation pattern guides catalog/query engine recommendations rather than
+    # eliminating vendors. The filtering logic remains based on table format,
+    # catalog, transformation, and query engine preferences, but isolation pattern
+    # informs which choices are optimal:
+    #
+    # - isolated_dedicated: Polaris/Nessie catalogs preferred (0% RLS overhead),
+    #   performance-first query engine selection (ClickHouse, DuckDB, Trino)
+    # - shared_corporate: Unity Catalog required (fine-grained access control),
+    #   RLS-aware query engines (Databricks SQL, Trino with row filters)
+    # - multi_tenant_mssp: Unity Catalog required (row-level security essential),
+    #   tenant isolation enforcement
+    #
+    # Recommendations are provided via src.utils.recommendations module.
+    # This function focuses on hard architectural filtering.
 
     # Filter 1: Table format preference
     if table_format and table_format != "undecided":

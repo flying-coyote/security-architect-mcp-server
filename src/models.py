@@ -417,7 +417,13 @@ class DecisionState(BaseModel):
 
     foundational_decisions: dict[str, str] = Field(
         default_factory=dict,
-        description="Foundational architecture decisions (table_format, catalog, transformation_strategy, query_engine_preference)"
+        description="Foundational architecture decisions (table_format, catalog, transformation_strategy, query_engine_preference, isolation_pattern)"
+    )
+
+    # Infrastructure isolation pattern (added November 2025)
+    isolation_pattern: str | None = Field(
+        default=None,
+        description="Infrastructure isolation pattern: 'isolated_dedicated' (security VPC), 'shared_corporate' (PII+security co-located), 'multi_tenant_mssp' (multiple customer tenants)"
     )
 
     # ========================================================================

@@ -108,13 +108,18 @@ async def handle_list_tools() -> list[Tool]:
         ),
         Tool(
             name="apply_foundational_filters",
-            description="""Apply Phase 1 foundational architecture filters (table format, catalog, transformation, query engine).
+            description="""Apply Phase 1 foundational architecture filters (table format, catalog, transformation, query engine, isolation pattern).
 
             **NEW (October 2025)**: Foundational filters establish architectural commitments BEFORE organizational constraints.
             This prevents vendor lock-in by deciding table format, catalog, transformation strategy, and query engine
             characteristics first, then filtering vendors within that architecture.
 
+            **NEW (November 2025)**: Isolation pattern parameter guides catalog and query engine recommendations.
+            Isolated platforms enable performance-first selection (0% RLS overhead). Shared platforms require
+            fine-grained access control (Unity Catalog + RLS-aware query engines).
+
             Filters available:
+            - isolation_pattern: Isolated dedicated (security VPC), shared corporate (PII+security), multi-tenant MSSP, undecided
             - table_format: Apache Iceberg, Delta Lake, Hudi, proprietary, undecided
             - catalog: Polaris, Unity Catalog, Nessie, AWS Glue, Hive Metastore, undecided
             - transformation_strategy: dbt, Spark, vendor built-in, custom Python, undecided
@@ -126,6 +131,11 @@ async def handle_list_tools() -> list[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
+                    "isolation_pattern": {
+                        "type": "string",
+                        "enum": ["isolated_dedicated", "shared_corporate", "multi_tenant_mssp", "undecided"],
+                        "description": "Infrastructure isolation pattern (isolated_dedicated = security VPC 0% RLS overhead, shared_corporate = PII+security co-located 15-50% overhead, multi_tenant_mssp = customer tenants 5-30% overhead, undecided = no preference)"
+                    },
                     "table_format": {
                         "type": "string",
                         "enum": ["iceberg", "delta_lake", "hudi", "proprietary", "undecided"],
@@ -491,6 +501,7 @@ async def handle_call_tool(name: str, arguments: Any) -> list[TextContent]:
 
     elif name == "apply_foundational_filters":
         # Parse foundational filter parameters
+        isolation_pattern = arguments.get("isolation_pattern")
         table_format = arguments.get("table_format")
         catalog = arguments.get("catalog")
         transformation_strategy = arguments.get("transformation_strategy")
@@ -503,6 +514,7 @@ async def handle_call_tool(name: str, arguments: Any) -> list[TextContent]:
             catalog=catalog,
             transformation_strategy=transformation_strategy,
             query_engine_preference=query_engine_preference,
+            isolation_pattern=isolation_pattern,
         )
 
         # Convert viable vendors to serializable format
@@ -529,6 +541,7 @@ async def handle_call_tool(name: str, arguments: Any) -> list[TextContent]:
         result = {
             "summary": filter_result.summary(),
             "filters_applied": {
+                "isolation_pattern": isolation_pattern,
                 "table_format": table_format,
                 "catalog": catalog,
                 "transformation_strategy": transformation_strategy,
@@ -994,9 +1007,31 @@ Let's begin.
 
 ---
 
-## Phase 1: Foundational Architecture Decisions (Questions F1-F4)
+## Phase 1: Foundational Architecture Decisions (Questions F0-F4)
 
 *These questions establish your architectural commitments before filtering by organizational constraints. Think of these as multi-year decisions that shape your entire security data platform.*
+
+---
+
+**Question F0: Infrastructure Isolation Pattern** *(NEW - November 2025)*
+
+Is your security data isolated on dedicated infrastructure (separate VPC/VNet from corporate data platforms)?
+
+*Context: **This is THE most important architectural decision for catalog and query engine selection**. Isolation pattern determines whether you need fine-grained access control (row-level security, column masking) or can use simpler table-level RBAC. Isolated platforms achieve 15-50% faster queries by avoiding RLS overhead. Netflix, Huntress, and Okta use isolated security infrastructure.*
+
+*Production Examples:*
+- **Isolated (Netflix)**: Security logs on separate VPC from corporate data → ClickHouse + Iceberg + Polaris → 0% RLS overhead, table-level RBAC sufficient
+- **Shared (Multi-tenant MSSP)**: Security logs + customer data co-located → Databricks + Unity Catalog → Row-level security essential for tenant isolation
+
+Options:
+- **Isolated dedicated infrastructure** - Security data on separate VPC/VNet (isolated from PII/financial data), security team-only access → *Table-level RBAC sufficient, 0% RLS overhead, performance-first query engine selection (ClickHouse, DuckDB, Trino)*
+- **Shared corporate platform** - Security logs + PII + financial data co-located on same platform → *Fine-grained access control required (Unity Catalog + RLS + column masking), 15-50% performance overhead*
+- **Multi-tenant MSSP** - Multiple customer tenants on shared infrastructure → *Row-level security essential (Customer A analysts only see Customer A logs), Unity Catalog required, 5-30% performance overhead*
+- **Undecided** - I need guidance on isolation vs. shared architecture
+
+Enter: `isolated_dedicated` | `shared_corporate` | `multi_tenant_mssp` | `undecided`
+
+**Why F0 comes first**: Your isolation pattern determines which catalogs are viable (Polaris/Nessie for isolated, Unity Catalog for shared/MSSP) and which query engines are optimal (ClickHouse/DuckDB for isolated, Databricks SQL for shared). This decision informs F1-F4 answers.
 
 ---
 
@@ -1228,20 +1263,21 @@ Thank you! I have all the information needed to filter the vendor landscape.
 
 **Please provide your answers**, and I'll:
 
-1. **Apply Phase 1 foundational filters** (eliminate vendors not supporting your architecture: table format F1, catalog F2, transformation strategy F3, query engine F4)
+1. **Apply Phase 1 foundational filters** (eliminate vendors not supporting your architecture: isolation pattern F0, table format F1, catalog F2, transformation strategy F3, query engine F4)
 2. **Apply Phase 2 constraint filters** (eliminate vendors not matching team size, budget, sovereignty, vendor tolerance)
 3. **Apply Phase 3 feature filters** (eliminate vendors missing mandatory capabilities from Q10)
 4. **Score remaining vendors on Phase 3 preferences** (Q12 preferences with 3× weight multiplier)
 5. **Identify 3-5 finalists** matching YOUR architecture + constraints
-6. **Calculate TCO** for top finalists (5-year projections)
+6. **Calculate TCO** for top finalists (5-year projections) with isolation pattern performance benefits
 7. **(Future)** Match you to a Chapter 4 journey pattern (Jennifer/Marcus/Priya)
 8. **(Future)** Generate comprehensive architecture recommendation report
 
 **To execute the filtering workflow**:
 
 ```
-# Step 1: Apply foundational filters (NEW - Phase 1)
+# Step 1: Apply foundational filters (UPDATED - Phase 1 with isolation pattern)
 apply_foundational_filters(
+    isolation_pattern="YOUR_F0_ANSWER",   # isolated_dedicated, shared_corporate, multi_tenant_mssp
     table_format="YOUR_F1_ANSWER",        # iceberg, delta_lake, hudi, proprietary
     catalog="YOUR_F2_ANSWER",             # polaris, unity_catalog, nessie, glue, hive_metastore
     transformation="YOUR_F3_ANSWER",      # dbt, spark, vendor_builtin, custom_python
@@ -1271,7 +1307,7 @@ score_vendors_tier2(
 )
 ```
 
-**Ready to answer? Start with Phase 1, Question F1 (Table Format Decision).**"""
+**Ready to answer? Start with Phase 1, Question F0 (Infrastructure Isolation Pattern).**"""
             )
         )
 
