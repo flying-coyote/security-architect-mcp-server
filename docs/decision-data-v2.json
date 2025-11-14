@@ -1,0 +1,336 @@
+{
+  "title": "Security Data Platform Architecture Decision Tool",
+  "subtitle": "Filter 71 vendors → 3-5 finalists based on your constraints",
+  "instructions": "Answer questions on the left. Watch recommendations update in real-time on the right.",
+  "questions": [
+    {
+      "id": "q1_team_size",
+      "order": 1,
+      "section": "Organizational Constraints",
+      "title": "Team Capacity",
+      "description": "How many data/platform engineers support your security team?",
+      "help": "Determines operational complexity tolerance. Lean teams need managed services. Large teams can handle composable architectures.",
+      "type": "single_choice",
+      "required": true,
+      "options": [
+        {
+          "id": "lean",
+          "label": "Lean (1-2 engineers)",
+          "description": "Small platform team, need managed services",
+          "eliminates": ["self_managed_complex"],
+          "vendor_count_impact": -30,
+          "tco_impact": "higher_managed_service_costs"
+        },
+        {
+          "id": "standard",
+          "label": "Standard (3-5 engineers)",
+          "description": "Moderate team, hybrid architectures viable",
+          "eliminates": [],
+          "vendor_count_impact": 0,
+          "tco_impact": "balanced"
+        },
+        {
+          "id": "large",
+          "label": "Large (6+ engineers)",
+          "description": "Fully composable stack manageable",
+          "eliminates": [],
+          "vendor_count_impact": 0,
+          "tco_impact": "lower_self_managed"
+        }
+      ]
+    },
+    {
+      "id": "q2_budget",
+      "order": 2,
+      "section": "Organizational Constraints",
+      "title": "Annual Budget",
+      "description": "What's your annual security data platform budget?",
+      "help": "Budget determines cost model viability. <$500K eliminates enterprise SIEM per-GB pricing and Unity Catalog.",
+      "type": "single_choice",
+      "required": true,
+      "options": [
+        {
+          "id": "under_500k",
+          "label": "<$500K (cost-sensitive)",
+          "description": "Modern stack required, OSS-first approach",
+          "eliminates": ["unity_catalog", "databricks", "snowflake", "splunk"],
+          "vendor_count_impact": -25,
+          "recommendations_shift": "oss_first"
+        },
+        {
+          "id": "500k_to_2m",
+          "label": "$500K-$2M (moderate budget)",
+          "description": "Balance cost vs capability",
+          "eliminates": [],
+          "vendor_count_impact": 0,
+          "recommendations_shift": "balanced"
+        },
+        {
+          "id": "2m_to_10m",
+          "label": "$2M-$10M (enterprise budget)",
+          "description": "Cost important but not sole factor",
+          "eliminates": [],
+          "vendor_count_impact": 0,
+          "recommendations_shift": "capability_focused"
+        },
+        {
+          "id": "over_10m",
+          "label": "$10M+ (large enterprise)",
+          "description": "Cost less constrained",
+          "eliminates": [],
+          "vendor_count_impact": 0,
+          "recommendations_shift": "best_in_class"
+        }
+      ]
+    },
+    {
+      "id": "q3_data_colocatio",
+      "order": 3,
+      "section": "Infrastructure Pattern",
+      "title": "Data Co-location",
+      "description": "Do you have PII, financial data, or HR data on the same platform as security logs?",
+      "help": "This determines whether isolation-first security is viable. Isolated platforms achieve 15-50% faster queries by avoiding RLS overhead.",
+      "type": "single_choice",
+      "required": true,
+      "options": [
+        {
+          "id": "isolated_no_pii",
+          "label": "No - Security data is isolated",
+          "description": "Security logs on separate VPC/VNet from corporate data",
+          "isolation_pattern": "isolated_dedicated",
+          "performance_gain": "15-50% faster (0% RLS overhead)",
+          "catalog_recommendation": ["Polaris (vendor-neutral, $0)", "Nessie (Git workflows, $0)"],
+          "tco": "Low (open-source catalogs)",
+          "production_examples": ["Netflix", "Huntress", "Okta"]
+        },
+        {
+          "id": "shared_with_pii",
+          "label": "Yes - Security + PII co-located",
+          "description": "Security logs on same platform as corporate data",
+          "isolation_pattern": "shared_corporate",
+          "performance_overhead": "15-50% (RLS + column masking required)",
+          "catalog_recommendation": ["Unity Catalog (REQUIRED for compliance)"],
+          "tco": "High ($10K-50K/year Unity licensing + compute overhead)",
+          "production_examples": ["Federated global teams"]
+        },
+        {
+          "id": "multi_tenant_mssp",
+          "label": "Multi-tenant MSSP",
+          "description": "Multiple customer tenants on shared infrastructure",
+          "isolation_pattern": "multi_tenant_mssp",
+          "performance_overhead": "5-30% (tenant-level RLS required)",
+          "catalog_recommendation": ["Unity Catalog (REQUIRED for tenant isolation)"],
+          "tco": "High (worth cost for business model)",
+          "production_examples": ["Arctic Wolf", "Expel", "Red Canary"]
+        }
+      ]
+    },
+    {
+      "id": "q4_cloud_environment",
+      "order": 4,
+      "section": "Infrastructure Pattern",
+      "title": "Cloud Environment",
+      "description": "Where will security data be stored?",
+      "help": "Cloud environment affects vendor selection. On-prem requirement eliminates 50% of cloud-only vendors.",
+      "type": "single_choice",
+      "required": true,
+      "options": [
+        {
+          "id": "aws",
+          "label": "AWS",
+          "description": "AWS-first architecture",
+          "vendor_count_impact": 0,
+          "recommendations_shift": "aws_native_bonus"
+        },
+        {
+          "id": "azure",
+          "label": "Azure",
+          "description": "Azure-first architecture",
+          "vendor_count_impact": 0,
+          "recommendations_shift": "azure_native_bonus"
+        },
+        {
+          "id": "gcp",
+          "label": "GCP",
+          "description": "GCP-first architecture",
+          "vendor_count_impact": 0,
+          "recommendations_shift": "gcp_native_bonus"
+        },
+        {
+          "id": "multi_cloud",
+          "label": "Multi-cloud",
+          "description": "AWS + Azure + GCP unified query",
+          "vendor_count_impact": -15,
+          "recommendations_shift": "cloud_agnostic_required"
+        },
+        {
+          "id": "on_prem",
+          "label": "On-premises",
+          "description": "Compliance requirement, data cannot leave data centers",
+          "eliminates": ["cloud_only_vendors"],
+          "vendor_count_impact": -35,
+          "recommendations_shift": "on_prem_only"
+        }
+      ]
+    },
+    {
+      "id": "q5_primary_use_case",
+      "order": 5,
+      "section": "Workload Requirements",
+      "title": "Primary Use Cases (Select All That Apply)",
+      "description": "Which security analytics workloads do you need to support?",
+      "help": "Most teams have multiple use cases. Select all that apply - we'll recommend architectures that handle all of them.",
+      "type": "multi_choice",
+      "required": true,
+      "options": [
+        {
+          "id": "real_time_dashboards",
+          "label": "Real-time dashboards (<1s queries)",
+          "description": "SOC dashboards, live threat monitoring",
+          "query_engine_recommendation": ["ClickHouse (1-3s P95)", "Pinot"],
+          "architecture_pattern": "Netflix (ClickHouse hot tier + Iceberg cold tier)",
+          "complexity": "high"
+        },
+        {
+          "id": "ad_hoc_hunting",
+          "label": "Ad-hoc threat hunting",
+          "description": "Security analysts exploring logs, iterative queries",
+          "query_engine_recommendation": ["DuckDB (laptop-based)", "Trino (team-wide)"],
+          "architecture_pattern": "Okta (DuckDB + Iceberg)",
+          "complexity": "low"
+        },
+        {
+          "id": "compliance_reporting",
+          "label": "Compliance reporting (scheduled queries)",
+          "description": "Regular reports, batch processing acceptable",
+          "query_engine_recommendation": ["Athena (serverless)", "Trino (scheduled)"],
+          "architecture_pattern": "Serverless (Athena + Iceberg)",
+          "complexity": "low"
+        },
+        {
+          "id": "detection_rules",
+          "label": "Detection rules (streaming + batch)",
+          "description": "Real-time detection, streaming ingestion",
+          "query_engine_recommendation": ["Kafka + Flink", "Cribl Stream + Iceberg"],
+          "architecture_pattern": "Streaming (Kafka + Iceberg + Trino)",
+          "complexity": "high"
+        }
+      ]
+    },
+    {
+      "id": "q6_table_format",
+      "order": 6,
+      "section": "Architecture Preferences",
+      "title": "Table Format Preference",
+      "description": "Do you have a table format preference?",
+      "help": "Table format is a multi-year commitment. Iceberg offers broad query engine support. Delta Lake is Databricks-native.",
+      "type": "single_choice",
+      "required": false,
+      "options": [
+        {
+          "id": "iceberg",
+          "label": "Apache Iceberg (recommended for isolation-first)",
+          "description": "Netflix production-validated, vendor-neutral",
+          "vendor_count": 28,
+          "compatible_catalogs": ["Polaris", "Nessie", "Unity Catalog", "AWS Glue"]
+        },
+        {
+          "id": "delta_lake",
+          "label": "Delta Lake (Databricks ecosystem)",
+          "description": "Unity Catalog integration, strong ACID",
+          "vendor_count": 15,
+          "compatible_catalogs": ["Unity Catalog", "Polaris (limited)"]
+        },
+        {
+          "id": "no_preference",
+          "label": "No preference (recommend based on constraints)",
+          "description": "Let tool decide best format for your situation",
+          "vendor_count": 71
+        }
+      ]
+    },
+    {
+      "id": "q7_vendor_tolerance",
+      "order": 7,
+      "section": "Architecture Preferences",
+      "title": "Vendor Relationship Tolerance",
+      "description": "What's your risk tolerance for open source?",
+      "help": "OSS-first maximizes flexibility but requires engineering. Commercial-only provides SLAs and support.",
+      "type": "single_choice",
+      "required": true,
+      "options": [
+        {
+          "id": "oss_first",
+          "label": "OSS-first (comfortable with Apache projects)",
+          "description": "Community support, maximum flexibility",
+          "eliminates": ["commercial_only"],
+          "tco_impact": "lowest"
+        },
+        {
+          "id": "oss_with_support",
+          "label": "OSS with commercial support",
+          "description": "OSS acceptable if vendor provides support",
+          "eliminates": [],
+          "tco_impact": "moderate"
+        },
+        {
+          "id": "commercial_only",
+          "label": "Commercial only (require vendor SLA)",
+          "description": "24/7 support, legal accountability",
+          "eliminates": ["oss_only"],
+          "tco_impact": "highest"
+        }
+      ]
+    }
+  ],
+  "recommendation_logic": {
+    "isolation_derived": {
+      "isolated_no_pii": {
+        "pattern": "isolated_dedicated",
+        "catalog": "Polaris or Nessie",
+        "table_format": "Iceberg",
+        "performance": "0% RLS overhead",
+        "tco": "Low (OSS catalogs)"
+      },
+      "shared_with_pii": {
+        "pattern": "shared_corporate",
+        "catalog": "Unity Catalog (REQUIRED)",
+        "table_format": "Delta Lake or Iceberg",
+        "performance": "15-50% RLS overhead",
+        "tco": "High (Unity licensing)"
+      },
+      "multi_tenant_mssp": {
+        "pattern": "multi_tenant_mssp",
+        "catalog": "Unity Catalog (REQUIRED)",
+        "table_format": "Delta Lake or Iceberg",
+        "performance": "5-30% RLS overhead",
+        "tco": "High (essential for business)"
+      }
+    },
+    "budget_constraints": {
+      "under_500k": {
+        "catalog": "Polaris or Nessie (OSS only)",
+        "vendors": "OSS-first stack required",
+        "example": "DuckDB + Iceberg + MinIO (Marcus journey)"
+      },
+      "500k_to_2m": {
+        "catalog": "Polaris, Nessie, or Unity (if isolation-first)",
+        "vendors": "Balanced OSS + managed services",
+        "example": "Athena + Iceberg + Glue (Jennifer journey)"
+      },
+      "2m_to_10m": {
+        "catalog": "Any catalog viable",
+        "vendors": "Full vendor landscape available",
+        "example": "Trino + Iceberg + Polaris (Priya journey)"
+      }
+    }
+  },
+  "meta": {
+    "version": "2.0.0",
+    "last_updated": "2025-11-14",
+    "author": "Jeremy Wiley",
+    "source": "Modern Data Stack for Cybersecurity book + constraint-first redesign",
+    "total_vendors": 71,
+    "design_notes": "Constraint-first ordering. Isolation pattern DERIVED from Q3 (data co-location), not asked directly. All questions visible on single page for real-time interaction."
+  }
+}

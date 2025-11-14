@@ -1,0 +1,520 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #10b981;
+    --danger-color: #ef4444;
+    --text-color: #1f2937;
+    --bg-color: #f9fafb;
+    --card-bg: #ffffff;
+    --border-color: #e5e7eb;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    padding: 20px;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+}
+
+.header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+    opacity: 0.95;
+}
+
+.byline {
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+/* Main Content: Two Column Layout */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 450px;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Questions Panel (Left Column) */
+.questions-panel {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.questions-panel h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.instructions {
+    font-size: 0.95rem;
+    color: #6b7280;
+    margin-bottom: 25px;
+}
+
+/* Question Styling */
+.question-group {
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.question-group:last-child {
+    border-bottom: none;
+}
+
+.section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.question-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 8px;
+}
+
+.question-description {
+    font-size: 0.9rem;
+    color: #4b5563;
+    margin-bottom: 6px;
+}
+
+.question-help {
+    font-size: 0.85rem;
+    color: #6b7280;
+    font-style: italic;
+    padding: 10px;
+    background-color: #f3f4f6;
+    border-left: 3px solid var(--primary-color);
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+/* Radio Button Options */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option {
+    position: relative;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: white;
+}
+
+.option:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
+}
+
+.option.selected {
+    border-color: var(--primary-color);
+    background-color: #eff6ff;
+}
+
+.option input[type="radio"],
+.option input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.option-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 4px;
+    display: block;
+}
+
+.option-description {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+/* Recommendations Panel (Right Column) */
+.recommendations-panel {
+    position: relative;
+}
+
+.recommendations-sticky {
+    position: sticky;
+    top: 20px;
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+}
+
+.recommendations-sticky h2 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+/* Metric Card */
+.metric-card {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+    border: 2px solid #bfdbfe;
+}
+
+.metric-value {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: #4b5563;
+    margin-top: 5px;
+}
+
+.metric-change {
+    font-size: 0.85rem;
+    color: #059669;
+    margin-top: 8px;
+    font-weight: 600;
+}
+
+.metric-change.negative {
+    color: #dc2626;
+}
+
+/* Recommendation Sections */
+.recommendation-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f9fafb;
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.recommendation-section h3 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+    color: var(--text-color);
+}
+
+.stack-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.stack-label {
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.stack-value {
+    color: var(--text-color);
+    text-align: right;
+}
+
+.performance-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 4px 4px 4px 0;
+}
+
+.performance-badge.good {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.performance-badge.moderate {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.performance-badge.high {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+#productionExamples ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#productionExamples li {
+    padding: 6px 0;
+    font-size: 0.9rem;
+    color: #4b5563;
+}
+
+#productionExamples li:before {
+    content: "✓ ";
+    color: var(--secondary-color);
+    font-weight: bold;
+    margin-right: 6px;
+}
+
+/* Vendor Cards */
+.vendor-card {
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 12px;
+    background-color: white;
+    transition: all 0.2s ease;
+}
+
+.vendor-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+}
+
+.vendor-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.vendor-rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.vendor-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 2px;
+}
+
+.vendor-category {
+    font-size: 0.8rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.vendor-description {
+    font-size: 0.85rem;
+    color: #4b5563;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.vendor-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.vendor-cost {
+    font-size: 0.85rem;
+    color: #059669;
+    font-weight: 600;
+}
+
+.vendor-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    background-color: #e0e7ff;
+    color: #4338ca;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.vendor-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.vendor-link:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background-color: #f3f4f6;
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: #e5e7eb;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.disclaimer {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+
+    .recommendations-sticky {
+        position: static;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 1.6rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .questions-panel,
+    .recommendations-sticky {
+        padding: 20px;
+    }
+
+    .metric-value {
+        font-size: 2.5rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.question-group {
+    animation: fadeIn 0.3s ease;
+}
+
+.recommendation-section {
+    animation: fadeIn 0.4s ease;
+}

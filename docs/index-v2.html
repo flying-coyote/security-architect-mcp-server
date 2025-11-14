@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Data Platform Architecture Decision Tool</title>
+    <meta name="description" content="Filter 71 security data platforms based on your constraints - real-time recommendations">
+    <link rel="stylesheet" href="styles-v2.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Security Data Platform<br>Architecture Decision Tool</h1>
+            <p class="subtitle">Answer questions below. Watch recommendations update in real-time.</p>
+            <p class="byline">Based on "Modern Data Stack for Cybersecurity" by Jeremy Wiley</p>
+        </header>
+
+        <!-- Main Content: Questions (Left) + Recommendations (Right) -->
+        <div class="main-content">
+            <!-- Left Column: Questions Form -->
+            <div class="questions-panel">
+                <h2>Your Requirements</h2>
+                <p class="instructions">Select one option per question. Recommendations update automatically.</p>
+
+                <form id="decisionForm">
+                    <!-- Questions will be dynamically loaded here -->
+                    <div id="questionsContainer"></div>
+                </form>
+            </div>
+
+            <!-- Right Column: Live Recommendations -->
+            <div class="recommendations-panel">
+                <div class="recommendations-sticky">
+                    <h2>Live Recommendations</h2>
+
+                    <!-- Vendor Count -->
+                    <div class="metric-card">
+                        <div class="metric-value" id="vendorCount">71</div>
+                        <div class="metric-label">Vendors Match</div>
+                        <div class="metric-change" id="vendorChange"></div>
+                    </div>
+
+                    <!-- Architecture Stack -->
+                    <div class="recommendation-section" id="architectureStack">
+                        <h3>📋 Recommended Stack</h3>
+                        <div class="stack-item">
+                            <span class="stack-label">Isolation Pattern:</span>
+                            <span class="stack-value" id="isolationPattern">Answer Q3</span>
+                        </div>
+                        <div class="stack-item">
+                            <span class="stack-label">Catalog:</span>
+                            <span class="stack-value" id="catalogRec">Answer Q2 & Q3</span>
+                        </div>
+                        <div class="stack-item">
+                            <span class="stack-label">Table Format:</span>
+                            <span class="stack-value" id="tableFormatRec">Answer Q3 & Q6</span>
+                        </div>
+                        <div class="stack-item">
+                            <span class="stack-label">Query Engine:</span>
+                            <span class="stack-value" id="queryEngineRec">Answer Q5</span>
+                        </div>
+                    </div>
+
+                    <!-- Performance & TCO -->
+                    <div class="recommendation-section" id="performanceTCO">
+                        <h3>⚡ Performance & Cost</h3>
+                        <div id="performanceMetrics"></div>
+                    </div>
+
+                    <!-- Production Examples -->
+                    <div class="recommendation-section" id="productionExamples" style="display: none;">
+                        <h3>🏢 Production Validation</h3>
+                        <ul id="examplesList"></ul>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-primary" id="downloadBtn" disabled>
+                            📄 Download Report
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="resetBtn">
+                            🔄 Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>
+                <a href="https://securitydatacommons.substack.com" target="_blank">Security Data Commons Blog</a> •
+                <a href="https://github.com/flying-coyote/security-architect-mcp-server" target="_blank">GitHub</a> •
+                <a href="https://github.com/flying-coyote/security-architect-mcp-server/issues" target="_blank">Feedback</a>
+            </p>
+            <p class="disclaimer">No vendor sponsorships. All recommendations evidence-based.</p>
+        </footer>
+    </div>
+
+    <script src="decision-tree-v2.js"></script>
+</body>
+</html>
