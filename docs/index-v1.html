@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Data Platform Architecture Decision Tool</title>
+    <meta name="description" content="Filter 71 security data platforms to 3-5 finalists in 5 minutes using evidence-based decision framework">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Security Data Platform<br>Architecture Decision Tool</h1>
+            <p class="subtitle">Filter 71 vendors → 3-5 finalists in 5 minutes</p>
+            <p class="byline">Based on "Modern Data Stack for Cybersecurity" by Jeremy Wiley</p>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+            <p class="progress-text"><span id="currentQuestion">0</span> of <span id="totalQuestions">5</span> questions answered</p>
+        </div>
+
+        <!-- Question Container -->
+        <div class="question-container" id="questionContainer">
+            <!-- Questions will be dynamically loaded here -->
+        </div>
+
+        <!-- Recommendation Container (hidden initially) -->
+        <div class="recommendation-container" id="recommendationContainer" style="display: none;">
+            <h2>🎯 Your Recommended Architecture Stack</h2>
+            <div id="recommendationContent"></div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="downloadReport()">📄 Download Report</button>
+                <button class="btn btn-secondary" onclick="resetDecisionTree()">🔄 Start Over</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>
+                <a href="https://securitydatacommons.substack.com" target="_blank">Security Data Commons Blog</a> •
+                <a href="https://github.com/flying-coyote/security-architect-mcp-server" target="_blank">GitHub</a> •
+                <a href="https://github.com/flying-coyote/security-architect-mcp-server/issues" target="_blank">Feedback</a>
+            </p>
+            <p class="disclaimer">No vendor sponsorships. All recommendations evidence-based.</p>
+        </footer>
+    </div>
+
+    <script src="decision-tree.js"></script>
+</body>
+</html>

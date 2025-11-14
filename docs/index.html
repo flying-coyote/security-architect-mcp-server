@@ -4,37 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Security Data Platform Architecture Decision Tool</title>
-    <meta name="description" content="Filter 71 security data platforms to 3-5 finalists in 5 minutes using evidence-based decision framework">
-    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Filter 71 security data platforms based on your constraints - real-time recommendations">
+    <link rel="stylesheet" href="styles-v2.css">
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <header class="header">
             <h1>Security Data Platform<br>Architecture Decision Tool</h1>
-            <p class="subtitle">Filter 71 vendors → 3-5 finalists in 5 minutes</p>
+            <p class="subtitle">Answer questions below. Watch recommendations update in real-time.</p>
             <p class="byline">Based on "Modern Data Stack for Cybersecurity" by Jeremy Wiley</p>
         </header>
 
-        <!-- Progress Bar -->
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-            <p class="progress-text"><span id="currentQuestion">0</span> of <span id="totalQuestions">5</span> questions answered</p>
-        </div>
+        <!-- Main Content: Questions (Left) + Recommendations (Right) -->
+        <div class="main-content">
+            <!-- Left Column: Questions Form -->
+            <div class="questions-panel">
+                <h2>Your Requirements</h2>
+                <p class="instructions">Select one option per question. Recommendations update automatically.</p>
 
-        <!-- Question Container -->
-        <div class="question-container" id="questionContainer">
-            <!-- Questions will be dynamically loaded here -->
-        </div>
+                <form id="decisionForm">
+                    <!-- Questions will be dynamically loaded here -->
+                    <div id="questionsContainer"></div>
+                </form>
+            </div>
 
-        <!-- Recommendation Container (hidden initially) -->
-        <div class="recommendation-container" id="recommendationContainer" style="display: none;">
-            <h2>🎯 Your Recommended Architecture Stack</h2>
-            <div id="recommendationContent"></div>
+            <!-- Right Column: Live Recommendations -->
+            <div class="recommendations-panel">
+                <div class="recommendations-sticky">
+                    <h2>Live Recommendations</h2>
 
-            <div class="action-buttons">
-                <button class="btn btn-primary" onclick="downloadReport()">📄 Download Report</button>
-                <button class="btn btn-secondary" onclick="resetDecisionTree()">🔄 Start Over</button>
+                    <!-- Vendor Count -->
+                    <div class="metric-card">
+                        <div class="metric-value" id="vendorCount">71</div>
+                        <div class="metric-label">Vendors Match</div>
+                        <div class="metric-change" id="vendorChange"></div>
+                    </div>
+
+                    <!-- Architecture Stack -->
+                    <div class="recommendation-section" id="architectureStack">
+                        <h3>📋 Recommended Stack</h3>
+                        <div class="stack-item">
+                            <span class="stack-label">Isolation Pattern:</span>
+                            <span class="stack-value" id="isolationPattern">Answer Q3</span>
+                        </div>
+                        <div class="stack-item">
+                            <span class="stack-label">Catalog:</span>
+                            <span class="stack-value" id="catalogRec">Answer Q2 & Q3</span>
+                        </div>
+                        <div class="stack-item">
+                            <span class="stack-label">Table Format:</span>
+                            <span class="stack-value" id="tableFormatRec">Answer Q3 & Q6</span>
+                        </div>
+                        <div class="stack-item">
+                            <span class="stack-label">Query Engine:</span>
+                            <span class="stack-value" id="queryEngineRec">Answer Q5</span>
+                        </div>
+                    </div>
+
+                    <!-- Performance & TCO -->
+                    <div class="recommendation-section" id="performanceTCO">
+                        <h3>⚡ Performance & Cost</h3>
+                        <div id="performanceMetrics"></div>
+                    </div>
+
+                    <!-- Production Examples -->
+                    <div class="recommendation-section" id="productionExamples" style="display: none;">
+                        <h3>🏢 Production Validation</h3>
+                        <ul id="examplesList"></ul>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-primary" id="downloadBtn" disabled>
+                            📄 Download Report
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="resetBtn">
+                            🔄 Reset
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -49,6 +98,6 @@
         </footer>
     </div>
 
-    <script src="decision-tree.js"></script>
+    <script src="decision-tree-v2.js"></script>
 </body>
 </html>
