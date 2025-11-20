@@ -1,0 +1,892 @@
+{
+  "title": "Security Data Platform Architecture Decision Tool",
+  "subtitle": "Filter 71 vendors → 3-5 finalists based on sizing, architecture, and constraints",
+  "instructions": "Answer questions on the left. Watch recommendations update in real-time on the right. Click selected options to deselect.",
+  "questions": [
+    {
+      "id": "s1_data_volume",
+      "order": 1,
+      "section": "Sizing Constraints",
+      "title": "Current Data Ingestion Volume",
+      "description": "How much security log data do you ingest daily?",
+      "help": "Include EDR, firewall, cloud logs, network traffic. Baseline: 100 endpoints ≈ 1 GB/day. AWS CloudTrail: 50-500 GB/day typical. This determines vendor viability (DuckDB maxes at ~1 TB/day, Splunk economical at 10+ TB/day).",
+      "type": "slider",
+      "scale": "logarithmic",
+      "min": 0.1,
+      "max": 100000,
+      "default": 100,
+      "unit": "GB/day",
+      "markers": [
+        {"value": 1, "label": "1 GB"},
+        {"value": 10, "label": "10 GB"},
+        {"value": 100, "label": "100 GB"},
+        {"value": 1000, "label": "1 TB"},
+        {"value": 10000, "label": "10 TB"},
+        {"value": 100000, "label": "100 TB"}
+      ],
+      "required": true,
+      "impact": {
+        "0_to_10": {
+          "gb_value": 5,
+          "eliminates": ["splunk_enterprise_security", "splunk_cloud"],
+          "vendor_count_impact": -2,
+          "reasoning": "Splunk minimum viable at 10+ GB/day ($100K+ annually)"
+        },
+        "10_to_100": {
+          "gb_value": 50,
+          "eliminates": [],
+          "vendor_count_impact": 0,
+          "reasoning": "Sweet spot for most vendors"
+        },
+        "100_to_1000": {
+          "gb_value": 500,
+          "eliminates": ["duckdb"],
+          "vendor_count_impact": -3,
+          "reasoning": "DuckDB single-process max ~500 GB/day"
+        },
+        "1000_to_10000": {
+          "gb_value": 5000,
+          "eliminates": ["duckdb"],
+          "vendor_count_impact": -5,
+          "reasoning": "Requires distributed query engines"
+        },
+        "10000_plus": {
+          "gb_value": 50000,
+          "eliminates": ["duckdb", "small_scale_vendors"],
+          "vendor_count_impact": -8,
+          "reasoning": "Hyperscale workloads, Netflix/Uber tier"
+        }
+      }
+    },
+    {
+      "id": "s2_growth_rate",
+      "order": 2,
+      "section": "Sizing Constraints",
+      "title": "Expected Data Growth Rate",
+      "description": "How much will your log volume increase annually?",
+      "help": "Common drivers: cloud migration (+30-50%), M&A (+100%+), compliance expansion (+20-40%), EDR rollout (+50-100%). High growth (100%+) favors elastic/serverless architectures.",
+      "type": "slider",
+      "scale": "linear",
+      "min": 0,
+      "max": 300,
+      "default": 20,
+      "unit": "% annually",
+      "markers": [
+        {"value": 0, "label": "0%"},
+        {"value": 20, "label": "20%"},
+        {"value": 50, "label": "50%"},
+        {"value": 100, "label": "100%"},
+        {"value": 200, "label": "200%"},
+        {"value": 300, "label": "300%+"}
+      ],
+      "required": true,
+      "impact": {
+        "0_to_20": {
+          "growth_rate": 0.10,
+          "tco_multiplier": 1.1,
+          "recommendations": "Fixed-capacity platforms viable (on-prem clusters)"
+        },
+        "20_to_50": {
+          "growth_rate": 0.35,
+          "tco_multiplier": 1.35,
+          "recommendations": "Hybrid architectures (some elasticity needed)"
+        },
+        "50_to_100": {
+          "growth_rate": 0.75,
+          "tco_multiplier": 1.75,
+          "recommendations": "Elastic architectures preferred (cloud-native, serverless)"
+        },
+        "100_to_300": {
+          "growth_rate": 2.0,
+          "tco_multiplier": 2.5,
+          "recommendations": "Serverless/elastic REQUIRED (Athena, Databricks, Snowflake)"
+        },
+        "300_plus": {
+          "growth_rate": 4.0,
+          "tco_multiplier": 4.0,
+          "recommendations": "Hyperscale architectures (Netflix-tier autoscaling)"
+        }
+      }
+    },
+    {
+      "id": "s3_source_count",
+      "order": 3,
+      "section": "Sizing Constraints",
+      "title": "Number of Data Sources",
+      "description": "How many unique log sources send data to your platform?",
+      "help": "Count: EDR, firewalls, cloud providers (AWS/Azure/GCP), SaaS apps, network devices, identity providers. Example: AWS (1), Okta (1), CrowdStrike (1) = 3 sources. 100+ sources may require ETL/normalization layer (Cribl, Tenzir).",
+      "type": "slider",
+      "scale": "logarithmic",
+      "min": 1,
+      "max": 500,
+      "default": 10,
+      "unit": "sources",
+      "markers": [
+        {"value": 1, "label": "1"},
+        {"value": 10, "label": "10"},
+        {"value": 50, "label": "50"},
+        {"value": 100, "label": "100"},
+        {"value": 500, "label": "500+"}
+      ],
+      "required": true,
+      "impact": {
+        "1_to_10": {
+          "source_count": 5,
+          "complexity": "low",
+          "recommendations": "Direct ingestion viable, simple architecture"
+        },
+        "10_to_50": {
+          "source_count": 30,
+          "complexity": "medium",
+          "recommendations": "Standard ETL, schema management needed"
+        },
+        "50_to_100": {
+          "source_count": 75,
+          "complexity": "high",
+          "recommendations": "Consider ETL layer (Cribl, Logstash)"
+        },
+        "100_to_500": {
+          "source_count": 250,
+          "complexity": "very_high",
+          "recommendations": "ETL/normalization REQUIRED (Cribl Stream, Tenzir)"
+        },
+        "500_plus": {
+          "source_count": 500,
+          "complexity": "extreme",
+          "recommendations": "MSSP-scale normalization (OCSF, Cribl enterprise)"
+        }
+      }
+    },
+    {
+      "id": "s4_retention",
+      "order": 4,
+      "section": "Sizing Constraints",
+      "title": "Retention Requirements",
+      "description": "How long must logs remain queryable?",
+      "help": "Hot retention (fast queries, expensive) vs cold archival (slow queries, cheap). Real-time detection: 1-7 days. Compliance: GDPR 90-365 days, PCI-DSS 1 year, HIPAA 6 years, finance 7 years. 2+ years requires hot/warm/cold tiering.",
+      "type": "slider",
+      "scale": "logarithmic",
+      "min": 1,
+      "max": 2555,
+      "default": 90,
+      "unit": "days",
+      "markers": [
+        {"value": 1, "label": "1d"},
+        {"value": 7, "label": "7d"},
+        {"value": 30, "label": "30d"},
+        {"value": 90, "label": "90d"},
+        {"value": 365, "label": "1yr"},
+        {"value": 730, "label": "2yr"},
+        {"value": 2555, "label": "7yr"}
+      ],
+      "required": true,
+      "impact": {
+        "30_days": {
+          "retention_days": 30,
+          "storage_tier": "hot_only",
+          "recommendations": "Simple hot tier, no tiering needed"
+        },
+        "90_days": {
+          "retention_days": 90,
+          "storage_tier": "hot_only",
+          "recommendations": "Standard SOC, single tier acceptable"
+        },
+        "1_year": {
+          "retention_days": 365,
+          "storage_tier": "hot_warm",
+          "recommendations": "Hot/warm tiering recommended (30d hot, 11mo warm)"
+        },
+        "2_years": {
+          "retention_days": 730,
+          "storage_tier": "hot_warm_cold",
+          "recommendations": "Hot/warm/cold tiering REQUIRED (30d hot, 11mo warm, 13mo cold)"
+        },
+        "5_plus_years": {
+          "retention_days": 1825,
+          "storage_tier": "tiered_archival",
+          "recommendations": "Multi-tier archival (Iceberg time-travel beneficial)"
+        }
+      }
+    },
+    {
+      "id": "f0_isolation_pattern",
+      "order": 5,
+      "section": "Foundational Architecture",
+      "title": "Infrastructure Isolation Pattern",
+      "description": "Is your security data isolated on dedicated infrastructure?",
+      "help": "THE most important architectural decision. Isolation determines catalog choice (Polaris vs Unity Catalog) and performance (0% vs 15-50% RLS overhead). Netflix, Huntress, Okta use isolated security VPCs.",
+      "type": "single_choice",
+      "required": true,
+      "allow_deselect": true,
+      "options": [
+        {
+          "id": "isolated_dedicated",
+          "label": "Isolated - Security VPC",
+          "description": "Security logs on separate VPC/VNet from corporate data (PII, financial, HR)",
+          "isolation_pattern": "isolated_dedicated",
+          "performance_gain": "0% RLS overhead (table-level RBAC sufficient)",
+          "catalog_recommendation": ["Polaris (vendor-neutral, $0)", "Nessie (Git workflows, $0)"],
+          "query_engine_recommendation": ["ClickHouse (low-latency)", "DuckDB (cost-optimized)", "Trino (high-concurrency)"],
+          "tco": "Low (OSS catalogs, no RLS compute overhead)",
+          "production_examples": ["Netflix", "Huntress", "Okta"],
+          "vendor_count_impact": 0
+        },
+        {
+          "id": "shared_corporate",
+          "label": "Shared - Security + PII co-located",
+          "description": "Security logs on same platform as corporate data (PII, financial, HR)",
+          "isolation_pattern": "shared_corporate",
+          "performance_overhead": "15-50% (RLS + column masking required)",
+          "catalog_recommendation": ["Unity Catalog (REQUIRED for compliance)"],
+          "query_engine_recommendation": ["Databricks SQL (Unity-native)", "Trino (Unity-compatible)"],
+          "tco": "High ($10K-50K/year Unity licensing + compute overhead)",
+          "production_examples": ["Federated global enterprises"],
+          "vendor_count_impact": -25,
+          "eliminates": ["polaris", "nessie", "clickhouse"],
+          "reasoning": "Shared platforms REQUIRE fine-grained access control (Unity Catalog mandatory)"
+        },
+        {
+          "id": "multi_tenant_mssp",
+          "label": "Multi-tenant - MSSP",
+          "description": "Multiple customer tenants on shared infrastructure",
+          "isolation_pattern": "multi_tenant_mssp",
+          "performance_overhead": "5-30% (tenant-level RLS required)",
+          "catalog_recommendation": ["Unity Catalog (REQUIRED for tenant isolation)"],
+          "query_engine_recommendation": ["Databricks SQL", "Snowflake", "Trino"],
+          "tco": "High (worth cost for business model)",
+          "production_examples": ["Arctic Wolf", "Expel", "Red Canary"],
+          "vendor_count_impact": -28,
+          "eliminates": ["polaris", "nessie", "clickhouse"],
+          "reasoning": "Multi-tenancy REQUIRES row-level security (Customer A analysts only see Customer A logs)"
+        }
+      ]
+    },
+    {
+      "id": "f1_table_format",
+      "order": 6,
+      "section": "Foundational Architecture",
+      "title": "Table Format Preference",
+      "description": "Which table format for your security data lakehouse?",
+      "help": "Multi-year architectural commitment. Iceberg = vendor-neutral, broad query engine support. Delta Lake = Databricks-native, Unity Catalog integration. Netflix uses Iceberg. This choice eliminates 40-60% of vendors.",
+      "type": "single_choice",
+      "required": false,
+      "allow_deselect": true,
+      "options": [
+        {
+          "id": "iceberg",
+          "label": "Apache Iceberg",
+          "description": "Netflix production-validated, vendor-neutral, Polaris catalog native",
+          "vendor_count": 28,
+          "compatible_catalogs": ["Polaris", "Nessie", "Unity Catalog", "AWS Glue"],
+          "query_engines": ["ClickHouse", "DuckDB", "Trino", "Athena", "Spark", "Dremio"],
+          "production_examples": ["Netflix (LIGER)", "Apple", "Adobe"],
+          "eliminates": ["delta_lake_only_vendors"],
+          "vendor_count_impact": -43,
+          "reasoning": "Iceberg eliminates 43 Delta-only/proprietary vendors"
+        },
+        {
+          "id": "delta_lake",
+          "label": "Delta Lake",
+          "description": "Databricks native, Unity Catalog integration, strong ACID guarantees",
+          "vendor_count": 15,
+          "compatible_catalogs": ["Unity Catalog", "Polaris (limited)"],
+          "query_engines": ["Databricks SQL", "Trino", "Athena (limited)", "Spark"],
+          "production_examples": ["Databricks customers"],
+          "eliminates": ["iceberg_only_vendors"],
+          "vendor_count_impact": -56,
+          "reasoning": "Delta Lake eliminates 56 Iceberg-only vendors"
+        },
+        {
+          "id": "hudi",
+          "label": "Apache Hudi",
+          "description": "Uber origins, strong CDC support, less security community adoption",
+          "vendor_count": 8,
+          "compatible_catalogs": ["Hive Metastore", "AWS Glue"],
+          "query_engines": ["Spark", "Trino", "Athena"],
+          "production_examples": ["Uber"],
+          "eliminates": ["iceberg_delta_vendors"],
+          "vendor_count_impact": -63,
+          "reasoning": "Hudi niche, eliminates most vendors"
+        },
+        {
+          "id": "proprietary",
+          "label": "Proprietary format",
+          "description": "Snowflake, vendor lock-in but operational simplicity",
+          "vendor_count": 10,
+          "compatible_catalogs": ["Vendor-specific"],
+          "query_engines": ["Vendor-specific"],
+          "production_examples": ["Snowflake customers"],
+          "eliminates": ["open_format_vendors"],
+          "vendor_count_impact": -61,
+          "reasoning": "Proprietary locks to vendor ecosystem"
+        },
+        {
+          "id": "undecided",
+          "label": "No preference",
+          "description": "Let tool recommend based on isolation pattern and budget",
+          "vendor_count": 71,
+          "vendor_count_impact": 0
+        }
+      ]
+    },
+    {
+      "id": "f2_catalog",
+      "order": 7,
+      "section": "Foundational Architecture",
+      "title": "Catalog Decision",
+      "description": "Which catalog for metadata management?",
+      "help": "Catalog affects governance (RLS, column masking), RBAC, multi-engine query support. Unity Catalog REQUIRED for shared platforms (F0). Polaris recommended for isolated Iceberg platforms. Your isolation pattern (F0) and table format (F1) guide this choice.",
+      "type": "single_choice",
+      "required": false,
+      "allow_deselect": true,
+      "options": [
+        {
+          "id": "polaris",
+          "label": "Polaris",
+          "description": "Snowflake open source, Iceberg-native, production-ready, multi-engine",
+          "table_format_compatibility": ["iceberg"],
+          "governance": "Table-level RBAC (no RLS)",
+          "tco": "$0 (OSS)",
+          "production_examples": ["Snowflake", "Dremio", "Tabular"],
+          "eliminates": ["unity_catalog_only_vendors"],
+          "vendor_count_impact": -15,
+          "reasoning": "Polaris eliminates Unity-only vendors (Databricks)"
+        },
+        {
+          "id": "unity_catalog",
+          "label": "Unity Catalog",
+          "description": "Databricks, Delta Lake native, fine-grained governance, some Iceberg support",
+          "table_format_compatibility": ["delta_lake", "iceberg"],
+          "governance": "Row-level security + column masking",
+          "tco": "$10K-50K/year",
+          "production_examples": ["Databricks customers", "Azure Fabric"],
+          "eliminates": ["polaris_nessie_vendors"],
+          "vendor_count_impact": -30,
+          "reasoning": "Unity Catalog eliminates Polaris/Nessie-only vendors"
+        },
+        {
+          "id": "nessie",
+          "label": "Nessie",
+          "description": "OSS, Git-like versioning, Iceberg-native, emerging maturity",
+          "table_format_compatibility": ["iceberg"],
+          "governance": "Table-level RBAC (no RLS)",
+          "tco": "$0 (OSS, but operational complexity)",
+          "production_examples": ["Dremio", "early adopters"],
+          "eliminates": ["unity_catalog_vendors"],
+          "vendor_count_impact": -35,
+          "reasoning": "Nessie eliminates Unity-dependent vendors"
+        },
+        {
+          "id": "glue",
+          "label": "AWS Glue",
+          "description": "AWS native, serverless, Athena/EMR integration, limited non-AWS support",
+          "table_format_compatibility": ["iceberg", "hudi"],
+          "governance": "IAM-based (AWS-centric)",
+          "tco": "Pay-per-use (catalog API calls)",
+          "production_examples": ["AWS-first customers"],
+          "eliminates": ["multi_cloud_vendors"],
+          "vendor_count_impact": -20,
+          "reasoning": "Glue locks to AWS ecosystem"
+        },
+        {
+          "id": "hive_metastore",
+          "label": "Hive Metastore",
+          "description": "Legacy, widely supported, operational complexity, no modern governance",
+          "table_format_compatibility": ["iceberg", "delta_lake", "hudi"],
+          "governance": "Basic table-level (no RLS, no column masking)",
+          "tco": "$0 (OSS, but high ops cost)",
+          "production_examples": ["Legacy Hadoop clusters"],
+          "eliminates": ["modern_governance_required"],
+          "vendor_count_impact": -25,
+          "reasoning": "Hive lacks modern governance features"
+        },
+        {
+          "id": "undecided",
+          "label": "No preference",
+          "description": "Let tool recommend based on isolation pattern (F0) and table format (F1)",
+          "vendor_count_impact": 0
+        }
+      ]
+    },
+    {
+      "id": "f3_transformation",
+      "order": 8,
+      "section": "Foundational Architecture",
+      "title": "Transformation Strategy",
+      "description": "How will you transform security data?",
+      "help": "dbt = SQL-based (analyst-friendly). Spark = PySpark/Scala (data engineering required). Vendor built-in = SPL/KQL (vendor lock-in). This affects team skillset needs and vendor compatibility.",
+      "type": "single_choice",
+      "required": false,
+      "allow_deselect": true,
+      "options": [
+        {
+          "id": "dbt",
+          "label": "dbt",
+          "description": "SQL-based, analytics engineer friendly, strong testing framework",
+          "skillset_required": "SQL + Git",
+          "operational_complexity": "Low",
+          "vendor_lock_in": "None",
+          "production_examples": ["Netflix (dbt + Iceberg)", "security-first teams"],
+          "compatible_vendors": ["iceberg", "delta_lake", "athena", "trino", "snowflake"],
+          "eliminates": ["no_dbt_support"],
+          "vendor_count_impact": -15,
+          "reasoning": "dbt eliminates vendors without SQL transformation support"
+        },
+        {
+          "id": "spark",
+          "label": "Spark",
+          "description": "PySpark/Scala, data engineering required, flexible but complex",
+          "skillset_required": "Python + Scala + distributed systems",
+          "operational_complexity": "High",
+          "vendor_lock_in": "None (OSS)",
+          "production_examples": ["Uber", "Airbnb", "Netflix"],
+          "compatible_vendors": ["iceberg", "delta_lake", "hudi"],
+          "eliminates": ["no_spark_support"],
+          "vendor_count_impact": -10,
+          "reasoning": "Spark widely supported"
+        },
+        {
+          "id": "vendor_builtin",
+          "label": "Vendor built-in",
+          "description": "Splunk SPL, Sentinel KQL, proprietary query languages",
+          "skillset_required": "Vendor-specific training",
+          "operational_complexity": "Low (vendor managed)",
+          "vendor_lock_in": "High",
+          "production_examples": ["Splunk customers", "Microsoft Sentinel"],
+          "compatible_vendors": ["splunk", "sentinel", "elastic"],
+          "eliminates": ["open_table_format_vendors"],
+          "vendor_count_impact": -60,
+          "reasoning": "Vendor lock-in eliminates open architecture vendors"
+        },
+        {
+          "id": "custom_python",
+          "label": "Custom Python",
+          "description": "Pandas, Polars, flexible but maintenance burden",
+          "skillset_required": "Python + data engineering",
+          "operational_complexity": "High",
+          "vendor_lock_in": "None",
+          "production_examples": ["Custom pipelines"],
+          "compatible_vendors": ["any"],
+          "eliminates": [],
+          "vendor_count_impact": 0
+        },
+        {
+          "id": "undecided",
+          "label": "No preference",
+          "description": "Let tool recommend based on team skillset",
+          "vendor_count_impact": 0
+        }
+      ]
+    },
+    {
+      "id": "f4_query_engine",
+      "order": 9,
+      "section": "Foundational Architecture",
+      "title": "Query Engine Characteristics (Select All That Apply)",
+      "description": "Which query engine characteristics do you need?",
+      "help": "Most architectures need MULTIPLE characteristics. Low-latency = ClickHouse (<1s P95, SOC dashboards). High-concurrency = Trino (100+ analysts). Serverless = Athena (no ops, pay-per-query). Cost-optimized = DuckDB (single-process efficiency). Select all that apply - we'll recommend architectures that handle them.",
+      "type": "multi_choice",
+      "required": false,
+      "options": [
+        {
+          "id": "low_latency",
+          "label": "Low-latency interactive queries",
+          "description": "ClickHouse, Pinot - <1 second P95, SOC dashboard use case",
+          "query_latency_p95": "<1s",
+          "concurrency_support": "Medium (10-50 queries)",
+          "operational_complexity": "High",
+          "use_case_fit": ["real_time_dashboards", "detection_rules"],
+          "production_examples": ["Netflix ClickHouse", "Uber Pinot"],
+          "compatible_vendors": ["clickhouse", "apache-pinot"],
+          "eliminates": ["high_latency_vendors"],
+          "vendor_count_impact": -55,
+          "reasoning": "Low-latency eliminates batch-only engines (Athena, Hive)"
+        },
+        {
+          "id": "high_concurrency",
+          "label": "High concurrency",
+          "description": "Trino, Presto - 100+ concurrent queries, many analysts",
+          "query_latency_p95": "2-5s",
+          "concurrency_support": "High (100+ queries)",
+          "operational_complexity": "Medium",
+          "use_case_fit": ["ad_hoc_hunting", "compliance_reporting"],
+          "production_examples": ["Meta Presto", "Netflix Trino"],
+          "compatible_vendors": ["trino", "starburst", "dremio"],
+          "eliminates": ["low_concurrency_vendors"],
+          "vendor_count_impact": -40,
+          "reasoning": "High-concurrency eliminates single-user engines (DuckDB)"
+        },
+        {
+          "id": "serverless",
+          "label": "Serverless simplicity",
+          "description": "AWS Athena - no infrastructure management, pay-per-query",
+          "query_latency_p95": "2-10s",
+          "concurrency_support": "Medium (auto-scaling)",
+          "operational_complexity": "Very Low",
+          "use_case_fit": ["compliance_reporting", "ad_hoc_hunting"],
+          "production_examples": ["AWS-first customers"],
+          "compatible_vendors": ["amazon-athena", "snowflake", "databricks-sql"],
+          "eliminates": ["self_managed_only"],
+          "vendor_count_impact": -45,
+          "reasoning": "Serverless eliminates self-managed-only vendors"
+        },
+        {
+          "id": "cost_optimized",
+          "label": "Cost-optimized",
+          "description": "DuckDB - single-process, in-memory efficiency, <50 analysts",
+          "query_latency_p95": "0.5-3s",
+          "concurrency_support": "Low (single-user optimal)",
+          "operational_complexity": "Very Low",
+          "use_case_fit": ["ad_hoc_hunting", "laptop_analysis"],
+          "production_examples": ["Okta (DuckDB + Iceberg)"],
+          "compatible_vendors": ["duckdb"],
+          "eliminates": ["high_cost_vendors"],
+          "vendor_count_impact": -65,
+          "reasoning": "Cost-optimized eliminates enterprise vendors (Snowflake, Databricks)"
+        },
+        {
+          "id": "flexible",
+          "label": "Flexible - any SQL engine",
+          "description": "No strong preference, any SQL engine acceptable",
+          "vendor_count_impact": 0
+        }
+      ]
+    },
+    {
+      "id": "q1_team_size",
+      "order": 10,
+      "section": "Organizational Constraints",
+      "title": "Team Capacity",
+      "description": "How many data/platform engineers support your security team?",
+      "help": "Determines operational complexity tolerance. Lean teams (1-2) need managed services. Large teams (6+) can handle composable architectures. This filters vendors by operational complexity.",
+      "type": "single_choice",
+      "required": true,
+      "allow_deselect": true,
+      "options": [
+        {
+          "id": "lean",
+          "label": "Lean (1-2 engineers)",
+          "description": "Small platform team, need managed services",
+          "eliminates": ["self_managed_complex"],
+          "vendor_count_impact": -30,
+          "tco_impact": "higher_managed_service_costs",
+          "recommendations": "Managed services (Athena, Snowflake, Databricks, ClickHouse Cloud)"
+        },
+        {
+          "id": "standard",
+          "label": "Standard (3-5 engineers)",
+          "description": "Moderate team, hybrid architectures viable",
+          "eliminates": [],
+          "vendor_count_impact": 0,
+          "tco_impact": "balanced",
+          "recommendations": "Hybrid (some self-managed, some managed)"
+        },
+        {
+          "id": "large",
+          "label": "Large (6+ engineers)",
+          "description": "Fully composable stack manageable",
+          "eliminates": [],
+          "vendor_count_impact": 0,
+          "tco_impact": "lower_self_managed",
+          "recommendations": "Self-managed composable stack (Trino + Iceberg + Polaris)"
+        }
+      ]
+    },
+    {
+      "id": "q2_budget",
+      "order": 11,
+      "section": "Organizational Constraints",
+      "title": "Annual Budget",
+      "description": "What's your annual security data platform budget?",
+      "help": "Budget determines cost model viability. <$500K eliminates enterprise SIEM per-GB pricing and Unity Catalog. $500K-$2M enables balanced OSS + managed services. $10M+ means cost is secondary to capability.",
+      "type": "slider",
+      "scale": "logarithmic",
+      "min": 50,
+      "max": 50000,
+      "default": 500,
+      "unit": "$K/year",
+      "markers": [
+        {"value": 50, "label": "$50K"},
+        {"value": 200, "label": "$200K"},
+        {"value": 500, "label": "$500K"},
+        {"value": 2000, "label": "$2M"},
+        {"value": 10000, "label": "$10M"},
+        {"value": 50000, "label": "$50M"}
+      ],
+      "required": true,
+      "impact": {
+        "under_500k": {
+          "budget_k": 250,
+          "eliminates": ["unity_catalog", "databricks", "snowflake", "splunk"],
+          "vendor_count_impact": -25,
+          "recommendations_shift": "oss_first",
+          "recommendations": "OSS stack (DuckDB, Athena, Trino, Iceberg, Polaris)"
+        },
+        "500k_to_2m": {
+          "budget_k": 1000,
+          "eliminates": [],
+          "vendor_count_impact": 0,
+          "recommendations_shift": "balanced",
+          "recommendations": "Balanced OSS + managed services"
+        },
+        "2m_to_10m": {
+          "budget_k": 5000,
+          "eliminates": [],
+          "vendor_count_impact": 0,
+          "recommendations_shift": "capability_focused",
+          "recommendations": "Full vendor landscape available"
+        },
+        "over_10m": {
+          "budget_k": 20000,
+          "eliminates": [],
+          "vendor_count_impact": 0,
+          "recommendations_shift": "best_in_class",
+          "recommendations": "Best-in-class vendors (Databricks, Snowflake, Splunk)"
+        }
+      }
+    },
+    {
+      "id": "q3_cloud_environment",
+      "order": 12,
+      "section": "Organizational Constraints",
+      "title": "Cloud Environment (Select All That Apply)",
+      "description": "Where will security data be stored?",
+      "help": "Multi-cloud architectures are common (AWS + Azure, AWS + on-prem). Select all that apply. On-prem requirement eliminates 50% of cloud-only vendors. Multi-cloud requires cloud-agnostic vendors (Trino, Iceberg, Polaris).",
+      "type": "multi_choice",
+      "required": true,
+      "options": [
+        {
+          "id": "aws",
+          "label": "AWS",
+          "description": "AWS-first architecture",
+          "vendor_count_impact": 0,
+          "recommendations_shift": "aws_native_bonus",
+          "recommendations": "AWS-native (Athena, Glue, EMR, S3)"
+        },
+        {
+          "id": "azure",
+          "label": "Azure",
+          "description": "Azure-first architecture",
+          "vendor_count_impact": 0,
+          "recommendations_shift": "azure_native_bonus",
+          "recommendations": "Azure-native (Synapse, Fabric, ADLS)"
+        },
+        {
+          "id": "gcp",
+          "label": "GCP",
+          "description": "GCP-first architecture",
+          "vendor_count_impact": 0,
+          "recommendations_shift": "gcp_native_bonus",
+          "recommendations": "GCP-native (BigQuery, GCS)"
+        },
+        {
+          "id": "multi_cloud",
+          "label": "Multi-cloud",
+          "description": "AWS + Azure + GCP unified query",
+          "vendor_count_impact": -15,
+          "recommendations_shift": "cloud_agnostic_required",
+          "eliminates": ["cloud_native_only"],
+          "recommendations": "Cloud-agnostic (Trino, Iceberg, Polaris, Databricks)"
+        },
+        {
+          "id": "on_prem",
+          "label": "On-premises",
+          "description": "Compliance requirement, data cannot leave data centers",
+          "eliminates": ["cloud_only_vendors"],
+          "vendor_count_impact": -35,
+          "recommendations_shift": "on_prem_only",
+          "recommendations": "On-prem/hybrid (Trino, Spark, ClickHouse self-hosted)"
+        }
+      ]
+    },
+    {
+      "id": "q4_vendor_tolerance",
+      "order": 13,
+      "section": "Organizational Constraints",
+      "title": "Vendor Relationship Tolerance",
+      "description": "What's your risk tolerance for open source?",
+      "help": "OSS-first maximizes flexibility but requires engineering. Commercial-only provides SLAs and 24/7 support. This filters vendors by support model.",
+      "type": "single_choice",
+      "required": true,
+      "allow_deselect": true,
+      "options": [
+        {
+          "id": "oss_first",
+          "label": "OSS-first (comfortable with Apache projects)",
+          "description": "Community support, maximum flexibility",
+          "eliminates": ["commercial_only"],
+          "tco_impact": "lowest",
+          "recommendations": "Apache projects (Iceberg, Trino, Polaris, DuckDB)"
+        },
+        {
+          "id": "oss_with_support",
+          "label": "OSS with commercial support",
+          "description": "OSS acceptable if vendor provides support",
+          "eliminates": [],
+          "tco_impact": "moderate",
+          "recommendations": "Supported OSS (Starburst, Dremio, ClickHouse Cloud, Tabular)"
+        },
+        {
+          "id": "commercial_only",
+          "label": "Commercial only (require vendor SLA)",
+          "description": "24/7 support, legal accountability",
+          "eliminates": ["oss_only"],
+          "tco_impact": "highest",
+          "recommendations": "Commercial vendors (Databricks, Snowflake, Splunk)"
+        }
+      ]
+    },
+    {
+      "id": "q5_use_cases",
+      "order": 14,
+      "section": "Use Cases & Features",
+      "title": "Primary Use Cases (Select All That Apply)",
+      "description": "Which security analytics workloads do you need to support?",
+      "help": "Most teams have multiple use cases. Select all that apply - we'll recommend architectures that handle all of them. This scores vendors on use case fit.",
+      "type": "multi_choice",
+      "required": true,
+      "options": [
+        {
+          "id": "real_time_dashboards",
+          "label": "Real-time dashboards (<1s queries)",
+          "description": "SOC dashboards, live threat monitoring",
+          "query_engine_recommendation": ["ClickHouse (1-3s P95)", "Pinot"],
+          "architecture_pattern": "Netflix (ClickHouse hot tier + Iceberg cold tier)",
+          "complexity": "high",
+          "latency_requirement": "<1s P95"
+        },
+        {
+          "id": "ad_hoc_hunting",
+          "label": "Ad-hoc threat hunting",
+          "description": "Security analysts exploring logs, iterative queries",
+          "query_engine_recommendation": ["DuckDB (laptop-based)", "Trino (team-wide)"],
+          "architecture_pattern": "Okta (DuckDB + Iceberg)",
+          "complexity": "low",
+          "latency_requirement": "1-5s acceptable"
+        },
+        {
+          "id": "compliance_reporting",
+          "label": "Compliance reporting (scheduled queries)",
+          "description": "Regular reports, batch processing acceptable",
+          "query_engine_recommendation": ["Athena (serverless)", "Trino (scheduled)"],
+          "architecture_pattern": "Serverless (Athena + Iceberg)",
+          "complexity": "low",
+          "latency_requirement": "10-60s acceptable"
+        },
+        {
+          "id": "detection_rules",
+          "label": "Detection rules (streaming + batch)",
+          "description": "Real-time detection, streaming ingestion",
+          "query_engine_recommendation": ["Kafka + Flink", "Cribl Stream + Iceberg"],
+          "architecture_pattern": "Streaming (Kafka + Iceberg + Trino)",
+          "complexity": "high",
+          "latency_requirement": "<30s detection"
+        }
+      ]
+    }
+  ],
+  "recommendation_logic": {
+    "sizing_constraints": {
+      "data_volume": {
+        "0_to_10gb": {
+          "eliminates": ["splunk_enterprise_security", "splunk_cloud"],
+          "reasoning": "Splunk minimum viable at 10+ GB/day ($100K+ annually)"
+        },
+        "100gb_to_1tb": {
+          "eliminates": ["duckdb"],
+          "reasoning": "DuckDB single-process max ~500 GB/day"
+        },
+        "10tb_plus": {
+          "eliminates": ["duckdb", "small_scale_vendors"],
+          "reasoning": "Hyperscale workloads require distributed engines"
+        }
+      },
+      "growth_rate": {
+        "100_plus": {
+          "recommends": ["serverless", "elastic_architectures"],
+          "reasoning": "High growth requires elastic/serverless (Athena, Databricks, Snowflake)"
+        }
+      },
+      "source_count": {
+        "100_plus": {
+          "recommends": ["cribl", "tenzir", "etl_layer"],
+          "reasoning": "100+ sources require ETL/normalization layer"
+        }
+      },
+      "retention": {
+        "2_years_plus": {
+          "recommends": ["tiered_storage", "iceberg_time_travel"],
+          "reasoning": "Long retention requires hot/warm/cold tiering"
+        }
+      }
+    },
+    "isolation_derived": {
+      "isolated_dedicated": {
+        "pattern": "isolated_dedicated",
+        "catalog": "Polaris or Nessie",
+        "table_format": "Iceberg",
+        "performance": "0% RLS overhead",
+        "tco": "Low (OSS catalogs)",
+        "query_engines": ["ClickHouse", "DuckDB", "Trino"]
+      },
+      "shared_corporate": {
+        "pattern": "shared_corporate",
+        "catalog": "Unity Catalog (REQUIRED)",
+        "table_format": "Delta Lake or Iceberg",
+        "performance": "15-50% RLS overhead",
+        "tco": "High (Unity licensing)",
+        "query_engines": ["Databricks SQL", "Trino"]
+      },
+      "multi_tenant_mssp": {
+        "pattern": "multi_tenant_mssp",
+        "catalog": "Unity Catalog (REQUIRED)",
+        "table_format": "Delta Lake or Iceberg",
+        "performance": "5-30% RLS overhead",
+        "tco": "High (essential for business)",
+        "query_engines": ["Databricks SQL", "Snowflake", "Trino"]
+      }
+    },
+    "budget_constraints": {
+      "under_500k": {
+        "catalog": "Polaris or Nessie (OSS only)",
+        "vendors": "OSS-first stack required",
+        "example": "DuckDB + Iceberg + MinIO (Marcus journey)"
+      },
+      "500k_to_2m": {
+        "catalog": "Polaris, Nessie, or Unity (if isolation-first)",
+        "vendors": "Balanced OSS + managed services",
+        "example": "Athena + Iceberg + Glue (Jennifer journey)"
+      },
+      "2m_to_10m": {
+        "catalog": "Any catalog viable",
+        "vendors": "Full vendor landscape available",
+        "example": "Trino + Iceberg + Polaris (Priya journey)"
+      }
+    }
+  },
+  "meta": {
+    "version": "3.0.0",
+    "last_updated": "2025-11-14",
+    "author": "Jeremy Wiley",
+    "source": "Modern Data Stack for Cybersecurity book + sizing-first + architecture-first redesign",
+    "total_vendors": 71,
+    "design_notes": "V3 redesign: Sizing-first (S1-S4 data volume/growth/sources/retention) → Architecture-first (F0-F4 isolation/table/catalog/transformation/query engine) → Constraints (Q1-Q4 team/budget/cloud/vendor) → Use cases (Q5 multi-select). ALL single-choice questions allow deselection (click selected option to deselect). Slider bars for sizing questions with logarithmic scales.",
+    "changes_from_v2": {
+      "added": [
+        "S1-S4 sizing constraints (data volume, growth rate, source count, retention)",
+        "Slider bar inputs for sizing questions (logarithmic/linear scales)",
+        "Deselectable single-choice options (click to deselect)",
+        "F0 isolation pattern moved to FIRST foundational question",
+        "Comprehensive vendor elimination reasoning for each option"
+      ],
+      "reordered": [
+        "V2 Q3 (data co-location) → V3 F0 (isolation pattern, first foundational question)",
+        "V2 Q6 (table format) → V3 F1 (second foundational question)",
+        "V2 Q1-Q2 (team/budget) → V3 Q1-Q2 (after architecture)",
+        "V2 Q4 (cloud) → V3 Q3 (after budget)",
+        "V2 Q7 (vendor tolerance) → V3 Q4 (after cloud)"
+      ],
+      "rationale": "Sizing constraints FIRST (eliminate vendors by scale), then foundational architecture (eliminate by technology), then organizational constraints (filter within viable architecture), then use case scoring."
+    }
+  }
+}
