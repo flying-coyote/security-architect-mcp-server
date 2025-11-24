@@ -27,11 +27,23 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
 **Status**: Complete - ready for Phase 1 implementation
 
 ## Current Status
-**Phase**: Phase 2 Complete - Production Deployed, Beta Testing Ready
-**Last Updated**: October 30, 2025 (Blog alignment analysis, documentation refresh)
+**Phase**: Phase 2 Complete - Web Tool V3 Production Deployed
+**Last Updated**: November 24, 2025 (Decision Tree V3 - Sizing-first redesign complete)
 **Current Branch**: main
 
-**Recent Achievements - Sessions 2 & 3** (October 23, 2025):
+**Recent Achievement - Decision Tree V3** (November 24, 2025):
+✅ **Web Decision Tool V3 Production Deployed** - Sizing-first architecture + enhanced UX
+   - **Live URL**: https://flying-coyote.github.io/security-architect-mcp-server/
+   - **Sizing Constraints First** (S1-S4): Data volume (1 GB-100 TB), growth rate (0-300%), source count (1-500), retention (1d-7yr)
+   - **Multi-Select Support**: Query engine (F4) and cloud environment (Q3) now allow multiple selections
+   - **Budget Slider**: Replaced radio buttons with $50K-$50M logarithmic slider (Q2)
+   - **Enhanced UX**: Deselectable radio buttons, real-time vendor filtering, slider markers
+   - **Architecture-First Ordering**: S1-S4 sizing → F0-F4 foundational → Q1-Q4 constraints → Q5 use cases
+   - **State Management**: Separated state buckets (sizingConstraints, foundationalAnswers, queryEngineCharacteristics, cloudEnvironments, useCases)
+   - **Filtering Logic**: Multi-select questions now SCORE vendors instead of hard filtering (better UX for multi-cloud, multi-engine needs)
+   - **Production Ready**: 71 vendors, 110 evidence sources, full report generation with TCO projections
+
+**Previous Achievements - Sessions 2 & 3** (October 23, 2025):
 1. ✅ **Evidence Backfill Complete** - Strategic correction over quantity inflation
    - Corrected evidence_summary metadata: 79 vendor-level sources (vs 184 aspirational counts)
    - Extracted 25 capability-level sources to vendor-level evidence_sources
@@ -70,13 +82,23 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
 **Previous Achievements** (October 16, 2025):
 - TCO Calculator, vendor expansion to 64, cost modeling
 
-**Next Immediate Work** (Phase 2 Continuation):
-1. ✅ **End-to-End MCP Server Test** (COMPLETE - October 23, 2025) - User verified MCP server working in Claude Desktop
-2. **Beta Testing Launch** (Priority: HIGH - READY NOW) - Recruit 3-5 security architects for supervised decision interviews
-3. POC Test Suite Generator - Generate vendor-specific proof-of-concept test plans
-4. Blog post generator (anonymized case studies leveraging enriched evidence)
-5. Hypothesis validation pipeline
-6. Final 9 vendor additions (71 → 80 vendors) - Focus on underrepresented categories (ETL/ELT, Observability, Data Catalog)
+**Next Immediate Work** (Phase 2 → Phase 3 Transition):
+1. **Beta Testing Launch** (Priority: HIGH - READY NOW)
+   - Recruit 3-5 security architects for supervised decision interviews using V3 web tool
+   - Collect feedback on sizing-first question flow
+   - Validate multi-select UX for query engine and cloud environment
+   - Test report generation quality with real architect data
+2. **MCP Server Enhancements** (Priority: MEDIUM)
+   - Sync MCP decision interview with V3 question ordering (sizing → architecture → constraints)
+   - Add multi-select support to MCP prompts (query engine, cloud environment)
+   - Implement budget slider logic in filter_vendors_tier1()
+3. **Vendor Database Expansion** (Priority: MEDIUM)
+   - Final 9 vendor additions (71 → 80 vendors)
+   - Focus: ETL/ELT (Fivetran, Airbyte), Observability (Grafana, Datadog), Data Catalog (Atlan, Select Star, DataHub)
+4. **Blog Content Generation** (Priority: LOW - Phase 3)
+   - POC Test Suite Generator: Generate vendor-specific proof-of-concept test plans
+   - Blog post generator: Anonymized case studies from architect decisions
+   - Hypothesis validation pipeline: Track which constraints matter most
 
 ## Project Architecture
 
@@ -460,6 +482,6 @@ When resuming work on this project, focus on:
 
 **Usage**: This file is loaded in every Claude Code conversation to provide consistent project context. Update when phase transitions occur, major milestones are completed, or implementation architecture changes.
 
-**Last Updated**: October 30, 2025 (Beta testing ready - MCP tool registered, Claude Desktop validated, beta materials complete)
+**Last Updated**: November 24, 2025 (Decision Tree V3 production deployment - sizing-first redesign complete)
 
-**Recent Session**: Beta Testing Preparation & MCP Tool Registration (Oct 30, afternoon) - Fixed critical bug (apply_foundational_filters not registered as MCP tool), validated Phase 1 filtering in Claude Desktop (user test: 71 → 2 vendors), created comprehensive beta testing materials (guide, feedback template, outreach messages). Ready for beta tester recruitment. See `.archive/sessions/2025-10-30-beta-testing-prep/SESSION-SUMMARY.md` for complete details.
+**Recent Session**: Decision Tree V3 Implementation (Nov 24, 2025) - Complete redesign with sizing-first question ordering, multi-select support (query engine, cloud environment), budget slider ($50K-$50M), enhanced UX (deselectable radios, real-time filtering), and production deployment to GitHub Pages. User validated V3 working correctly. Next: Beta testing with security architects. See `.archive/sessions/2025-11-24-decision-tree-v3/SESSION-SUMMARY.md` for complete details.
