@@ -5601,9 +5601,363 @@
         "commercial-support",
         "tco-validated"
       ]
+    },
+    {
+      "id": "atlan",
+      "name": "Atlan",
+      "category": "Data Catalog & Governance",
+      "description": "Active metadata platform for data and AI governance. Gartner Magic Quadrant Leader 2025 + Forrester Wave Leader Q3 2025. Column-level lineage, policy-as-code, auto-PII tagging. Customers: GM, Workday, GitLab, Unilever, Nasdaq, Mastercard, Dropbox, Fox.",
+      "website": "https://atlan.com",
+      "capabilities": {
+        "sql_interface": false,
+        "streaming_query": false,
+        "multi_engine_query": false,
+        "open_table_format": "multiple",
+        "schema_evolution": true,
+        "deployment_models": [
+          "cloud",
+          "hybrid"
+        ],
+        "cloud_native": true,
+        "multi_cloud": true,
+        "operational_complexity": "low",
+        "managed_service_available": true,
+        "team_size_required": "lean",
+        "cost_model": "subscription",
+        "cost_predictability": "high",
+        "siem_integration": false,
+        "compliance_certifications": [
+          "SOC 2",
+          "GDPR"
+        ],
+        "data_governance": true,
+        "maturity": "production",
+        "vendor_support": "enterprise",
+        "community_size": "medium",
+        "ocsf_support": false,
+        "ml_analytics": true,
+        "api_extensibility": true,
+        "iceberg_support": true,
+        "delta_lake_support": true,
+        "hudi_support": false,
+        "polaris_catalog_support": true,
+        "unity_catalog_support": true,
+        "nessie_catalog_support": false,
+        "glue_catalog_support": true,
+        "hive_metastore_support": true,
+        "dbt_integration": true,
+        "spark_transformation_support": true,
+        "query_latency_p95": null,
+        "query_concurrency": null
+      },
+      "typical_annual_cost_range": "$50K-300K annually",
+      "cost_notes": "Enterprise subscription-based pricing. Typical: $50K-150K/year for mid-size orgs, $150K-300K+ for enterprises. Includes AI Governance Studio, Data Quality Studio, Metadata Lakehouse, MCP Server.",
+      "evidence_source": "web-research-2025",
+      "evidence_sources": [
+        {
+          "id": "atlan-analyst-recognition-2025",
+          "description": "Leader in Gartner Magic Quadrant 2025 for Metadata Management + Forrester Wave Leader Q3 2025",
+          "evidence_tier": "A",
+          "type": "analyst_report",
+          "last_updated": "2025-11-26",
+          "url": "https://atlan.com/forrester-wave/"
+        },
+        {
+          "id": "atlan-enterprise-customers",
+          "description": "Production customers: General Motors, Workday, GitLab, Unilever, Nasdaq, Mastercard, Dropbox, Fox",
+          "evidence_tier": "A",
+          "type": "production_deployment",
+          "last_updated": "2025-11-26",
+          "url": "https://atlan.com/"
+        }
+      ],
+      "evidence_summary": {
+        "total_sources": 2,
+        "tier_a_sources": 2,
+        "tier_b_sources": 0,
+        "tier_c_sources": 0,
+        "tier_d_sources": 0,
+        "overall_evidence_quality": "A",
+        "last_validated": "2025-11-26",
+        "validated_by": "Claude Code",
+        "analyst_reports": 2
+      },
+      "last_updated": "2025-11-26T00:00:00Z",
+      "validated_by": "Claude Code",
+      "tags": [
+        "commercial",
+        "data-catalog",
+        "governance",
+        "gartner-leader",
+        "ai-governance"
+      ]
+    },
+    {
+      "id": "select-star",
+      "name": "Select Star",
+      "category": "Data Catalog & Governance",
+      "description": "Modern data governance platform with automated cataloging, end-to-end lineage, and semantic layer. SOC 2 compliant. Customers: Pitney Bowes, Anvyl, AlphaSense, Faire, Block (fintech), Handshake, Productboard. 2025 focus: AI semantic models, data quality monitoring.",
+      "website": "https://www.selectstar.com",
+      "capabilities": {
+        "sql_interface": false,
+        "streaming_query": false,
+        "multi_engine_query": false,
+        "open_table_format": "multiple",
+        "schema_evolution": true,
+        "deployment_models": [
+          "cloud"
+        ],
+        "cloud_native": true,
+        "multi_cloud": true,
+        "operational_complexity": "low",
+        "managed_service_available": true,
+        "team_size_required": "lean",
+        "cost_model": "subscription",
+        "cost_predictability": "high",
+        "siem_integration": false,
+        "compliance_certifications": [
+          "SOC 2"
+        ],
+        "data_governance": true,
+        "maturity": "production",
+        "vendor_support": "standard",
+        "community_size": "small",
+        "ocsf_support": false,
+        "ml_analytics": true,
+        "api_extensibility": true,
+        "iceberg_support": true,
+        "delta_lake_support": true,
+        "hudi_support": false,
+        "polaris_catalog_support": false,
+        "unity_catalog_support": false,
+        "nessie_catalog_support": false,
+        "glue_catalog_support": true,
+        "hive_metastore_support": false,
+        "dbt_integration": true,
+        "spark_transformation_support": false,
+        "query_latency_p95": null,
+        "query_concurrency": null
+      },
+      "typical_annual_cost_range": "$30K-150K annually",
+      "cost_notes": "SaaS subscription pricing. Typical: $30K-80K/year for mid-size teams, $80K-150K for larger enterprises. Integrations with Snowflake, Fivetran, Monte Carlo. Enterprise-scale metadata infrastructure.",
+      "evidence_source": "web-research-2025",
+      "evidence_sources": [
+        {
+          "id": "select-star-customers",
+          "description": "Production customers: Pitney Bowes, AlphaSense, Faire, Block (fintech), Handshake, Productboard",
+          "evidence_tier": "B",
+          "type": "production_deployment",
+          "last_updated": "2025-11-26",
+          "url": "https://www.selectstar.com/about"
+        },
+        {
+          "id": "select-star-soc2-security",
+          "description": "SOC 2 (Security, Confidentiality, Availability) certified, enterprise-scale metadata infrastructure",
+          "evidence_tier": "A",
+          "type": "vendor_documentation",
+          "last_updated": "2025-11-26",
+          "url": "https://www.selectstar.com/"
+        }
+      ],
+      "evidence_summary": {
+        "total_sources": 2,
+        "tier_a_sources": 1,
+        "tier_b_sources": 1,
+        "tier_c_sources": 0,
+        "tier_d_sources": 0,
+        "overall_evidence_quality": "B",
+        "last_validated": "2025-11-26",
+        "validated_by": "Claude Code",
+        "analyst_reports": 0
+      },
+      "last_updated": "2025-11-26T00:00:00Z",
+      "validated_by": "Claude Code",
+      "tags": [
+        "commercial",
+        "data-catalog",
+        "lineage",
+        "semantic-layer",
+        "ai-ready"
+      ]
+    },
+    {
+      "id": "datahub",
+      "name": "DataHub",
+      "category": "Data Catalog & Governance",
+      "description": "Open-source metadata platform built by LinkedIn for data discovery, observability, and federated governance. Active community with scalable ingestion connector framework. User-friendly interface for asset search, interactive lineage graphs. Requires substantial infrastructure resources.",
+      "website": "https://datahubproject.io",
+      "capabilities": {
+        "sql_interface": false,
+        "streaming_query": false,
+        "multi_engine_query": false,
+        "open_table_format": "multiple",
+        "schema_evolution": true,
+        "deployment_models": [
+          "cloud",
+          "on-prem",
+          "hybrid"
+        ],
+        "cloud_native": true,
+        "multi_cloud": true,
+        "operational_complexity": "high",
+        "managed_service_available": true,
+        "team_size_required": "standard",
+        "cost_model": "hybrid",
+        "cost_predictability": "high",
+        "siem_integration": false,
+        "compliance_certifications": [],
+        "data_governance": true,
+        "maturity": "production",
+        "vendor_support": "community",
+        "community_size": "large",
+        "ocsf_support": false,
+        "ml_analytics": false,
+        "api_extensibility": true,
+        "iceberg_support": true,
+        "delta_lake_support": true,
+        "hudi_support": true,
+        "polaris_catalog_support": false,
+        "unity_catalog_support": false,
+        "nessie_catalog_support": false,
+        "glue_catalog_support": true,
+        "hive_metastore_support": true,
+        "dbt_integration": true,
+        "spark_transformation_support": true,
+        "query_latency_p95": null,
+        "query_concurrency": null
+      },
+      "typical_annual_cost_range": "$0-100K annually",
+      "cost_notes": "OSS self-hosted free. Acryl Data (commercial): managed DataHub Cloud with enterprise features. Typical managed: $30K-100K/year. Infrastructure costs for self-hosted: multiple components require substantial resources.",
+      "evidence_source": "web-research-2025",
+      "evidence_sources": [
+        {
+          "id": "datahub-linkedin-oss",
+          "description": "Built by LinkedIn, leading open-source data catalog, active community with scalable connector framework",
+          "evidence_tier": "A",
+          "type": "community_metrics",
+          "last_updated": "2025-11-26",
+          "url": "https://datahubproject.io/"
+        },
+        {
+          "id": "datahub-integration-challenges",
+          "description": "Integrating with existing data ecosystems can be challenging, requires substantial infrastructure resources",
+          "evidence_tier": "B",
+          "type": "user_reviews",
+          "last_updated": "2025-11-26",
+          "url": "https://atlan.com/linkedin-datahub-metadata-management-open-source/"
+        }
+      ],
+      "evidence_summary": {
+        "total_sources": 2,
+        "tier_a_sources": 1,
+        "tier_b_sources": 1,
+        "tier_c_sources": 0,
+        "tier_d_sources": 0,
+        "overall_evidence_quality": "B",
+        "last_validated": "2025-11-26",
+        "validated_by": "Claude Code",
+        "analyst_reports": 0
+      },
+      "last_updated": "2025-11-26T00:00:00Z",
+      "validated_by": "Claude Code",
+      "tags": [
+        "oss",
+        "data-catalog",
+        "linkedin",
+        "lineage",
+        "community-driven"
+      ]
+    },
+    {
+      "id": "panther",
+      "name": "Panther",
+      "category": "SIEM",
+      "description": "Cloud-native, serverless SIEM platform transforming terabytes of raw logs into structured security data lake for real-time detection. Customers: Dropbox, Gusto, Asana, Snyk, HubSpot, Loom, Coinbase. Usage-based pricing. Lower TCO than traditional SIEM (Splunk $1M+/year vs Panther).",
+      "website": "https://panther.com",
+      "capabilities": {
+        "sql_interface": true,
+        "streaming_query": true,
+        "multi_engine_query": false,
+        "open_table_format": "proprietary",
+        "schema_evolution": true,
+        "deployment_models": [
+          "cloud"
+        ],
+        "cloud_native": true,
+        "multi_cloud": false,
+        "operational_complexity": "low",
+        "managed_service_available": true,
+        "team_size_required": "lean",
+        "cost_model": "consumption",
+        "cost_predictability": "medium",
+        "siem_integration": true,
+        "compliance_certifications": [
+          "SOC 2"
+        ],
+        "data_governance": true,
+        "maturity": "production",
+        "vendor_support": "enterprise",
+        "community_size": "small",
+        "ocsf_support": false,
+        "ml_analytics": true,
+        "api_extensibility": true,
+        "iceberg_support": false,
+        "delta_lake_support": false,
+        "hudi_support": false,
+        "polaris_catalog_support": false,
+        "unity_catalog_support": false,
+        "nessie_catalog_support": false,
+        "glue_catalog_support": false,
+        "hive_metastore_support": false,
+        "dbt_integration": false,
+        "spark_transformation_support": false,
+        "query_latency_p95": 2000,
+        "query_concurrency": 50
+      },
+      "typical_annual_cost_range": "$100K-500K annually",
+      "cost_notes": "Usage-based pricing (data volume). 36-month standard term. Lower TCO than Splunk ($1M+/year). One customer saved significantly vs previous product on 3-year contract. Contact sales@panther.com for custom pricing.",
+      "evidence_source": "web-research-2025",
+      "evidence_sources": [
+        {
+          "id": "panther-enterprise-customers",
+          "description": "Production customers: Dropbox, Gusto, Asana, Snyk, HubSpot, Loom, Coinbase",
+          "evidence_tier": "A",
+          "type": "production_deployment",
+          "last_updated": "2025-11-26",
+          "url": "https://research.contrary.com/company/panther-labs"
+        },
+        {
+          "id": "panther-cost-comparison",
+          "description": "Lower TCO than traditional SIEM (Splunk $1M+/year), customer saved money on 3-year contract",
+          "evidence_tier": "B",
+          "type": "user_reviews",
+          "last_updated": "2025-11-26",
+          "url": "https://www.g2.com/products/panther/reviews"
+        }
+      ],
+      "evidence_summary": {
+        "total_sources": 2,
+        "tier_a_sources": 1,
+        "tier_b_sources": 1,
+        "tier_c_sources": 0,
+        "tier_d_sources": 0,
+        "overall_evidence_quality": "B",
+        "last_validated": "2025-11-26",
+        "validated_by": "Claude Code",
+        "analyst_reports": 0
+      },
+      "last_updated": "2025-11-26T00:00:00Z",
+      "validated_by": "Claude Code",
+      "tags": [
+        "commercial",
+        "cloud-native",
+        "serverless",
+        "data-lake-siem",
+        "aws"
+      ]
     }
   ],
   "update_cadence": "quarterly",
-  "last_full_update": "2025-10-23T07:32:11.341293+00:00",
-  "total_vendors": 71
+  "last_full_update": "2025-11-26T11:16:43.702668",
+  "total_vendors": 75
 }

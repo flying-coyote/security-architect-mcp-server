@@ -167,7 +167,7 @@ def test_filter_by_vendor_tolerance_oss_first(vendor_db):
 
     # All vendors should pass (OSS_FIRST accepts everything)
     assert len(eliminated) == 0
-    assert len(viable) == 71
+    assert len(viable) == 75
 
 
 def test_filter_by_vendor_tolerance_commercial_only(vendor_db):
@@ -325,7 +325,7 @@ def test_no_filters_applied(vendor_db):
 
     assert result.filtered_count == result.initial_count
     assert len(result.eliminated_vendors) == 0
-    assert result.filtered_count == 71
+    assert result.filtered_count == 75
 
 
 def test_single_filter_budget_only(vendor_db):
@@ -378,7 +378,7 @@ def test_filter_result_to_dict(vendor_db):
     assert "eliminated_vendors" in result_dict
     assert "summary" in result_dict
 
-    assert result_dict["initial_count"] == 71
+    assert result_dict["initial_count"] == 75
     assert isinstance(result_dict["filtered_vendor_ids"], list)
     assert isinstance(result_dict["eliminated_vendors"], dict)
 
@@ -772,7 +772,7 @@ def test_foundational_filter_result_structure(vendor_db):
     # Check summary method exists
     summary = result.summary()
     assert isinstance(summary, str)
-    assert "71" in summary  # Initial count
+    assert "75" in summary  # Initial count
     assert "viable" in summary.lower()  # Result description
     assert result.filtered_count > 0  # Some vendors passed
     assert result.eliminated_count > 0  # Some vendors eliminated

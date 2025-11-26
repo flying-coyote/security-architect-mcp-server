@@ -31,7 +31,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 - ✅ 2025 MCP best practices implemented (98.7% token reduction via code execution pattern, 90% context reduction via progressive discovery)
 - ✅ Security hardening complete (5-layer security defense with AST-based code validation)
 - ✅ TCO calculator operational (5-year projections with growth modeling)
-- ✅ Vendor database expanded (54 → 71 vendors)
+- ✅ Vendor database expanded (54 → 75 vendors)
 - ✅ 9 MCP tools operational (all production ready)
 - ✅ **Production ready for beta testing**
 
@@ -50,7 +50,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 ### Deliverable
 **Primary**: Python MCP server (Model Context Protocol) for Claude Desktop integration
 - 9 MCP tools: list_vendors, filter_tier1, score_tier2, generate_report, match_journey, calculate_tco, compare_tco, generate_poc_suite, execute_code
-- 2 MCP resources: vendor_database (71 vendors), decision_state (session persistence)
+- 2 MCP resources: vendor_database (75 vendors), decision_state (session persistence)
 - 2 MCP prompts: decision_interview (12-step), journey_matching (persona narratives)
 
 **Secondary**: Vendor database (vendors.json) with 80+ security data platforms (capability matrix, cost models, evidence-based)
@@ -126,11 +126,11 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 - 9 MCP tools operational (added execute_code with 2025 best practices)
 - 2025 MCP patterns implemented (98.7% token reduction, 90% context reduction)
 - Security hardening complete (5-layer defense with AST validation)
-- Vendor database expanded (54 → 71 vendors, targeting 80)
+- Vendor database expanded (54 → 75 vendors, targeting 80)
 - Production ready for beta testing
 - Source: README.md, LAUNCH-PLAN.md, November 13, 2025 milestone
 
-✅ **CONFIRMED**: 71 vendors in database across 9 categories (expanded from 64)
+✅ **CONFIRMED**: 75 vendors in database across 9 categories (expanded from 64)
 - Query Engines: 9 platforms (ClickHouse, Pinot, Rockset, PrestoDB, DuckDB, Dremio, Starburst, Snowflake, Athena)
 - SIEM Platforms: 15 platforms (Splunk, Elastic, Sentinel, QRadar, Wazuh, Loki, Graylog, Sysdig, etc.)
 - Open Source: 17+ platforms (24%)
@@ -459,7 +459,7 @@ Transform "Modern Data Stack for Cybersecurity" book's Chapter 3-4 decision fram
 2. ✅ 2025 MCP best practices implemented (98.7% token reduction, 90% context reduction)
 3. ✅ Security hardening complete (5-layer defense, AST validation)
 4. ✅ Cost calculator tool (5-year TCO projections with growth modeling)
-5. ✅ Vendor database expansion (54 → 71 vendors)
+5. ✅ Vendor database expansion (54 → 75 vendors)
 6. ✅ 9 MCP tools operational (all production ready)
 7. ✅ **Production ready for beta testing**
 
@@ -701,7 +701,7 @@ Before using this project brief, verify:
 **2025-11-13**: Phase 2 Complete - Production Ready Milestone
 - Updated status: Phase 2 ✅ COMPLETE (test suite 100% passing, 237 tests, 87% coverage)
 - Updated deliverables: 9 MCP tools operational (added execute_code with 2025 best practices)
-- Updated vendor count: 71 vendors (expanded from 64)
+- Updated vendor count: 75 vendors (expanded from 64)
 - Added 2025 MCP patterns: 98.7% token reduction (code execution), 90% context reduction (progressive discovery)
 - Added security hardening: 5-layer defense with AST-based code validation
 - Updated canonical facts: Phase 2 complete with production-ready status

@@ -998,12 +998,86 @@ Welcome to the Security Architecture Decision Framework!
 
 I'll guide you through a systematic interview to identify the right security data platform for YOUR organization. This replaces the 40-page RFP with a personalized conversation.
 
-**Updated Flow** (October 2025): We now start with foundational architecture decisions before organizational constraints. This mirrors the logical progression: decide your architecture approach, then filter vendors within that architecture.
+**Updated Flow** (November 2025 - V3): We now start with **SIZING CONSTRAINTS FIRST** to eliminate vendors by scale, then foundational architecture decisions, then organizational constraints. This mirrors the V3 web tool question ordering.
 
-**Time**: 20-35 minutes
-**Goal**: Filter {VENDOR_DB.total_vendors} platforms → 3-5 finalists tailored to your architecture + constraints
+**Time**: 15-30 minutes
+**Goal**: Filter {VENDOR_DB.total_vendors} platforms → 3-5 finalists tailored to your sizing + architecture + constraints
 
 Let's begin.
+
+---
+
+## Phase 0: Sizing Constraints (Questions S1-S4)
+
+*These questions establish your data scale and growth trajectory BEFORE architectural decisions. Sizing constraints eliminate vendors that can't handle your scale or are overkill for your volume.*
+
+---
+
+**Question S1: Current Data Ingestion Volume**
+
+How much security log data do you ingest daily?
+
+*Context: This determines vendor viability by scale. DuckDB maxes at ~1 TB/day (single-process limit). Splunk economical at 10+ TB/day. AWS CloudTrail typical: 50-500 GB/day. 100 endpoints ≈ 1 GB/day baseline.*
+
+Options (specify range or exact value):
+- **0-10 GB/day** (eliminates Splunk - $100K+ minimum, overkill)
+- **10-100 GB/day** (sweet spot for most vendors)
+- **100 GB - 1 TB/day** (eliminates DuckDB single-process max ~500 GB/day)
+- **1-10 TB/day** (requires distributed query engines, eliminates small-scale vendors)
+- **10+ TB/day** (hyperscale workloads, Netflix/Uber tier)
+
+Enter value: ___ GB/day OR ___ TB/day
+
+---
+
+**Question S2: Expected Data Growth Rate**
+
+How much will your log volume increase annually?
+
+*Context: Common drivers: cloud migration (+30-50%), M&A (+100%+), compliance expansion (+20-40%), EDR rollout (+50-100%). High growth (100%+) favors elastic/serverless architectures.*
+
+Options:
+- **0-20% annually** (stable, fixed-capacity platforms viable)
+- **20-50% annually** (moderate growth, hybrid architectures needed)
+- **50-100% annually** (high growth, elastic architectures preferred)
+- **100-300% annually** (explosive growth, serverless/elastic REQUIRED - Athena, Databricks, Snowflake)
+- **300%+ annually** (hyperscale, Netflix-tier autoscaling)
+
+Enter value: ___% annually
+
+---
+
+**Question S3: Number of Data Sources**
+
+How many unique log sources send data to your platform?
+
+*Context: Count EDR, firewalls, cloud providers (AWS/Azure/GCP), SaaS apps, network devices, identity providers. Example: AWS (1), Okta (1), CrowdStrike (1) = 3 sources. 100+ sources may require ETL/normalization layer (Cribl, Tenzir).*
+
+Options:
+- **1-10 sources** (simple architecture, direct ingestion viable)
+- **10-50 sources** (standard ETL, schema management needed)
+- **50-100 sources** (consider ETL layer - Cribl, Logstash)
+- **100-500 sources** (ETL/normalization REQUIRED - Cribl Stream, Tenzir)
+- **500+ sources** (MSSP-scale normalization - OCSF, Cribl enterprise)
+
+Enter value: ___ sources
+
+---
+
+**Question S4: Retention Requirements**
+
+How long must logs remain queryable?
+
+*Context: Hot retention (fast queries, expensive) vs cold archival (slow queries, cheap). Real-time detection: 1-7 days. Compliance: GDPR 90-365 days, PCI-DSS 1 year, HIPAA 6 years, finance 7 years. 2+ years requires hot/warm/cold tiering.*
+
+Options:
+- **1-30 days** (real-time detection only, simple hot tier)
+- **30-90 days** (standard SOC, single tier acceptable)
+- **90-365 days** (hot/warm tiering recommended - 30d hot, rest warm)
+- **1-2 years** (compliance, hot/warm/cold tiering REQUIRED)
+- **2-7 years** (long-term compliance, multi-tier archival - Iceberg time-travel beneficial)
+
+Enter value: ___ days OR ___ years
 
 ---
 
@@ -1087,20 +1161,22 @@ Enter: `dbt` | `spark` | `vendor_builtin` | `custom_python` | `undecided`
 
 ---
 
-**Question F4: Query Engine Characteristics**
+**Question F4: Query Engine Characteristics (SELECT ALL THAT APPLY)**
 
-Which query engine characteristics matter most for your SOC workflows?
+Which query engine characteristics do you need? **MULTI-SELECT** - most architectures need multiple characteristics.
 
-*Context: Query engine choice affects latency (dashboards, real-time detection), concurrency (many analysts querying), operational complexity, and cost. ClickHouse offers low-latency for interactive dashboards. Trino handles high concurrency. Athena provides serverless simplicity.*
+*Context: Query engine choice affects latency (dashboards, real-time detection), concurrency (many analysts querying), operational complexity, and cost. **You can select MULTIPLE characteristics** - we'll recommend architectures that handle them. ClickHouse offers low-latency for interactive dashboards. Trino handles high concurrency. Athena provides serverless simplicity.*
 
-Options:
+*Example: Real-time dashboards (<1s P95) + ad-hoc hunting (high concurrency) → ClickHouse hot tier + Trino cold tier*
+
+Options (select all that apply):
 - **Low-latency interactive queries** (ClickHouse, Pinot - <1 second P95, SOC dashboard use case, operational complexity)
 - **High concurrency** (Trino, Presto - many analysts querying simultaneously, 100+ concurrent queries)
 - **Serverless simplicity** (AWS Athena - no infrastructure management, pay-per-query, 2-10 second latency acceptable)
 - **Cost-optimized** (DuckDB - single-process, in-memory efficiency, <50 analysts, ~1GB/s query throughput)
 - **Flexible** - any SQL engine acceptable, no strong preference
 
-Enter: `low_latency` | `high_concurrency` | `serverless` | `cost_optimized` | `flexible`
+Enter (comma-separated): `low_latency, high_concurrency` OR `serverless` OR `low_latency, cost_optimized` etc.
 
 ---
 
@@ -1143,17 +1219,21 @@ Options:
 
 ---
 
-## Section 2: Budget Constraints (Questions 4-5)
+## Section 2: Budget Constraints (Question Q2)
 
-**Question 4**: What's your annual security data platform budget?
+**Question Q2**: What's your annual security data platform budget? (SLIDER: $50K - $50M)
 
-*Context: This determines cost model viability. <$500K eliminates enterprise SIEM per-GB pricing. $10M+ means cost is secondary to capability.*
+*Context: This determines cost model viability. <$500K eliminates enterprise SIEM per-GB pricing and Unity Catalog. $500K-$2M enables balanced OSS + managed services. $10M+ means cost is secondary to capability.*
+
+*Note: In the V3 web tool, this is a logarithmic slider. For the MCP interview, provide your budget range or specific value.*
 
 Options:
-- <$500K (cost-sensitive, modern stack likely required)
-- $500K-$2M (moderate budget, balance cost vs capability)
-- $2M-$10M (enterprise budget, cost important but not sole factor)
-- $10M+ (large enterprise, cost less constrained)
+- <$500K (cost-sensitive, OSS-first stack required - DuckDB, Athena, Trino, Iceberg, Polaris)
+- $500K-$2M (moderate budget, balanced OSS + managed services)
+- $2M-$10M (enterprise budget, full vendor landscape available)
+- $10M+ (large enterprise, best-in-class vendors - Databricks, Snowflake, Splunk)
+
+Enter value: $___K annually OR specify range (e.g., "$500K-$1M")
 
 ---
 
@@ -1181,12 +1261,20 @@ Options:
 
 ---
 
-**Question 7**: Can security data leave on-premises environment?
+**Question Q3**: Cloud Environment (SELECT ALL THAT APPLY - MULTI-SELECT)
 
-Options:
-- Yes / Cloud-first (security data can move to AWS/Azure/GCP) → **cloud-first**
-- Hybrid (some data cloud-acceptable, some must stay on-prem) → **hybrid**
-- No / On-premises only (all security data must remain in owned data centers) → **on-prem-only**
+Where will security data be stored? **Multi-cloud architectures are common** (AWS + Azure, AWS + on-prem).
+
+*Context: On-prem requirement eliminates 50% of cloud-only vendors. Multi-cloud requires cloud-agnostic vendors (Trino, Iceberg, Polaris). Select ALL environments you need to support.*
+
+Options (select all that apply):
+- **AWS** - AWS-first architecture (Athena, Glue, EMR, S3)
+- **Azure** - Azure-first architecture (Synapse, Fabric, ADLS)
+- **GCP** - GCP-first architecture (BigQuery, GCS)
+- **Multi-cloud** - AWS + Azure + GCP unified query (requires cloud-agnostic vendors)
+- **On-premises** - Compliance requirement, data cannot leave data centers (eliminates 35 cloud-only vendors)
+
+Enter (comma-separated): `aws, azure` OR `aws, on_prem` OR `multi_cloud` etc.
 
 ---
 
@@ -1202,7 +1290,7 @@ Options:
 
 ---
 
-**Question 9**: Risk tolerance for open source?
+**Question Q4 (formerly 9)**: Risk tolerance for open source?
 
 Options:
 - High / OSS-first (comfortable with Apache projects, community support) → **oss-first**
@@ -1211,7 +1299,25 @@ Options:
 
 ---
 
-## Phase 3: Feature Requirements (Questions 10-12)
+## Phase 3: Use Cases & Features (Questions Q5, 10-12)
+
+**Question Q5**: Primary Use Cases (SELECT ALL THAT APPLY - MULTI-SELECT)
+
+Which security analytics workloads do you need to support? **Most teams have multiple use cases** - select all that apply.
+
+*Context: We'll recommend architectures that handle ALL selected use cases. Real-time dashboards require low-latency engines (ClickHouse <1s P95). Ad-hoc hunting benefits from flexible SQL engines (DuckDB, Trino). Compliance reporting works well with serverless (Athena). Detection rules need streaming (Kafka + Flink).*
+
+Options (select all that apply):
+- **Real-time dashboards** (<1s queries) - SOC dashboards, live threat monitoring → Requires: ClickHouse (1-3s P95) or Pinot
+- **Ad-hoc threat hunting** - Security analysts exploring logs, iterative queries → Recommended: DuckDB (laptop-based) or Trino (team-wide)
+- **Compliance reporting** (scheduled queries) - Regular reports, batch processing acceptable → Recommended: Athena (serverless) or Trino (scheduled)
+- **Detection rules** (streaming + batch) - Real-time detection, streaming ingestion → Requires: Kafka + Flink or Cribl Stream + Iceberg
+
+Enter (comma-separated): `real_time_dashboards, ad_hoc_hunting` OR `compliance_reporting` etc.
+
+---
+
+## Section 5: Tier 1 Mandatory Features (Questions 10-11)
 
 *Within your chosen architecture, which specific features are mandatory vs. preferred?*
 
@@ -1272,34 +1378,44 @@ Thank you! I have all the information needed to filter the vendor landscape.
 7. **(Future)** Match you to a Chapter 4 journey pattern (Jennifer/Marcus/Priya)
 8. **(Future)** Generate comprehensive architecture recommendation report
 
-**To execute the filtering workflow**:
+**To execute the filtering workflow (V3 - Sizing First)**:
 
 ```
-# Step 1: Apply foundational filters (UPDATED - Phase 1 with isolation pattern)
+# NOTE: V3 uses sizing constraints to guide architecture decisions
+# Phase 0: Sizing guides what's viable
+# Phase 1: Architecture determines catalog/query engine
+# Phase 2: Constraints filter within architecture
+# Phase 3: Use cases score remaining vendors
+
+# Step 1: Apply foundational filters (Phase 1 - Architecture-First)
 apply_foundational_filters(
     isolation_pattern="YOUR_F0_ANSWER",   # isolated_dedicated, shared_corporate, multi_tenant_mssp
     table_format="YOUR_F1_ANSWER",        # iceberg, delta_lake, hudi, proprietary
     catalog="YOUR_F2_ANSWER",             # polaris, unity_catalog, nessie, glue, hive_metastore
     transformation="YOUR_F3_ANSWER",      # dbt, spark, vendor_builtin, custom_python
-    query_engine_pref="YOUR_F4_ANSWER"    # low_latency, high_concurrency, serverless, cost_optimized
+    query_engine_pref="YOUR_F4_ANSWER"    # Comma-separated for multi-select: "low_latency,high_concurrency"
 )
 
 # Step 2: Apply organizational constraints (Phase 2)
 filter_vendors_tier1(
     team_size="YOUR_Q1_ANSWER",          # lean, standard, large
-    budget="YOUR_Q4_ANSWER",             # <500K, 500K-2M, 2M-10M, 10M+
-    data_sovereignty="YOUR_Q7_ANSWER",   # cloud-first, hybrid, on-prem-only, multi-region
-    vendor_tolerance="YOUR_Q9_ANSWER",   # oss-first, oss-with-support, commercial-only
+    budget="YOUR_Q2_ANSWER",             # <500K, 500K-2M, 2M-10M, 10M+ (or specific value like "750")
+    data_sovereignty="YOUR_Q3_ANSWER",   # Comma-separated for multi-select: "aws,azure" or "aws,on_prem"
+    vendor_tolerance="YOUR_Q4_ANSWER",   # oss-first, oss-with-support, commercial-only
     tier_1_requirements={{               # Phase 3 mandatory features (Q10)
         "sql_interface": true,
         # ... other mandatory requirements from Q10
     }}
 )
 
-# Step 3: Score finalists on preferences (Phase 3)
+# Step 3: Score finalists on use cases + preferences (Phase 3)
 score_vendors_tier2(
     vendor_ids=[...],  # From filter_vendors_tier1 output
-    preferences={{     # Phase 3 preferred features (Q12)
+    preferences={{     # Phase 3 use cases (Q5) + preferred features (Q12)
+        # Use cases from Q5 (multi-select)
+        "real_time_dashboards": 3,
+        "ad_hoc_hunting": 2,
+        # Preferred features from Q12
         "ocsf_support": 3,
         "streaming_query": 2,
         # ... other preferences from Q12
@@ -1307,7 +1423,7 @@ score_vendors_tier2(
 )
 ```
 
-**Ready to answer? Start with Phase 1, Question F0 (Infrastructure Isolation Pattern).**"""
+**Ready to answer? Start with Phase 0, Question S1 (Current Data Ingestion Volume).**"""
             )
         )
 

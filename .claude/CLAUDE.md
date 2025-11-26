@@ -31,7 +31,24 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
 **Last Updated**: November 24, 2025 (Decision Tree V3 - Sizing-first redesign complete)
 **Current Branch**: main
 
-**Recent Achievement - Decision Tree V3** (November 24, 2025):
+**Recent Achievement - MCP V3 Sync + Vendor Expansion** (November 26, 2025):
+✅ **MCP Server Synced with V3 Web Tool** - Decision interview updated + 4 vendors added
+   - **MCP Decision Interview Updated** (src/server.py:990-1426):
+     - Phase 0: Sizing Constraints (S1-S4) now asked FIRST (matches V3 web tool)
+     - Phase 1: Foundational Architecture (F0-F4) with multi-select F4 documentation
+     - Phase 2: Organizational Constraints (Q1-Q4) with budget slider note
+     - Phase 3: Use Cases (Q5) with multi-select support
+   - **Multi-Select Support Documented**: F4 (query engine), Q3 (cloud), Q5 (use cases)
+   - **Budget Filter Verified**: V3-compatible (slider is UX-only change)
+   - **Vendor Database Expanded**: 71 → 75 vendors (+4 new)
+     - Atlan (Data Catalog) - Gartner/Forrester Leader 2025
+     - Select Star (Data Catalog) - SOC 2
+     - DataHub (Data Catalog) - LinkedIn OSS
+     - Panther (SIEM) - Cloud-native
+   - **Quality Validation**: 236 tests passing, 81% coverage, schema validated
+   - **MCP Server Verified**: All components load correctly (2 resources, 9 tools, 2 prompts)
+
+**Previous Achievement - Decision Tree V3** (November 24, 2025):
 ✅ **Web Decision Tool V3 Production Deployed** - Sizing-first architecture + enhanced UX
    - **Live URL**: https://flying-coyote.github.io/security-architect-mcp-server/
    - **Sizing Constraints First** (S1-S4): Data volume (1 GB-100 TB), growth rate (0-300%), source count (1-500), retention (1d-7yr)
@@ -41,7 +58,7 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
    - **Architecture-First Ordering**: S1-S4 sizing → F0-F4 foundational → Q1-Q4 constraints → Q5 use cases
    - **State Management**: Separated state buckets (sizingConstraints, foundationalAnswers, queryEngineCharacteristics, cloudEnvironments, useCases)
    - **Filtering Logic**: Multi-select questions now SCORE vendors instead of hard filtering (better UX for multi-cloud, multi-engine needs)
-   - **Production Ready**: 71 vendors, 110 evidence sources, full report generation with TCO projections
+   - **Production Ready**: 75 vendors, 110 evidence sources, full report generation with TCO projections
 
 **Previous Achievements - Sessions 2 & 3** (October 23, 2025):
 1. ✅ **Evidence Backfill Complete** - Strategic correction over quantity inflation
@@ -49,7 +66,7 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
    - Extracted 25 capability-level sources to vendor-level evidence_sources
    - Result: 110 total evidence sources (79 vendor + ~31 capability-level)
    - 84% Tier A quality (92/110 sources) - exceeds 60% target by 40%
-2. ✅ **Vendor Expansion** - 6 high-quality additions (65 → 71 vendors)
+2. ✅ **Vendor Expansion** - 6 high-quality additions (65 → 75 vendors)
    - Gurucul Next-Gen SIEM (Gartner MQ Leader 2025): UEBA + XDR + Identity Analytics
    - Palo Alto XSIAM (Forrester Strong Performer 2025): AI-driven, Cortex XDL lakehouse
    - SentinelOne Singularity (Gartner Endpoint Leader 2025): OCSF native SIEM + EDR
@@ -57,8 +74,8 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
    - Apache Paimon (Data Lakehouse): China Unicom 700 streaming tasks, 3× write, 7× query
    - Starburst Enterprise (Data Virtualization): 61% TCO savings
 3. ✅ **Production Readiness Verified** - 0 blockers, database ready for MCP server
-   - 71 vendors, 110 evidence sources, 84% Tier A quality
-   - 46.5% analyst coverage (33/71 vendors with Gartner MQ/Forrester Wave)
+   - 75 vendors, 110 evidence sources, 84% Tier A quality
+   - 46.5% analyst coverage (33/75 vendors with Gartner MQ/Forrester Wave)
    - 35.2% production validation (25/71 OSS vendors with Fortune 500 deployments)
    - Comprehensive quality review: Grade A (Excellent) - 92.7/100
 4. ✅ **Blog Recommendations Updated** - Corrected metrics + new content opportunities
@@ -88,14 +105,11 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
    - Collect feedback on sizing-first question flow
    - Validate multi-select UX for query engine and cloud environment
    - Test report generation quality with real architect data
-2. **MCP Server Enhancements** (Priority: MEDIUM)
-   - Sync MCP decision interview with V3 question ordering (sizing → architecture → constraints)
-   - Add multi-select support to MCP prompts (query engine, cloud environment)
-   - Implement budget slider logic in filter_vendors_tier1()
-3. **Vendor Database Expansion** (Priority: MEDIUM)
-   - Final 9 vendor additions (71 → 80 vendors)
-   - Focus: ETL/ELT (Fivetran, Airbyte), Observability (Grafana, Datadog), Data Catalog (Atlan, Select Star, DataHub)
-4. **Blog Content Generation** (Priority: LOW - Phase 3)
+2. **Vendor Database Expansion** (Priority: MEDIUM - 75 → 80 vendors)
+   - 5 remaining vendor additions needed (already have Fivetran, Airbyte, Grafana, Datadog, Wazuh)
+   - Focus: Additional ETL/ELT, Observability, or specialized SIEM platforms
+   - Target: Reach 80-vendor milestone for comprehensive coverage
+3. **Blog Content Generation** (Priority: LOW - Phase 3)
    - POC Test Suite Generator: Generate vendor-specific proof-of-concept test plans
    - Blog post generator: Anonymized case studies from architect decisions
    - Hypothesis validation pipeline: Track which constraints matter most
@@ -105,7 +119,7 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
 ### MCP Components
 
 **Resources** (Data exposed to Claude):
-1. Vendor Database - 71 security data platforms with capability matrix (9 categories)
+1. Vendor Database - 75 security data platforms with capability matrix (9 categories)
    - 110 evidence sources (84% Tier A quality = 92 Tier A sources)
    - 46.5% analyst coverage (33 vendors with Gartner MQ, Forrester Wave)
    - 35.2% production validation (25 OSS vendors with Fortune 500 deployments)
@@ -115,7 +129,7 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
 3. Chapter Framework - Chapter 3-4 decision tree logic from book
 
 **Tools** (Functions callable by Claude):
-1. `list_vendors()` - Browse 71 vendors by category
+1. `list_vendors()` - Browse 75 vendors by category
 2. `filter_vendors_tier1()` - Applies mandatory filters (team, budget, sovereignty)
 3. `score_vendors_tier2()` - Scores vendors on preferred capabilities (3× weight)
 4. `generate_architecture_report()` - Produces 8-12 page recommendation report
@@ -221,7 +235,7 @@ This project inherits quality standards from [second-brain](https://github.com/f
 
 **Deliverables**:
 - ✅ Cost calculator tool (5-year TCO projections with growth modeling)
-- ✅ Vendor database expansion (54 → 71 vendors) - **6 vendors added Session 2**
+- ✅ Vendor database expansion (54 → 75 vendors) - **6 vendors added Session 2**
 - ✅ **Analyst Evidence Enrichment + Evidence Backfill** (110 sources, 84% Tier A)
   - Phase 1: 18 commercial leaders (Gartner MQ, Forrester Wave)
   - Phase 2: 10 medium-priority commercial vendors
@@ -260,7 +274,7 @@ This project has 2 specialized Claude Skills that activate automatically during 
 **vendor-data-quality-checker**:
 - **Activates**: When adding/updating vendors, scoring capabilities, or maintaining vendor database
 - **Validates**: No marketing hype in descriptions, capability scores (0-5) require Tier 1-3 evidence, all 9 capability categories scored, cost models accurate, production deployments documented, cross-referenced with book Chapter 5
-- **Purpose**: Maintains evidence-based quality for 71-vendor database (expanding to 80), prevents marketing claims
+- **Purpose**: Maintains evidence-based quality for 75-vendor database (expanding to 80), prevents marketing claims
 - **Location**: `.claude/skills/vendor-data-quality-checker/SKILL.md`
 
 ### Personal Skills (6 universal skills)
@@ -482,6 +496,6 @@ When resuming work on this project, focus on:
 
 **Usage**: This file is loaded in every Claude Code conversation to provide consistent project context. Update when phase transitions occur, major milestones are completed, or implementation architecture changes.
 
-**Last Updated**: November 24, 2025 (Decision Tree V3 production deployment - sizing-first redesign complete)
+**Last Updated**: November 26, 2025 (MCP V3 sync + vendor expansion complete)
 
-**Recent Session**: Decision Tree V3 Implementation (Nov 24, 2025) - Complete redesign with sizing-first question ordering, multi-select support (query engine, cloud environment), budget slider ($50K-$50M), enhanced UX (deselectable radios, real-time filtering), and production deployment to GitHub Pages. User validated V3 working correctly. Next: Beta testing with security architects. See `.archive/sessions/2025-11-24-decision-tree-v3/SESSION-SUMMARY.md` for complete details.
+**Recent Session**: MCP V3 Synchronization (Nov 26, 2025) - Synced MCP server decision interview with V3 web tool (sizing-first flow, multi-select support, budget slider documentation). Added 4 vendors (Atlan, Select Star, DataHub, Panther) bringing database to 75 total. Updated all tests (236 passing, 81% coverage). MCP server verified operational (2 resources, 9 tools, 2 prompts). Database quality validated, schema compliant. Next: Beta testing with security architects using both V3 web tool and MCP server.

@@ -31,8 +31,8 @@ def test_load_vendor_database():
     db = load_vendor_database(db_path)
 
     assert isinstance(db, VendorDatabase)
-    assert db.total_vendors == 71
-    assert len(db.vendors) == 71
+    assert db.total_vendors == 75
+    assert len(db.vendors) == 75
     assert db.update_cadence == "quarterly"
 
 
@@ -41,8 +41,8 @@ def test_load_default_database():
     db = load_default_database()
 
     assert isinstance(db, VendorDatabase)
-    assert db.total_vendors == 71
-    assert len(db.vendors) == 71
+    assert db.total_vendors == 75
+    assert len(db.vendors) == 75
 
 
 def test_load_vendor_database_not_found():
@@ -116,7 +116,7 @@ def test_specific_vendors_exist():
 
     # Original 10 should be subset of all vendors
     assert expected_vendors.issubset(actual_vendors)
-    assert len(actual_vendors) == 71
+    assert len(actual_vendors) == 75
 
 
 def test_amazon_athena_details():
@@ -190,7 +190,7 @@ def test_database_json_is_valid():
 
     # Check vendor structure
     assert isinstance(data["vendors"], list)
-    assert len(data["vendors"]) == 71
+    assert len(data["vendors"]) == 75
 
     # Check first vendor has expected fields
     vendor = data["vendors"][0]
