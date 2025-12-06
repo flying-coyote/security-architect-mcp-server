@@ -476,14 +476,70 @@ mypy src/
 3. **Blog Content Generator** - Anonymized case studies
 4. **Use Case Library** - Detection requirements mapping
 
+## Performance Optimization Insights
+
+### Code Execution Pattern (December 2025)
+**Source**: Second Brain intelligence capture - Anthropic's November 2025 engineering blog
+**Impact**: 98.7% token reduction for bulk operations
+
+**The Pattern**:
+Instead of making sequential tool calls (80 vendors × 4 checks = 320 round trips), let the agent write code that processes all data in a single execution:
+
+```python
+# Old way: 150,000 tokens, 45-60 seconds, $2.25 per query
+for vendor in range(80):
+    result = mcp.call_tool("get_vendor", id=vendor)
+    # ... multiple tool calls per vendor
+
+# New way: 2,000 tokens, 2-3 seconds, $0.03 per query
+code = """
+finalists = [v for v in vendors
+             if v.has_ocsf and v.cost < 500000]
+return finalists[:10]
+"""
+result = mcp.execute_code(code)
+```
+
+**Security Implementation Required**:
+1. AST validation (no dangerous operations)
+2. Sandboxed namespace (limited access)
+3. No builtins (no open, eval, etc.)
+4. Timeout protection (30 second max)
+5. Memory limits (256MB max)
+
+**When to Apply**:
+- Bulk filtering operations (all 75 vendors)
+- Aggregate calculations (TCO for multiple vendors)
+- Complex multi-condition queries
+- Report generation across dataset
+
+**Implementation Priority**: HIGH - Critical for production scale
+
+### Other Intelligence from Second Brain (Dec 2025)
+
+**NANDA (MIT Media Lab)**:
+- DNS for AI agents - decentralized discovery/authentication
+- 1,000+ agents registered, Databricks MLflow integration
+- Relevance: Future MCP servers could register with NANDA for cross-vendor interoperability
+
+**Governance Maturity Correlation**:
+- 70% of AI projects fail due to data governance issues
+- Level 3+ maturity required for >40% success rate
+- Relevance: MCP server could assess organization's governance maturity before vendor selection
+
+**RAPTOR Pattern (Gadi Evron)**:
+- "Duct tape AI" - simple infrastructure that works
+- 60-80% success rate acceptable for production
+- Relevance: MCP server doesn't need perfection, just practical value
+
 ## Next Session Priorities
 
 When resuming work on this project, focus on:
 
-1. **Project Setup** (if Phase 1 Week 1-2) - Create directory structure, MCP hello world
-2. **Vendor Data Entry** (if setup complete) - Enter 10-80 vendors to database
-3. **Tool Development** (if data ready) - Implement filtering and scoring logic
-4. **Testing** (ongoing) - Write pytest tests for all tools
+1. **Code Execution Implementation** (CRITICAL) - Add code execution pattern for 98.7% token reduction
+2. **Vendor Database Expansion** (75 → 80 vendors) - Add remaining 5 vendors
+3. **Beta Testing Launch** - Recruit 3-5 security architects
+4. **Blog Content Generation** - Convert MCP decisions to case studies
 5. **Documentation** (ongoing) - Update SETUP.md, USAGE.md, ARCHITECTURE.md
 
 ## License
@@ -496,6 +552,6 @@ When resuming work on this project, focus on:
 
 **Usage**: This file is loaded in every Claude Code conversation to provide consistent project context. Update when phase transitions occur, major milestones are completed, or implementation architecture changes.
 
-**Last Updated**: November 26, 2025 (MCP V3 sync + vendor expansion complete)
+**Last Updated**: December 6, 2025 (Second Brain intelligence integration)
 
-**Recent Session**: MCP V3 Synchronization (Nov 26, 2025) - Synced MCP server decision interview with V3 web tool (sizing-first flow, multi-select support, budget slider documentation). Added 4 vendors (Atlan, Select Star, DataHub, Panther) bringing database to 75 total. Updated all tests (236 passing, 81% coverage). MCP server verified operational (2 resources, 9 tools, 2 prompts). Database quality validated, schema compliant. Next: Beta testing with security architects using both V3 web tool and MCP server.
+**Recent Session**: Second Brain Sync (Dec 6, 2025) - Integrated critical performance optimization insights from second brain project. Added Code Execution Pattern documentation showing 98.7% token reduction for bulk operations (from Anthropic's Nov 2025 engineering blog). Captured intelligence on NANDA (MIT's DNS for AI agents), governance maturity correlations (70% AI failure rate), and RAPTOR pattern (practical "duct tape AI"). Updated priorities to emphasize code execution implementation as CRITICAL for production scale. Project remains at 75 vendors, 236 tests passing, ready for beta testing with new optimization patterns.
