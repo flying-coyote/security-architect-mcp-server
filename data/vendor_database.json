@@ -46,7 +46,7 @@
         "query_latency_p95": 200,
         "query_concurrency": 100
       },
-      "typical_annual_cost_range": "$50K-300K annually",
+      "typical_annual_cost_range": "$50K-300K for 1-5TB/day",
       "cost_notes": "OSS self-hosted free. ClickHouse Cloud: consumption-based. Enterprise support: $50K-150K/year. TCO varies with scale.",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -107,7 +107,8 @@
         "liger-stack",
         "production-validated",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "1-5TB/day"
     },
     {
       "id": "trino",
@@ -155,7 +156,7 @@
         "query_latency_p95": 1500,
         "query_concurrency": 50
       },
-      "typical_annual_cost_range": "$60K-250K annually (infrastructure only)",
+      "typical_annual_cost_range": "$60K-250K for 1-5TB/day (infrastructure)",
       "cost_notes": "OSS free. Infrastructure: $50-100K/year. Commercial support (Starburst): $100K+/year.",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -213,7 +214,8 @@
         "production-validated",
         "liger-stack",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "1-5TB/day"
     },
     {
       "id": "azure-sentinel",
@@ -478,7 +480,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$30K-300K infrastructure costs",
+      "typical_annual_cost_range": "$30K-300K for 1-10TB/day (infrastructure costs)",
       "cost_notes": "Open source (Apache License). Infrastructure-only costs (storage + compute engines). Lowest operational overhead. No licensing fees.",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -560,7 +562,8 @@
         "netflix-scale",
         "hypothesis-validated",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "1-10TB/day"
     },
     {
       "id": "snowflake",
@@ -976,7 +979,7 @@
         "query_latency_p95": 500,
         "query_concurrency": 100
       },
-      "typical_annual_cost_range": "$100K-500K for managed service",
+      "typical_annual_cost_range": "$100K-500K for managed service for 10-50TB/day",
       "cost_notes": "Open source free",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -1002,7 +1005,8 @@
         "real-time",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "10-50TB/day"
     },
     {
       "id": "google-bigquery",
@@ -1355,7 +1359,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$100K-500K infrastructure costs",
+      "typical_annual_cost_range": "$100K-500K for 5TB/day events (infrastructure costs)",
       "cost_notes": "Open source, infrastructure only",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -1382,7 +1386,8 @@
         "event-streaming",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "5TB/day events"
     },
     {
       "id": "apache-flink",
@@ -1430,7 +1435,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$100K-600K infrastructure costs",
+      "typical_annual_cost_range": "$100K-600K for 5TB/day events (infrastructure costs)",
       "cost_notes": "Open source, infrastructure only",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -1458,7 +1463,8 @@
         "flink-2.0",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "5TB/day events"
     },
     {
       "id": "chronicle-security",
@@ -1504,7 +1510,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$315K-880K annually",
+      "typical_annual_cost_range": "$315K-880K for 500GB/day",
       "cost_notes": "Subscription pricing with VirusTotal/Mandiant threat intel",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -1534,7 +1540,8 @@
         "petabyte-scale",
         "mentioned-in-book",
         "forrester-wave-strong-performer"
-      ]
+      ],
+      "volume_capacity": "500GB/day"
     },
     {
       "id": "devo-platform",
@@ -1811,7 +1818,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$20K-200K for moderate workloads",
+      "typical_annual_cost_range": "$20K-200K for moderate workloads for 1TB/day events",
       "cost_notes": "$0.015/GB ingested",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -1841,7 +1848,8 @@
         "managed-service",
         "mentioned-in-book",
         "forrester-wave-strong-performer"
-      ]
+      ],
+      "volume_capacity": "1TB/day events"
     },
     {
       "id": "airbyte",
@@ -1889,7 +1897,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$6K-100K annually",
+      "typical_annual_cost_range": "$6K-100K for 100GB-1TB/day",
       "cost_notes": "Free OSS self-hosted, capacity-based cloud pricing",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -1916,7 +1924,8 @@
         "ai-assisted",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "100GB-1TB/day"
     },
     {
       "id": "confluent-platform",
@@ -1964,7 +1973,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$50K-400K annually",
+      "typical_annual_cost_range": "$50K-400K for 1TB/day events",
       "cost_notes": "Consumption-based eCKUs with autoscaling",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -1994,7 +2003,8 @@
         "enterprise",
         "mentioned-in-book",
         "forrester-wave-leader"
-      ]
+      ],
+      "volume_capacity": "1TB/day events"
     },
     {
       "id": "apache-nifi",
@@ -2042,7 +2052,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$40K-250K infrastructure costs",
+      "typical_annual_cost_range": "$40K-250K for 100GB-1TB/day (infrastructure costs)",
       "cost_notes": "Open source (Apache License), infrastructure-only costs",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -2070,7 +2080,8 @@
         "drag-and-drop",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "100GB-1TB/day"
     },
     {
       "id": "fivetran",
@@ -2116,7 +2127,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$25K-200K annually",
+      "typical_annual_cost_range": "$25K-200K for 100GB-1TB/day",
       "cost_notes": "MAR pricing per connector (March 2025), subscription-based",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -2146,7 +2157,8 @@
         "automated",
         "mentioned-in-book",
         "gartner-magic-quadrant-challenger"
-      ]
+      ],
+      "volume_capacity": "100GB-1TB/day"
     },
     {
       "id": "cribl",
@@ -2195,7 +2207,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$100K-500K",
+      "typical_annual_cost_range": "$100K-500K for 1-5TB/day",
       "cost_notes": "Subscription pricing, 1TB/day free tier, ROI via cost reduction",
       "evidence_source": "literature-review",
       "evidence_sources": [],
@@ -2214,7 +2226,8 @@
         "cost-reduction",
         "ocsf-support",
         "mentioned-in-book"
-      ]
+      ],
+      "volume_capacity": "1-5TB/day"
     },
     {
       "id": "matillion",
@@ -2260,7 +2273,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$12K-50K annually",
+      "typical_annual_cost_range": "$12K-50K for 100GB-1TB/day",
       "cost_notes": "Consumption-based, unlimited users, 271% ROI potential",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -2290,7 +2303,8 @@
         "snowflake-native",
         "mentioned-in-book",
         "gartner-magic-quadrant-visionary"
-      ]
+      ],
+      "volume_capacity": "100GB-1TB/day"
     },
     {
       "id": "talend",
@@ -2338,7 +2352,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$50K-500K annually",
+      "typical_annual_cost_range": "$50K-500K for 1-5TB/day",
       "cost_notes": "Capacity-based subscription, 4 editions, OSS version free",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -2368,7 +2382,8 @@
         "qlik-integration",
         "mentioned-in-book",
         "gartner-magic-quadrant-niche-player"
-      ]
+      ],
+      "volume_capacity": "1-5TB/day"
     },
     {
       "id": "amazon-s3",
@@ -2414,7 +2429,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$10K-500K storage costs",
+      "typical_annual_cost_range": "$10K-500K for 100TB total (storage costs)",
       "cost_notes": "$0.023/GB/month standard, Intelligent-Tiering auto-optimizes",
       "evidence_source": "literature-review",
       "evidence_sources": [],
@@ -2433,7 +2448,8 @@
         "data-lake-foundation",
         "11-nines-durability",
         "mentioned-in-book"
-      ]
+      ],
+      "volume_capacity": "100TB total"
     },
     {
       "id": "azure-blob-storage",
@@ -2479,7 +2495,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$8K-400K storage costs",
+      "typical_annual_cost_range": "$8K-400K for 100TB total (storage costs)",
       "cost_notes": "$0.018/GB/month hot tier, tiered storage with reserved capacity discounts",
       "evidence_source": "literature-review",
       "evidence_sources": [],
@@ -2498,7 +2514,8 @@
         "sftp-support",
         "tiered-storage",
         "mentioned-in-book"
-      ]
+      ],
+      "volume_capacity": "100TB total"
     },
     {
       "id": "google-cloud-storage",
@@ -2544,7 +2561,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$10K-450K storage costs",
+      "typical_annual_cost_range": "$10K-450K for 100TB total (storage costs)",
       "cost_notes": "$0.020/GB/month standard, multi-tier storage classes",
       "evidence_source": "literature-review",
       "evidence_sources": [],
@@ -2563,7 +2580,8 @@
         "multi-class-storage",
         "bigquery-integration",
         "mentioned-in-book"
-      ]
+      ],
+      "volume_capacity": "100TB total"
     },
     {
       "id": "minio",
@@ -2612,7 +2630,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$30K-300K infrastructure costs",
+      "typical_annual_cost_range": "$30K-300K for 100TB total (infrastructure costs)",
       "cost_notes": "Open source (AGPL v3), infrastructure-only, full S3 API compatibility",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -2640,7 +2658,8 @@
         "ai-optimized",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "100TB total"
     },
     {
       "id": "ceph",
@@ -2688,7 +2707,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$50K-400K infrastructure costs",
+      "typical_annual_cost_range": "$50K-400K for 500TB total (infrastructure costs)",
       "cost_notes": "Open source (LGPL), exabyte-scale capability, Red Hat support available",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -2716,7 +2735,8 @@
         "exabyte-scale",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "500TB total"
     },
     {
       "id": "aws-glue",
@@ -2762,7 +2782,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$10K-150K annually",
+      "typical_annual_cost_range": "$10K-150K for 1000 tables",
       "cost_notes": "First 1M objects free, $1 per 100K objects/month, generous free tier",
       "evidence_source": "literature-review",
       "evidence_sources": [],
@@ -2782,7 +2802,8 @@
         "generous-free-tier",
         "schema-registry",
         "mentioned-in-book"
-      ]
+      ],
+      "volume_capacity": "1000 tables"
     },
     {
       "id": "microsoft-purview",
@@ -2828,7 +2849,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$20K-200K annually",
+      "typical_annual_cost_range": "$20K-200K for 1000 tables",
       "cost_notes": "Pay for governed assets only (no scan cost), new pricing model Jan 2025",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -2859,7 +2880,8 @@
         "2025-pricing",
         "mentioned-in-book",
         "gartner-magic-quadrant-challenger"
-      ]
+      ],
+      "volume_capacity": "1000 tables"
     },
     {
       "id": "alation",
@@ -2907,7 +2929,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$198K-500K annually",
+      "typical_annual_cost_range": "$198K-500K for 10K tables",
       "cost_notes": "Asset-based pricing (2025), enterprise ~$198K/year",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -2938,7 +2960,8 @@
         "catalog-pioneer",
         "mentioned-in-book",
         "gartner-magic-quadrant-leader"
-      ]
+      ],
+      "volume_capacity": "10K tables"
     },
     {
       "id": "collibra",
@@ -2986,7 +3009,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$170K-510K annually",
+      "typical_annual_cost_range": "$170K-510K for 10K tables",
       "cost_notes": "Yearly subscription, Gartner Leader 2025, premium pricing",
       "evidence_source": "literature-review",
       "evidence_sources": [],
@@ -3006,7 +3029,8 @@
         "enterprise",
         "compliance-focused",
         "mentioned-in-book"
-      ]
+      ],
+      "volume_capacity": "10K tables"
     },
     {
       "id": "apache-atlas",
@@ -3054,7 +3078,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$50K-300K infrastructure costs",
+      "typical_annual_cost_range": "$50K-300K for 1000 tables (infrastructure costs)",
       "cost_notes": "Open source (Apache License), infrastructure-only, Ranger RBAC integration",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -3082,7 +3106,8 @@
         "business-glossary",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "1000 tables"
     },
     {
       "id": "datadog",
@@ -3128,7 +3153,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$50K-500K annually",
+      "typical_annual_cost_range": "$50K-500K for 1TB/day",
       "cost_notes": "Pro: $15/host/month, Enterprise: $23/host/month, usage-based add-ons",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -3159,7 +3184,8 @@
         "cloud-scale",
         "mentioned-in-book",
         "gartner-magic-quadrant-leader"
-      ]
+      ],
+      "volume_capacity": "1TB/day"
     },
     {
       "id": "splunk-observability",
@@ -3205,7 +3231,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$100K-800K annually",
+      "typical_annual_cost_range": "$100K-800K for 5TB/day",
       "cost_notes": "Host-based + usage pricing, OpenTelemetry-native reduces lock-in",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -3236,7 +3262,8 @@
         "rum",
         "mentioned-in-book",
         "gartner-magic-quadrant-visionary"
-      ]
+      ],
+      "volume_capacity": "5TB/day"
     },
     {
       "id": "new-relic",
@@ -3282,7 +3309,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$30K-400K annually",
+      "typical_annual_cost_range": "$30K-400K for 1TB/day",
       "cost_notes": "100GB/month free, $0.30/GB ingested, generous free tier",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -3313,7 +3340,8 @@
         "unified-platform",
         "mentioned-in-book",
         "gartner-magic-quadrant-challenger"
-      ]
+      ],
+      "volume_capacity": "1TB/day"
     },
     {
       "id": "dynatrace",
@@ -3361,7 +3389,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$100K-1M annually",
+      "typical_annual_cost_range": "$100K-1M for 5TB/day",
       "cost_notes": "Host-based + usage, Davis AI included, premium pricing",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -3392,7 +3420,8 @@
         "full-stack",
         "mentioned-in-book",
         "gartner-magic-quadrant-leader"
-      ]
+      ],
+      "volume_capacity": "5TB/day"
     },
     {
       "id": "honeycomb",
@@ -3438,7 +3467,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$20K-200K annually",
+      "typical_annual_cost_range": "$20K-200K for 1TB/day",
       "cost_notes": "Free tier 20M events/month, consumption-based, high-cardinality optimized",
       "evidence_source": "literature-review",
       "evidence_sources": [],
@@ -3458,7 +3487,8 @@
         "opentelemetry-first",
         "distributed-systems",
         "mentioned-in-book"
-      ]
+      ],
+      "volume_capacity": "1TB/day"
     },
     {
       "id": "microsoft-sentinel",
@@ -3583,7 +3613,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$30K-200K infrastructure costs",
+      "typical_annual_cost_range": "$30K-200K for 100GB/day (infrastructure costs)",
       "cost_notes": "Open source (GPL v2), unlimited agents, infrastructure-only",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -3612,7 +3642,8 @@
         "elastic-based",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "100GB/day"
     },
     {
       "id": "graylog",
@@ -3660,7 +3691,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$25K-250K",
+      "typical_annual_cost_range": "$25K-250K for 100GB/day",
       "cost_notes": "5GB/day free, Enterprise: per-node licensing, cloud available",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -3688,7 +3719,8 @@
         "rapid-deployment",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "100GB/day"
     },
     {
       "id": "grafana-loki",
@@ -3736,7 +3768,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$20K-150K infrastructure costs",
+      "typical_annual_cost_range": "$20K-150K for 100GB/day (infrastructure costs)",
       "cost_notes": "Open source (AGPL), 10\u00d7 cheaper storage vs Elasticsearch",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -3764,7 +3796,8 @@
         "grafana-native",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "100GB/day"
     },
     {
       "id": "exabeam",
@@ -3812,7 +3845,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$200K-1.5M",
+      "typical_annual_cost_range": "$200K-1.5M for 500GB/day",
       "cost_notes": "User-based pricing, unlimited data storage",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -3843,7 +3876,8 @@
         "behavioral-analytics",
         "mentioned-in-book",
         "gartner-magic-quadrant-niche-player"
-      ]
+      ],
+      "volume_capacity": "500GB/day"
     },
     {
       "id": "securonix",
@@ -3891,7 +3925,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$300K-2M",
+      "typical_annual_cost_range": "$300K-2M for 500GB/day",
       "cost_notes": "Per-GB ingestion, includes UEBA and SOAR",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -3922,7 +3956,8 @@
         "unified-defense",
         "mentioned-in-book",
         "gartner-magic-quadrant-leader"
-      ]
+      ],
+      "volume_capacity": "500GB/day"
     },
     {
       "id": "rapid7-insightidr",
@@ -3968,7 +4003,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$100K-500K",
+      "typical_annual_cost_range": "$100K-500K for 100GB/day",
       "cost_notes": "User-based pricing, includes EDR and UEBA",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -3999,7 +4034,8 @@
         "rapid-deployment",
         "mentioned-in-book",
         "gartner-magic-quadrant-niche-player"
-      ]
+      ],
+      "volume_capacity": "100GB/day"
     },
     {
       "id": "sysdig",
@@ -4047,7 +4083,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$50K-400K",
+      "typical_annual_cost_range": "$50K-400K for 100GB/day",
       "cost_notes": "Per-agent pricing, includes runtime protection",
       "evidence_source": "literature-review",
       "evidence_sources": [],
@@ -4068,7 +4104,8 @@
         "cnapp",
         "runtime-detection",
         "mentioned-in-book"
-      ]
+      ],
+      "volume_capacity": "100GB/day"
     },
     {
       "id": "apache-pulsar",
@@ -4116,7 +4153,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$100K-600K infrastructure costs",
+      "typical_annual_cost_range": "$100K-600K for 5TB/day events (infrastructure costs)",
       "cost_notes": "Open source (Apache 2.0), tiered storage reduces costs vs Kafka",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -4145,7 +4182,8 @@
         "kafka-alternative",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "5TB/day events"
     },
     {
       "id": "redpanda",
@@ -4193,7 +4231,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$30K-300K annually",
+      "typical_annual_cost_range": "$30K-300K for 1TB/day events",
       "cost_notes": "Consumption-based, 10\u00d7 lower latency, free tier available",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -4222,7 +4260,8 @@
         "cpp-rewrite",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "1TB/day events"
     },
     {
       "id": "azure-event-hubs",
@@ -4268,7 +4307,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$25K-250K",
+      "typical_annual_cost_range": "$25K-250K for 1TB/day events",
       "cost_notes": "Consumption-based, $0.028/million events, Kafka-compatible",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -4299,7 +4338,8 @@
         "managed-service",
         "mentioned-in-book",
         "forrester-wave-strong-performer"
-      ]
+      ],
+      "volume_capacity": "1TB/day events"
     },
     {
       "id": "google-pubsub",
@@ -4345,7 +4385,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$20K-200K",
+      "typical_annual_cost_range": "$20K-200K for 1TB/day events",
       "cost_notes": "$40/TiB throughput, 10GB/month free, serverless autoscaling",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -4376,7 +4416,8 @@
         "dataflow-integration",
         "mentioned-in-book",
         "forrester-wave-strong-performer"
-      ]
+      ],
+      "volume_capacity": "1TB/day events"
     },
     {
       "id": "rabbitmq",
@@ -4424,7 +4465,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$10K-100K",
+      "typical_annual_cost_range": "$10K-100K for 1TB/day events",
       "cost_notes": "Open source (MPL 2.0), CloudAMQP managed: $19-399/month",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -4453,7 +4494,8 @@
         "easy-deployment",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "1TB/day events"
     },
     {
       "id": "apache-storm",
@@ -4501,7 +4543,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$80K-400K infrastructure costs",
+      "typical_annual_cost_range": "$80K-400K for 1TB/day events (infrastructure costs)",
       "cost_notes": "Open source (Apache 2.0), infrastructure-only, mature but lower adoption vs Flink",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -4529,7 +4571,8 @@
         "guaranteed-processing",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "1TB/day events"
     },
     {
       "id": "presto",
@@ -4577,7 +4620,7 @@
         "query_latency_p95": 1500,
         "query_concurrency": 50
       },
-      "typical_annual_cost_range": "$60K-300K infrastructure costs",
+      "typical_annual_cost_range": "$60K-300K for 1-5TB/day (infrastructure costs)",
       "cost_notes": "Open source (Apache 2.0), predecessor to Trino, infrastructure-only",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -4606,7 +4649,8 @@
         "100-connectors",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "1-5TB/day"
     },
     {
       "id": "apache-drill",
@@ -4654,7 +4698,7 @@
         "query_latency_p95": 1500,
         "query_concurrency": 50
       },
-      "typical_annual_cost_range": "$50K-250K infrastructure costs",
+      "typical_annual_cost_range": "$50K-250K for 1-5TB/day (infrastructure costs)",
       "cost_notes": "Open source (Apache 2.0), schema-free advantage, infrastructure-only",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -4682,7 +4726,8 @@
         "hadoop-optimized",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "1-5TB/day"
     },
     {
       "id": "apache-pinot",
@@ -4730,7 +4775,7 @@
         "query_latency_p95": 1500,
         "query_concurrency": 50
       },
-      "typical_annual_cost_range": "$100K-500K infrastructure costs",
+      "typical_annual_cost_range": "$100K-500K for 5-10TB/day (infrastructure costs)",
       "cost_notes": "Open source (Apache 2.0), real-time OLAP specialist, infrastructure-only",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -4759,7 +4804,8 @@
         "uber-stripe",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "5-10TB/day"
     },
     {
       "id": "rockset",
@@ -4805,7 +4851,7 @@
         "query_latency_p95": 1500,
         "query_concurrency": 50
       },
-      "typical_annual_cost_range": "$50K-400K annually",
+      "typical_annual_cost_range": "$50K-400K for 1-5TB/day",
       "cost_notes": "Consumption-based, converged indexing, serverless scaling",
       "evidence_source": "literature-review",
       "evidence_sources": [],
@@ -4825,7 +4871,8 @@
         "kubernetes-native",
         "serverless",
         "mentioned-in-book"
-      ]
+      ],
+      "volume_capacity": "1-5TB/day"
     },
     {
       "id": "delta-lake",
@@ -4873,7 +4920,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$20K-200K infrastructure costs",
+      "typical_annual_cost_range": "$20K-200K for 1-10TB/day (infrastructure costs)",
       "cost_notes": "Open source (Apache 2.0), infrastructure-only, UniForm enables Iceberg interop",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -4903,7 +4950,8 @@
         "iceberg-compat",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "1-10TB/day"
     },
     {
       "id": "apache-hudi",
@@ -4951,7 +4999,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$40K-250K infrastructure costs",
+      "typical_annual_cost_range": "$40K-250K for 1-10TB/day (infrastructure costs)",
       "cost_notes": "Open source (Apache 2.0), incremental processing reduces compute costs",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -4980,7 +5028,8 @@
         "record-level-updates",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "1-10TB/day"
     },
     {
       "id": "denodo",
@@ -5028,7 +5077,7 @@
         "query_latency_p95": 1500,
         "query_concurrency": 50
       },
-      "typical_annual_cost_range": "$150K-800K annually",
+      "typical_annual_cost_range": "$150K-800K for 5TB/day",
       "cost_notes": "Subscription pricing, enterprise data virtualization leader",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -5059,7 +5108,8 @@
         "enterprise",
         "mentioned-in-book",
         "gartner-report-leader"
-      ]
+      ],
+      "volume_capacity": "5TB/day"
     },
     {
       "id": "apache-calcite",
@@ -5107,7 +5157,7 @@
         "query_latency_p95": 1500,
         "query_concurrency": 50
       },
-      "typical_annual_cost_range": "$30K-200K infrastructure costs",
+      "typical_annual_cost_range": "$30K-200K for 1TB/day (infrastructure costs)",
       "cost_notes": "Open source (Apache 2.0), framework-level, infrastructure-only",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -5136,7 +5186,8 @@
         "powers-drill-flink",
         "mentioned-in-book",
         "open-source"
-      ]
+      ],
+      "volume_capacity": "1TB/day"
     },
     {
       "id": "gurucul-next-gen-siem",
@@ -5417,7 +5468,7 @@
         "query_latency_p95": 800,
         "query_concurrency": 50
       },
-      "typical_annual_cost_range": "$50K-300K infrastructure costs",
+      "typical_annual_cost_range": "$50K-300K for 1-5TB/day (infrastructure costs)",
       "cost_notes": "Open source (Apache 2.0). Infrastructure costs only (compute, storage, support). Commercial support available through Cloudera.",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -5446,7 +5497,8 @@
         "query-engine",
         "open-source",
         "production-validated"
-      ]
+      ],
+      "volume_capacity": "1-5TB/day"
     },
     {
       "id": "apache-paimon",
@@ -5494,7 +5546,7 @@
         "query_latency_p95": 500,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$40K-250K infrastructure costs",
+      "typical_annual_cost_range": "$40K-250K for 1-10TB/day (infrastructure costs)",
       "cost_notes": "Open source (Apache 2.0). Infrastructure costs only. Optimized for cloud object storage (S3, GCS, Azure Blob).",
       "evidence_source": "literature-review",
       "evidence_sources": [
@@ -5524,7 +5576,8 @@
         "apache-tlp",
         "open-source",
         "production-validated"
-      ]
+      ],
+      "volume_capacity": "1-10TB/day"
     },
     {
       "id": "starburst-enterprise",
@@ -5650,7 +5703,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$50K-300K annually",
+      "typical_annual_cost_range": "$50K-300K for 1000 tables",
       "cost_notes": "Enterprise subscription-based pricing. Typical: $50K-150K/year for mid-size orgs, $150K-300K+ for enterprises. Includes AI Governance Studio, Data Quality Studio, Metadata Lakehouse, MCP Server.",
       "evidence_source": "web-research-2025",
       "evidence_sources": [
@@ -5690,7 +5743,8 @@
         "governance",
         "gartner-leader",
         "ai-governance"
-      ]
+      ],
+      "volume_capacity": "1000 tables"
     },
     {
       "id": "select-star",
@@ -5738,7 +5792,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$30K-150K annually",
+      "typical_annual_cost_range": "$30K-150K for 1000 tables",
       "cost_notes": "SaaS subscription pricing. Typical: $30K-80K/year for mid-size teams, $80K-150K for larger enterprises. Integrations with Snowflake, Fivetran, Monte Carlo. Enterprise-scale metadata infrastructure.",
       "evidence_source": "web-research-2025",
       "evidence_sources": [
@@ -5778,7 +5832,8 @@
         "lineage",
         "semantic-layer",
         "ai-ready"
-      ]
+      ],
+      "volume_capacity": "1000 tables"
     },
     {
       "id": "datahub",
@@ -5826,7 +5881,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$0-100K annually",
+      "typical_annual_cost_range": "$0-100K for 10K tables",
       "cost_notes": "OSS self-hosted free. Acryl Data (commercial): managed DataHub Cloud with enterprise features. Typical managed: $30K-100K/year. Infrastructure costs for self-hosted: multiple components require substantial resources.",
       "evidence_source": "web-research-2025",
       "evidence_sources": [
@@ -5866,7 +5921,8 @@
         "linkedin",
         "lineage",
         "community-driven"
-      ]
+      ],
+      "volume_capacity": "10K tables"
     },
     {
       "id": "panther",
@@ -5914,7 +5970,7 @@
         "query_latency_p95": 2000,
         "query_concurrency": 50
       },
-      "typical_annual_cost_range": "$100K-500K annually",
+      "typical_annual_cost_range": "$100K-500K for 100GB/day",
       "cost_notes": "Usage-based pricing (data volume). 36-month standard term. Lower TCO than Splunk ($1M+/year). One customer saved significantly vs previous product on 3-year contract. Contact sales@panther.com for custom pricing.",
       "evidence_source": "web-research-2025",
       "evidence_sources": [
@@ -5954,7 +6010,8 @@
         "serverless",
         "data-lake-siem",
         "aws"
-      ]
+      ],
+      "volume_capacity": "100GB/day"
     },
     {
       "id": "tenzir",
@@ -6002,7 +6059,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "OSS free, Enterprise $50K-200K",
+      "typical_annual_cost_range": "OSS free, Enterprise $50K-200K for 1-5TB/day",
       "cost_notes": "Open source execution engine. Enterprise support and cloud deployment extra.",
       "evidence_level": "B",
       "evidence_source": "Tenzir LinkedIn announcement at AWS re:Invent 2025",
@@ -6049,7 +6106,8 @@
         "ocsf-native",
         "ai-parsers",
         "aws"
-      ]
+      ],
+      "volume_capacity": "1-5TB/day"
     },
     {
       "id": "estuary",
@@ -6193,7 +6251,7 @@
         "query_latency_p95": 100,
         "query_concurrency": 1000
       },
-      "typical_annual_cost_range": "$200K-2M+",
+      "typical_annual_cost_range": "$200K-2M+ for 10-50TB/day",
       "cost_notes": "Part of Databricks platform. OLTP adds to compute costs.",
       "evidence_level": "A",
       "evidence_source": "Reynold Xin (Databricks co-founder) interview Nov 29, 2025",
@@ -6243,7 +6301,8 @@
         "oltp",
         "enterprise",
         "unity-catalog"
-      ]
+      ],
+      "volume_capacity": "10-50TB/day"
     },
     {
       "id": "knostic",
@@ -6290,7 +6349,7 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "Unknown",
+      "typical_annual_cost_range": "Unknown for 1TB/day",
       "cost_notes": "Early stage product, pricing not public",
       "evidence_level": "D",
       "evidence_source": "Gadi Evron LinkedIn announcement Dec 2, 2025",
@@ -6332,7 +6391,8 @@
         "mcp-defense",
         "ai-security",
         "emerging"
-      ]
+      ],
+      "volume_capacity": "1TB/day"
     }
   ],
   "update_cadence": "quarterly",
