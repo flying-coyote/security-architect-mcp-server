@@ -5959,14 +5959,14 @@
     {
       "id": "tenzir",
       "name": "Tenzir",
-      "category": "ETL/Ingestion",
+      "category": "ETL/ELT Platform",
       "description": "Open-source security data pipeline with MCP-enabled AI parser generation for automated OCSF mapping. AWS-native deployment for Security Lake.",
       "website": "https://tenzir.com",
       "capabilities": {
         "sql_interface": false,
         "streaming_query": true,
         "multi_engine_query": false,
-        "open_table_format": "native",
+        "open_table_format": "proprietary",
         "schema_evolution": true,
         "deployment_models": [
           "cloud",
@@ -5977,7 +5977,7 @@
         "multi_cloud": true,
         "operational_complexity": "low",
         "managed_service_available": true,
-        "team_size_required": "small",
+        "team_size_required": "lean",
         "cost_model": "open-source",
         "cost_predictability": "high",
         "siem_integration": true,
@@ -6000,9 +6000,7 @@
         "dbt_integration": false,
         "spark_transformation_support": false,
         "query_latency_p95": null,
-        "query_concurrency": null,
-        "mcp_enabled": true,
-        "ai_parser_generation": true
+        "query_concurrency": null
       },
       "typical_annual_cost_range": "OSS free, Enterprise $50K-200K",
       "cost_notes": "Open source execution engine. Enterprise support and cloud deployment extra.",
@@ -6056,7 +6054,7 @@
     {
       "id": "estuary",
       "name": "Estuary",
-      "category": "ETL/Ingestion",
+      "category": "ETL/ELT Platform",
       "description": "Real-time data pipeline platform with CDC and streaming capabilities. Cost-effective alternative for terabyte-scale workloads.",
       "website": "https://estuary.dev",
       "capabilities": {
@@ -6072,7 +6070,7 @@
         "multi_cloud": true,
         "operational_complexity": "low",
         "managed_service_available": true,
-        "team_size_required": "small",
+        "team_size_required": "lean",
         "cost_model": "consumption",
         "cost_predictability": "medium",
         "siem_integration": false,
@@ -6097,8 +6095,7 @@
         "dbt_integration": true,
         "spark_transformation_support": false,
         "query_latency_p95": null,
-        "query_concurrency": null,
-        "real_time_cdc": true
+        "query_concurrency": null
       },
       "typical_annual_cost_range": "<$200K for TB-scale",
       "cost_notes": "Significantly cheaper than $200K/year incumbent for terabyte monthly workloads",
@@ -6151,14 +6148,14 @@
     {
       "id": "databricks-lakebase",
       "name": "Databricks Lakebase",
-      "category": "Lakehouse Platform",
+      "category": "Data Lakehouse",
       "description": "OLTP capabilities inside Databricks lakehouse. Enables transactional workloads alongside analytics in unified platform.",
       "website": "https://databricks.com/lakebase",
       "capabilities": {
         "sql_interface": true,
         "streaming_query": true,
         "multi_engine_query": true,
-        "open_table_format": "delta_lake",
+        "open_table_format": "delta",
         "schema_evolution": true,
         "deployment_models": [
           "cloud"
@@ -6194,9 +6191,7 @@
         "dbt_integration": true,
         "spark_transformation_support": true,
         "query_latency_p95": 100,
-        "query_concurrency": 1000,
-        "oltp_support": true,
-        "acid_transactions": true
+        "query_concurrency": 1000
       },
       "typical_annual_cost_range": "$200K-2M+",
       "cost_notes": "Part of Databricks platform. OLTP adds to compute costs.",
@@ -6253,14 +6248,14 @@
     {
       "id": "knostic",
       "name": "Knostic",
-      "category": "Security Tools",
+      "category": "Other",
       "description": "Security defense platform for AI agents and MCP servers. Protects against prompt injection and agent attacks.",
       "website": "https://knostic.com",
       "capabilities": {
         "sql_interface": false,
         "streaming_query": false,
         "multi_engine_query": false,
-        "open_table_format": "none",
+        "open_table_format": "proprietary",
         "schema_evolution": false,
         "deployment_models": [
           "cloud",
@@ -6270,13 +6265,13 @@
         "multi_cloud": true,
         "operational_complexity": "low",
         "managed_service_available": true,
-        "team_size_required": "small",
+        "team_size_required": "lean",
         "cost_model": "subscription",
         "cost_predictability": "high",
         "siem_integration": true,
         "compliance_certifications": [],
         "data_governance": false,
-        "maturity": "emerging",
+        "maturity": "experimental",
         "vendor_support": "commercial",
         "community_size": "small",
         "ocsf_support": false,
@@ -6293,10 +6288,7 @@
         "dbt_integration": false,
         "spark_transformation_support": false,
         "query_latency_p95": null,
-        "query_concurrency": null,
-        "mcp_security": true,
-        "agent_defense": true,
-        "prompt_injection_protection": true
+        "query_concurrency": null
       },
       "typical_annual_cost_range": "Unknown",
       "cost_notes": "Early stage product, pricing not public",

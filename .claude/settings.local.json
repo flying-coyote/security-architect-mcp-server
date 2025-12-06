@@ -9,7 +9,12 @@
       "Bash(./venv/bin/python -m pytest tests/test_filter_vendors.py::test_foundational_filter_iceberg_preference -v)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(./venv/bin/python3:*)"
+      "Bash(./venv/bin/python3:*)",
+      "WebSearch",
+      "Bash(./venv/bin/python -m pytest tests/ -v --tb=short -x)",
+      "Bash(gh repo view:*)",
+      "Bash(gh api:*)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": []
