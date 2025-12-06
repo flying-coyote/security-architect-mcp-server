@@ -1,6 +1,6 @@
 # Security Data Platform Architecture Decision Tool
 
-Interactive decision tool for filtering 71 security data platforms to 3-5 personalized finalists based on your organizational constraints.
+Interactive decision tool for filtering 79 security data platforms to 3-5 personalized finalists based on your organizational constraints.
 
 ## 🎯 Purpose
 
@@ -19,7 +19,8 @@ Transform the decision framework from "Modern Data Stack for Cybersecurity" book
 - **Multi-Select Support:** Query engine (F4) and cloud environment (Q3) allow multiple selections (e.g., AWS + Azure + on-prem)
 - **Enhanced UX:** Deselectable radio buttons (click to unselect), logarithmic sliders, real-time vendor filtering
 - **14 Questions Total:** 5 sliders (S1-S4, Q2), 6 single-select (F0-F3, Q1, Q4), 3 multi-select (F4, Q3, Q5)
-- **Actual Vendor Filtering:** 71 vendors filtered to 3-5 finalists based on your answers
+- **Actual Vendor Filtering:** 79 vendors filtered to 3-5 finalists based on your answers
+- **Progressive Filtering Display:** See vendor count reduce at each step as you answer questions
 - **Top 5 Vendor Display:** See vendor names, descriptions, costs, and capabilities
 - **Performance Impact Analysis:** 0% vs 15-50% RLS overhead implications
 - **TCO Guidance:** OSS catalogs ($0) vs Unity Catalog ($10K-50K/year)
@@ -177,7 +178,7 @@ docs/
 1. **Push to GitHub:**
    ```bash
    git add docs/
-   git commit -m "🎯 Decision Tree V3 - Sizing-first + multi-select + sliders"
+   git commit -m "🚀 Vendor Expansion: 71 → 79 vendors + progressive filtering"
    git push origin main
    ```
 
@@ -253,7 +254,7 @@ https://flying-coyote.github.io/security-architect-mcp-server/
 **Use Cases:**
 - **Q5:** Ad-hoc hunting + Compliance reporting (multi-select)
 
-**Result:** 71 → 8 vendors (DuckDB, Athena, Trino, MinIO, Polaris, Nessie, Iceberg, Parquet)
+**Result:** 79 → 8 vendors (DuckDB, Athena, Trino, MinIO, Polaris, Nessie, Iceberg, Parquet)
 **Top 3:** DuckDB + Athena + Polaris (total TCO: <$50K/year)
 
 ### Example 2: Enterprise MSSP
@@ -279,7 +280,7 @@ https://flying-coyote.github.io/security-architect-mcp-server/
 **Use Cases:**
 - **Q5:** All use cases (dashboards + hunting + compliance + detection, multi-select)
 
-**Result:** 71 → 5 vendors (Databricks, Unity Catalog, Delta Lake, ClickHouse, Kafka)
+**Result:** 79 → 5 vendors (Databricks, Unity Catalog, Delta Lake, ClickHouse, Kafka)
 **Top 3:** Databricks + Unity Catalog + ClickHouse (total TCO: $1.5M-3M/year)
 
 ## 🎨 Customization

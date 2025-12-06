@@ -11,9 +11,11 @@ const state = {
     constraintAnswers: {},      // Q1, Q4: team_size, vendor_tolerance
     cloudEnvironments: [],      // Q3: Multi-select cloud environments
     useCases: [],               // Q5: Multi-select use cases
-    vendorCount: 71,
-    previousVendorCount: 71,
-    filteredVendors: []
+    vendorCount: 79,
+    previousVendorCount: 79,
+    filteredVendors: [],
+    // Track vendor count at each question for progressive display
+    vendorCountsByQuestion: {}
 };
 
 // Initialize on page load
@@ -1041,7 +1043,7 @@ function resetForm() {
     state.constraintAnswers = {};
     state.cloudEnvironments = [];
     state.useCases = [];
-    state.vendorCount = state.vendors ? state.vendors.length : 71;
+    state.vendorCount = state.vendors ? state.vendors.length : 79;
     state.previousVendorCount = state.vendorCount;
     state.filteredVendors = state.vendors ? [...state.vendors] : [];
 
