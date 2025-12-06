@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Security Data Platform Architecture Decision Tool</title>
-    <meta name="description" content="Filter 71 security data platforms based on your constraints - real-time recommendations">
+    <meta name="description" content="Filter 79 security data platforms based on your constraints - real-time recommendations">
     <link rel="stylesheet" href="styles-v2.css">
 </head>
 <body>
@@ -35,10 +35,11 @@
                     <h2>Live Recommendations</h2>
 
                     <!-- Vendor Count -->
-                    <div class="metric-card">
-                        <div class="metric-value" id="vendorCount">71</div>
+                    <div class="metric-card clickable" id="vendorCountCard">
+                        <div class="metric-value" id="vendorCount">79</div>
                         <div class="metric-label">Vendors Match</div>
                         <div class="metric-change" id="vendorChange"></div>
+                        <div class="click-hint">Click to view all</div>
                     </div>
 
                     <!-- Architecture Stack -->
@@ -96,6 +97,24 @@
             </p>
             <p class="disclaimer">No vendor sponsorships. All recommendations evidence-based.</p>
         </footer>
+    </div>
+
+    <!-- Vendor List Modal -->
+    <div id="vendorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Matching Vendors (<span id="modalVendorCount">79</span>)</h2>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="vendor-filter-info">
+                    <p id="filterSummary">All vendors matching your current constraints</p>
+                </div>
+                <div id="vendorList" class="vendor-list">
+                    <!-- Vendors will be dynamically populated here -->
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="decision-tree-v2.js"></script>

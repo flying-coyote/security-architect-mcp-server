@@ -209,6 +209,9 @@ function attachEventListeners() {
     // Buttons
     document.getElementById('downloadBtn').addEventListener('click', downloadReport);
     document.getElementById('resetBtn').addEventListener('click', resetForm);
+
+    // Modal functionality
+    setupVendorModal();
 }
 
 // Handle slider change (NEW - V3: For S1-S4 sizing constraints)
@@ -1079,4 +1082,94 @@ function resetForm() {
 
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Modal Functionality - Show list of all matching vendors
+function setupVendorModal() {
+    const modal = document.getElementById('vendorModal');
+    const vendorCountCard = document.getElementById('vendorCountCard');
+    const closeBtn = document.querySelector('.modal-close');
+
+    // Open modal when vendor count is clicked
+    vendorCountCard.addEventListener('click', () => {
+        showVendorModal();
+    });
+
+    // Close modal when X is clicked
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+    });
+
+    // Close modal when clicking outside of it
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.classList.remove('active');
+        }
+    });
+
+    // Close modal with ESC key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.classList.contains('active')) {
+            modal.classList.remove('active');
+        }
+    });
+}
+
+// Show vendor modal with current filtered vendors
+function showVendorModal() {
+    const modal = document.getElementById('vendorModal');
+    const modalVendorCount = document.getElementById('modalVendorCount');
+    const vendorList = document.getElementById('vendorList');
+    const filterSummary = document.getElementById('filterSummary');
+
+    // Update vendor count in modal header
+    modalVendorCount.textContent = state.vendorCount;
+
+    // Build filter summary text
+    const filters = [];
+    if (state.sizingConstraints.s1_data_volume) {
+        filters.push(`Data volume: ${formatSliderLabel(state.sizingConstraints.s1_data_volume, 'GB/day')}`);
+    }
+    if (state.sizingConstraints.q2_budget) {
+        filters.push(`Budget: ${formatSliderLabel(state.sizingConstraints.q2_budget, '$K/year')}`);
+    }
+    if (state.foundationalAnswers.f0_isolation_pattern) {
+        filters.push(`Isolation: ${getAnswerLabel('f0_isolation_pattern')}`);
+    }
+    if (state.foundationalAnswers.f1_table_format) {
+        filters.push(`Table format: ${getAnswerLabel('f1_table_format')}`);
+    }
+
+    filterSummary.textContent = filters.length > 0
+        ? `Vendors matching: ${filters.join(', ')}`
+        : 'All vendors (no filters applied yet)';
+
+    // Display vendors
+    const vendors = state.filteredVendors.length > 0 ? state.filteredVendors : state.vendors;
+
+    if (!vendors || vendors.length === 0) {
+        vendorList.innerHTML = `
+            <p style="color: #6b7280; text-align: center; padding: 20px;">
+                No vendors match your current criteria. Try adjusting your filters.
+            </p>
+        `;
+    } else {
+        vendorList.innerHTML = vendors.map(vendor => `
+            <div class="vendor-list-item" onclick="window.open('${vendor.website}', '_blank')">
+                <div class="vendor-list-item-header">
+                    <div class="vendor-list-item-name">${vendor.name}</div>
+                    <div class="vendor-list-item-category">${vendor.category}</div>
+                </div>
+                <div class="vendor-list-item-meta">
+                    <span class="vendor-list-item-cost">${vendor.typical_annual_cost_range}</span>
+                    ${vendor.score > 0 ? `<span class="vendor-list-item-badge">Score: ${vendor.score}</span>` : ''}
+                    ${vendor.capabilities.cloud_native ? '<span class="vendor-list-item-badge">Cloud</span>' : ''}
+                    ${vendor.capabilities.managed_service_available ? '<span class="vendor-list-item-badge">Managed</span>' : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Show modal
+    modal.classList.add('active');
 }
