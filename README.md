@@ -90,7 +90,7 @@ Let's continue with data sovereignty requirements..."
 
 ### Resources (Data Exposed to Claude)
 
-1. **Vendor Database**: 71 security data platforms across 9 categories with capability matrix
+1. **Vendor Database**: 79 security data platforms across 9 categories with capability matrix
    - 110 evidence sources (84% Tier A quality = 92 Tier A sources)
    - 46.5% analyst coverage (33 vendors with Gartner MQ, Forrester Wave)
    - 35.2% production validation (25 OSS vendors with Fortune 500 deployments)
@@ -106,7 +106,7 @@ Let's continue with data sovereignty requirements..."
 4. **apply_foundational_filters()**: Phase 1 foundational architecture filtering
 
 **On-Demand Tools (Loaded as Needed)**:
-5. **list_vendors()**: Browse 75 vendors by category
+5. **list_vendors()**: Browse 79 vendors by category
 6. **score_vendors_tier2()**: Score vendors on preferred capabilities with weights 1-3
 7. **generate_architecture_report()**: Generate 8-12 page Markdown recommendation report
 8. **match_journey_persona()**: Match to Chapter 4 journey (Jennifer/Marcus/Priya)
@@ -129,7 +129,7 @@ Let's continue with data sovereignty requirements..."
 
 **Deliverables**:
 - ✅ MCP server basic structure (Python 3.10+, MCP SDK 1.2.0+)
-- ✅ Vendor database (75 vendors across 9 categories, evidence-based)
+- ✅ Vendor database (79 vendors across 9 categories, evidence-based)
 - ✅ Decision interview prompt (12-step guided conversation)
 - ✅ Filter/score tools (Tier 1-2 logic from Chapter 3)
 - ✅ Architecture report generator (8-12 page Markdown output)
@@ -154,7 +154,7 @@ Let's continue with data sovereignty requirements..."
 
 **Deliverables**:
 - ✅ Cost calculator tool (5-year TCO projections with growth modeling)
-- ✅ Vendor database expansion (54 → 75 vendors, 6 added Session 2)
+- ✅ Vendor database expansion (54 → 79 vendors, 8 added Dec 6)
 - ✅ Analyst evidence enrichment (110 sources, 84% Tier A quality)
   - Phase 1: 18 commercial leaders (Gartner MQ, Forrester Wave)
   - Phase 2: 10 medium-priority commercial vendors
@@ -216,7 +216,7 @@ security-architect-mcp-server/
 │   ├── lambda_handler.py (AWS Lambda handler)
 │   └── serverless.yml (Serverless Framework config)
 ├── data/
-│   ├── vendor_database.json (✅ 75 vendors operational)
+│   ├── vendor_database.json (✅ 79 vendors operational)
 │   ├── decision_state.json (Session persistence)
 │   └── chapter_framework/ (Decision tree logic)
 ├── tests/

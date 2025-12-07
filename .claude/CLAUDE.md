@@ -27,28 +27,30 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
 **Status**: Complete - ready for Phase 1 implementation
 
 ## Current Status
-**Phase**: Phase 2 Complete - Web Tool V3 Production Deployed
-**Last Updated**: November 24, 2025 (Decision Tree V3 - Sizing-first redesign complete)
+**Phase**: Phase 2 Complete → Phase 3 Ready (Web Tool Primary Focus)
+**Last Updated**: December 6, 2025 (Web tool enhanced: 79 vendors + clickable list + volume context)
 **Current Branch**: main
+**Strategic Pivot**: Shifted from MCP server to interactive web tool as primary delivery mechanism
 
-**Recent Achievement - MCP V3 Sync + Vendor Expansion** (November 26, 2025):
-✅ **MCP Server Synced with V3 Web Tool** - Decision interview updated + 4 vendors added
-   - **MCP Decision Interview Updated** (src/server.py:990-1426):
-     - Phase 0: Sizing Constraints (S1-S4) now asked FIRST (matches V3 web tool)
-     - Phase 1: Foundational Architecture (F0-F4) with multi-select F4 documentation
-     - Phase 2: Organizational Constraints (Q1-Q4) with budget slider note
-     - Phase 3: Use Cases (Q5) with multi-select support
-   - **Multi-Select Support Documented**: F4 (query engine), Q3 (cloud), Q5 (use cases)
-   - **Budget Filter Verified**: V3-compatible (slider is UX-only change)
-   - **Vendor Database Expanded**: 71 → 75 vendors (+4 new)
-     - Atlan (Data Catalog) - Gartner/Forrester Leader 2025
-     - Select Star (Data Catalog) - SOC 2
-     - DataHub (Data Catalog) - LinkedIn OSS
-     - Panther (SIEM) - Cloud-native
-   - **Quality Validation**: 236 tests passing, 81% coverage, schema validated
-   - **MCP Server Verified**: All components load correctly (2 resources, 9 tools, 2 prompts)
+**Recent Achievement - Web Tool Enhancements** (December 6, 2025):
+✅ **Web Tool Expanded & Enhanced** - 79 vendors + interactive features
+   - **Vendor Expansion**: 71 → 79 vendors (+8 from MCP database sync)
+     - Atlan, Select Star, DataHub (Data Catalog)
+     - Panther (SIEM)
+     - Tenzir, Estuary (ETL/ELT)
+     - Databricks Lakebase (Data Lakehouse)
+     - Knostic (Other)
+   - **Clickable Vendor List Modal**: Click vendor count to see all matching vendors
+     - Shows filter summary explaining constraints
+     - Grid view with name, category, cost, capabilities
+     - Click vendors to visit their websites
+   - **Volume Context Added**: All costs now show data volume capacity
+     - Examples: "$100K-500K for 5TB/day", "$50K-300K for 1-5TB/day"
+     - Category-specific metrics (TB/day, events/day, tables, storage)
+     - Helps users understand value at each price point
+   - **Live URL**: https://flying-coyote.github.io/security-architect-mcp-server/
 
-**Previous Achievement - Decision Tree V3** (November 24, 2025):
+**Previous Achievement - MCP V3 Sync** (November 26, 2025):
 ✅ **Web Decision Tool V3 Production Deployed** - Sizing-first architecture + enhanced UX
    - **Live URL**: https://flying-coyote.github.io/security-architect-mcp-server/
    - **Sizing Constraints First** (S1-S4): Data volume (1 GB-100 TB), growth rate (0-300%), source count (1-500), retention (1d-7yr)
@@ -99,27 +101,30 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
 **Previous Achievements** (October 16, 2025):
 - TCO Calculator, vendor expansion to 64, cost modeling
 
-**Next Immediate Work** (Phase 2 → Phase 3 Transition):
-1. **Beta Testing Launch** (Priority: HIGH - READY NOW)
-   - Recruit 3-5 security architects for supervised decision interviews using V3 web tool
-   - Collect feedback on sizing-first question flow
-   - Validate multi-select UX for query engine and cloud environment
-   - Test report generation quality with real architect data
-2. **Vendor Database Expansion** (Priority: MEDIUM - 75 → 80 vendors)
-   - 5 remaining vendor additions needed (already have Fivetran, Airbyte, Grafana, Datadog, Wazuh)
-   - Focus: Additional ETL/ELT, Observability, or specialized SIEM platforms
-   - Target: Reach 80-vendor milestone for comprehensive coverage
-3. **Blog Content Generation** (Priority: LOW - Phase 3)
-   - POC Test Suite Generator: Generate vendor-specific proof-of-concept test plans
-   - Blog post generator: Anonymized case studies from architect decisions
-   - Hypothesis validation pipeline: Track which constraints matter most
+**Next Immediate Work** (Web Tool Enhancement Focus):
+1. **Progressive Filtering Display** (Priority: HIGH)
+   - Show vendor count reduction at each question
+   - Display which vendors are eliminated at each step
+   - Visual indicators for filter impact (e.g., "79 → 52 vendors after this filter")
+2. **Beta Testing with Enhanced Web Tool** (Priority: HIGH)
+   - Recruit 3-5 security architects to test the 79-vendor web tool
+   - Collect feedback on clickable vendor list and volume context
+   - Validate that volume tiers match real-world expectations
+3. **Final Vendor Additions** (Priority: MEDIUM - 79 → 85 vendors)
+   - Add remaining high-value vendors (Grafana, Datadog, Wazuh, Zeek, Velociraptor)
+   - Focus on observability and detection engineering tools
+   - Ensure all major categories have 5+ options
+4. **Blog Content from Web Tool Usage** (Priority: LOW)
+   - Track common filtering patterns from beta testers
+   - Generate case studies from real architect decisions
+   - Document surprising vendor combinations that emerge
 
 ## Project Architecture
 
 ### MCP Components
 
 **Resources** (Data exposed to Claude):
-1. Vendor Database - 75 security data platforms with capability matrix (9 categories)
+1. Vendor Database - 79 security data platforms with capability matrix (9 categories)
    - 110 evidence sources (84% Tier A quality = 92 Tier A sources)
    - 46.5% analyst coverage (33 vendors with Gartner MQ, Forrester Wave)
    - 35.2% production validation (25 OSS vendors with Fortune 500 deployments)
@@ -552,6 +557,6 @@ When resuming work on this project, focus on:
 
 **Usage**: This file is loaded in every Claude Code conversation to provide consistent project context. Update when phase transitions occur, major milestones are completed, or implementation architecture changes.
 
-**Last Updated**: December 6, 2025 (Second Brain intelligence integration)
+**Last Updated**: December 6, 2025 (Web tool enhancements complete)
 
-**Recent Session**: Second Brain Sync (Dec 6, 2025) - Integrated critical performance optimization insights from second brain project. Added Code Execution Pattern documentation showing 98.7% token reduction for bulk operations (from Anthropic's Nov 2025 engineering blog). Captured intelligence on NANDA (MIT's DNS for AI agents), governance maturity correlations (70% AI failure rate), and RAPTOR pattern (practical "duct tape AI"). Updated priorities to emphasize code execution implementation as CRITICAL for production scale. Project remains at 75 vendors, 236 tests passing, ready for beta testing with new optimization patterns.
+**Recent Session**: Web Tool Enhancement (Dec 6, 2025) - Major web tool improvements focused on user experience and transparency. Added 8 vendors (71→79), implemented clickable vendor list modal showing all matching vendors with filter explanations, added volume context to all costs (e.g., "$100K-500K for 5TB/day"). Strategic pivot confirmed: Web tool is now primary delivery mechanism, not MCP server. Integrated Second Brain intelligence on code execution patterns (98.7% token reduction) for future optimization. Ready for beta testing with enhanced interactive features.
