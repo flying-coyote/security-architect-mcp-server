@@ -6393,9 +6393,121 @@
         "emerging"
       ],
       "volume_capacity": "1TB/day"
+    },
+    {
+      "id": "hydrolix",
+      "name": "Hydrolix",
+      "category": "Query Engine",
+      "description": "Purpose-built columnar database for log data with decoupled architecture (ingest, query, merge scale independently). Optimized for high cardinality, hundreds of thousands of columns, and preserving log data relationships vs flattening.",
+      "website": "https://hydrolix.io",
+      "capabilities": {
+        "sql_interface": true,
+        "streaming_query": true,
+        "multi_engine_query": false,
+        "open_table_format": "proprietary",
+        "schema_evolution": true,
+        "deployment_models": [
+          "cloud",
+          "on-prem",
+          "hybrid"
+        ],
+        "cloud_native": true,
+        "multi_cloud": true,
+        "operational_complexity": "medium",
+        "managed_service_available": true,
+        "team_size_required": "standard",
+        "cost_model": "consumption",
+        "cost_predictability": "high",
+        "siem_integration": true,
+        "compliance_certifications": [],
+        "data_governance": true,
+        "maturity": "production",
+        "vendor_support": "commercial",
+        "community_size": "small",
+        "ocsf_support": false,
+        "ml_analytics": false,
+        "api_extensibility": true,
+        "iceberg_support": true,
+        "delta_lake_support": false,
+        "hudi_support": false,
+        "polaris_catalog_support": false,
+        "unity_catalog_support": false,
+        "nessie_catalog_support": false,
+        "glue_catalog_support": true,
+        "hive_metastore_support": true,
+        "dbt_integration": true,
+        "spark_transformation_support": false,
+        "query_latency_p95": 500,
+        "query_concurrency": 50
+      },
+      "typical_annual_cost_range": "$100K-500K for 5-20TB/day",
+      "cost_notes": "Consumption-based pricing. Decoupled architecture allows independent scaling of ingest/query/merge reducing resource contention costs vs coupled systems. Purpose-built for long-term log retention economics.",
+      "evidence_source": "vendor-documentation",
+      "evidence_sources": [
+        {
+          "id": "hydrolix-vs-clickhouse-2024",
+          "description": "Hydrolix decoupled architecture: Kubernetes-native, stateless components scale independently (no MergeTree resource contention)",
+          "evidence_tier": "C",
+          "type": "vendor_documentation",
+          "url": "https://hydrolix.io/blog/hydrolix-vs-clickhouse/"
+        },
+        {
+          "id": "hydrolix-high-cardinality-optimization",
+          "description": "Purpose-built for logs: hundreds of thousands of columns, high cardinality handling, time-series optimized",
+          "evidence_tier": "C",
+          "type": "vendor_documentation",
+          "url": "https://hydrolix.io/blog/hydrolix-vs-clickhouse/"
+        },
+        {
+          "id": "hydrolix-relationship-preservation",
+          "description": "JOIN support between separate tables and projects, fully indexed schema-based approach preserves log data relationships",
+          "evidence_tier": "D",
+          "type": "vendor_claim",
+          "url": "https://hydrolix.io/blog/hydrolix-vs-clickhouse/"
+        }
+      ],
+      "evidence_summary": {
+        "total_sources": 3,
+        "tier_a_sources": 0,
+        "tier_b_sources": 0,
+        "tier_c_sources": 2,
+        "tier_d_sources": 1,
+        "overall_evidence_quality": "C",
+        "last_validated": "2025-12-09",
+        "validated_by": "Jeremy Wiley",
+        "analyst_reports": 0,
+        "notes": "Evidence primarily from vendor documentation and architectural claims. Requires Tier A-B validation from production deployments. Target: Hydrolix engineer interview Q1 2026 for production case studies."
+      },
+      "last_updated": "2025-12-09T00:00:00Z",
+      "validated_by": "Jeremy Wiley",
+      "tags": [
+        "columnar-database",
+        "olap",
+        "log-analytics",
+        "security-logs",
+        "observability",
+        "high-cardinality",
+        "decoupled-architecture",
+        "kubernetes-native",
+        "log-relationship-preservation"
+      ],
+      "nist_csf_mapping": [
+        "DE.CM",
+        "DE.AE",
+        "RS.AN"
+      ],
+      "use_cases": [
+        "long-term-log-retention",
+        "security-analytics",
+        "threat-hunting",
+        "compliance-logging",
+        "observability-backend"
+      ],
+      "competitive_positioning": "Alternative to ClickHouse for log-specific workloads where relationship preservation and independent component scaling outweigh ecosystem maturity. Competes with Elasticsearch, Splunk, and other log analytics platforms.",
+      "integration_notes": "Works with ClickHouse JDBC for partition/index metadata. Iceberg support enables integration with broader lakehouse architectures. API-first design for custom integration patterns."
     }
   ],
   "update_cadence": "quarterly",
-  "last_full_update": "2025-12-06T11:34:04.062347",
-  "total_vendors": 79
+  "last_full_update": "2025-12-09",
+  "total_vendors": 80
 }
