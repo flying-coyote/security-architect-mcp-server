@@ -131,6 +131,40 @@ body {
     margin-bottom: 15px;
 }
 
+/* Vendor Count Indicator */
+.question-vendor-count {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.question-vendor-count.no-change {
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 2px solid #10b981;
+}
+
+.question-vendor-count.moderate-reduction {
+    background-color: #fef3c7;
+    color: #92400e;
+    border: 2px solid #f59e0b;
+}
+
+.question-vendor-count.high-reduction {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 2px solid #ef4444;
+}
+
+.vendor-count-number {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
 /* Radio Button Options */
 .options {
     display: flex;

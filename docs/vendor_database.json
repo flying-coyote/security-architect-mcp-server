@@ -2727,8 +2727,8 @@
     {
       "id": "datadog",
       "name": "Datadog",
-      "category": "Observability Platform",
-      "description": "Cloud-scale monitoring, security, and analytics platform. 600+ integrations, AI-powered insights, unified observability for infrastructure, applications, and security.",
+      "category": "Observability & Monitoring",
+      "description": "Cloud-scale observability + Cloud SIEM platform. 1000+ detection rules, MITRE ATT&CK mapping, 15-month retention, Gartner Leader (Observability 2024), AI-powered threat detection.",
       "website": "https://www.datadoghq.com",
       "capabilities": {
         "sql_interface": false,
@@ -2740,21 +2740,24 @@
           "cloud"
         ],
         "cloud_native": true,
-        "multi_cloud": false,
+        "multi_cloud": true,
         "operational_complexity": "low",
-        "managed_service_available": false,
+        "managed_service_available": true,
         "team_size_required": "lean",
-        "cost_model": "subscription",
+        "cost_model": "hybrid",
         "cost_predictability": "medium",
-        "siem_integration": false,
-        "compliance_certifications": [],
+        "siem_integration": true,
+        "compliance_certifications": [
+          "SOC2",
+          "ISO27001"
+        ],
         "data_governance": false,
         "maturity": "production",
-        "vendor_support": null,
-        "community_size": "unknown",
+        "vendor_support": "enterprise",
+        "community_size": "large",
         "ocsf_support": false,
-        "ml_analytics": false,
-        "api_extensibility": false,
+        "ml_analytics": true,
+        "api_extensibility": true,
         "iceberg_support": false,
         "delta_lake_support": false,
         "hudi_support": false,
@@ -2768,39 +2771,46 @@
         "query_latency_p95": null,
         "query_concurrency": null
       },
-      "typical_annual_cost_range": "$50K-500K for 1TB/day",
-      "cost_notes": "Pro: $15/host/month, Enterprise: $23/host/month, usage-based add-ons",
-      "evidence_source": "literature-review",
+      "typical_annual_cost_range": "$50K-500K for 1-5TB/day",
+      "cost_notes": "Cloud SIEM $5/M events, CSM Pro $10/host/month, DevSecOps Pro $22/host/month, Enterprise plans available",
+      "evidence_source": "web-research-2025-12",
       "evidence_sources": [
         {
-          "id": "gartner-mq-apm-2024-datadog",
-          "description": "Gartner Magic Quadrant for Application Performance Monitoring 2024: Datadog positioned as Leader",
-          "url": "https://www.gartner.com/en/documents/magic-quadrant-apm",
+          "id": "gartner-mq-observability-2024-datadog",
+          "description": "Gartner Magic Quadrant for Observability Platforms 2024: Datadog positioned as Leader (4th consecutive year)",
+          "url": "https://www.datadoghq.com/blog/datadog-observability-platforms-gartner-magic-quadrant-2024/",
           "evidence_tier": "A",
           "type": "analyst_report",
           "report_type": "gartner_magic_quadrant",
           "positioning": "Leader"
+        },
+        {
+          "id": "datadog-cloud-siem-2025",
+          "description": "Cloud SIEM with 1000+ detection rules, MITRE ATT&CK mapping, 15-month retention, risk-based insights",
+          "evidence_tier": "A",
+          "type": "product_capabilities"
         }
       ],
       "evidence_summary": {
-        "total_sources": 1,
-        "tier_a_sources": 1,
+        "total_sources": 2,
+        "tier_a_sources": 2,
         "tier_b_sources": 0,
         "overall_evidence_quality": "A",
-        "validated_by": "Jeremy Wiley",
+        "validated_by": "Claude Code",
         "analyst_reports": 1
       },
-      "last_updated": "2025-10-23T08:00:00Z",
-      "validated_by": "Jeremy Wiley",
+      "last_updated": "2025-12-11T00:00:00Z",
+      "validated_by": "Claude Code",
+      "vendor_type": "commercial",
       "tags": [
-        "600-integrations",
+        "cloud-siem",
+        "1000-detection-rules",
         "ai-powered",
+        "mitre-attack",
         "unified-observability",
-        "cloud-scale",
-        "mentioned-in-book",
-        "gartner-magic-quadrant-leader"
+        "gartner-leader-2024"
       ],
-      "volume_capacity": "1TB/day"
+      "volume_capacity": "1-5TB/day"
     },
     {
       "id": "delta-lake",
@@ -3729,6 +3739,93 @@
         "mentioned-in-book"
       ],
       "volume_capacity": "100TB total"
+    },
+    {
+      "id": "grafana-cloud",
+      "name": "Grafana Cloud",
+      "category": "Observability & Monitoring",
+      "description": "Full-stack observability platform with Loki (logs), Tempo (traces), Mimir (metrics). SOC dashboard standard, FedRAMP High, 25M+ users, AI-powered incident resolution.",
+      "website": "https://grafana.com/products/cloud/",
+      "capabilities": {
+        "sql_interface": true,
+        "streaming_query": true,
+        "multi_engine_query": false,
+        "open_table_format": "proprietary",
+        "schema_evolution": false,
+        "deployment_models": [
+          "cloud",
+          "on-prem",
+          "hybrid"
+        ],
+        "cloud_native": true,
+        "multi_cloud": true,
+        "operational_complexity": "low",
+        "managed_service_available": true,
+        "team_size_required": "lean",
+        "cost_model": "hybrid",
+        "cost_predictability": "medium",
+        "siem_integration": true,
+        "compliance_certifications": [
+          "SOC2",
+          "ISO27001",
+          "FedRAMP-High"
+        ],
+        "data_governance": false,
+        "maturity": "production",
+        "vendor_support": "enterprise",
+        "community_size": "large",
+        "ocsf_support": false,
+        "ml_analytics": true,
+        "api_extensibility": true,
+        "iceberg_support": false,
+        "delta_lake_support": false,
+        "hudi_support": false,
+        "polaris_catalog_support": false,
+        "unity_catalog_support": false,
+        "nessie_catalog_support": false,
+        "glue_catalog_support": false,
+        "hive_metastore_support": false,
+        "dbt_integration": false,
+        "spark_transformation_support": false,
+        "query_latency_p95": 1000,
+        "query_concurrency": "high"
+      },
+      "typical_annual_cost_range": "$25K-500K for 1-5TB/day",
+      "cost_notes": "Free tier 50GB logs, Pro on-demand, Enterprise $25K minimum. OSS self-hosted option available.",
+      "evidence_source": "web-research-2025-12",
+      "evidence_sources": [
+        {
+          "id": "grafana-25m-users-2024",
+          "description": "Grafana Labs: 25M+ global users, Fortune 100 deployments, SOC dashboard standard",
+          "evidence_tier": "A",
+          "type": "adoption_metrics"
+        },
+        {
+          "id": "grafana-fedramp-high-2024",
+          "description": "FedRAMP High and DoD IL5 authorization, SOC2 Type 2, ISO 27001:2022 certified",
+          "evidence_tier": "A",
+          "type": "compliance_certification"
+        }
+      ],
+      "evidence_summary": {
+        "total_sources": 2,
+        "tier_a_sources": 2,
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
+        "validated_by": "Claude Code",
+        "analyst_reports": 0
+      },
+      "last_updated": "2025-12-11T00:00:00Z",
+      "validated_by": "Claude Code",
+      "vendor_type": "commercial",
+      "tags": [
+        "observability",
+        "soc-standard",
+        "fedramp-high",
+        "multi-cloud",
+        "ai-powered"
+      ],
+      "volume_capacity": "1-5TB/day"
     },
     {
       "id": "grafana-loki",
@@ -6210,6 +6307,89 @@
       "volume_capacity": "1-5TB/day"
     },
     {
+      "id": "velociraptor",
+      "name": "Velociraptor",
+      "category": "Detection & Response",
+      "description": "Open-source endpoint visibility and DFIR platform. Rapid threat hunting across endpoints, forensic artifact collection, continuous monitoring, Windows/Mac/Linux agents.",
+      "website": "https://www.velocidex.com/",
+      "capabilities": {
+        "sql_interface": false,
+        "streaming_query": true,
+        "multi_engine_query": false,
+        "open_table_format": "proprietary",
+        "schema_evolution": false,
+        "deployment_models": [
+          "on-prem",
+          "hybrid",
+          "cloud"
+        ],
+        "cloud_native": false,
+        "multi_cloud": true,
+        "operational_complexity": "low",
+        "managed_service_available": false,
+        "team_size_required": "lean",
+        "cost_model": "open-source",
+        "cost_predictability": "high",
+        "siem_integration": true,
+        "compliance_certifications": [],
+        "data_governance": false,
+        "maturity": "production",
+        "vendor_support": "community",
+        "community_size": "medium",
+        "ocsf_support": false,
+        "ml_analytics": false,
+        "api_extensibility": true,
+        "iceberg_support": false,
+        "delta_lake_support": false,
+        "hudi_support": false,
+        "polaris_catalog_support": false,
+        "unity_catalog_support": false,
+        "nessie_catalog_support": false,
+        "glue_catalog_support": false,
+        "hive_metastore_support": false,
+        "dbt_integration": false,
+        "spark_transformation_support": false,
+        "query_latency_p95": 1000,
+        "query_concurrency": "medium"
+      },
+      "typical_annual_cost_range": "$10K-100K for 1000 endpoints (infrastructure costs)",
+      "cost_notes": "Free open source, infrastructure-only costs, no licensing fees. Rapid7 commercial support available.",
+      "evidence_source": "web-research-2025-12",
+      "evidence_sources": [
+        {
+          "id": "velociraptor-rapid7-2024",
+          "description": "Acquired by Rapid7, enterprise DFIR platform with Windows/Mac/Linux support",
+          "evidence_tier": "A",
+          "type": "product_capabilities"
+        },
+        {
+          "id": "velociraptor-github-2024",
+          "description": "GitHub community: 3K+ stars, active development, DFIR professional adoption",
+          "evidence_tier": "A",
+          "type": "community_metrics"
+        }
+      ],
+      "evidence_summary": {
+        "total_sources": 2,
+        "tier_a_sources": 2,
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
+        "validated_by": "Claude Code",
+        "analyst_reports": 0
+      },
+      "last_updated": "2025-12-11T00:00:00Z",
+      "validated_by": "Claude Code",
+      "vendor_type": "open_source",
+      "tags": [
+        "open-source",
+        "dfir",
+        "endpoint-visibility",
+        "threat-hunting",
+        "rapid7"
+      ],
+      "volume_capacity": "1000 endpoints"
+    },
+    {
       "id": "trino",
       "name": "Trino",
       "category": "Query Engine",
@@ -6393,9 +6573,92 @@
         "open-source"
       ],
       "volume_capacity": "100GB/day"
+    },
+    {
+      "id": "zeek",
+      "name": "Zeek",
+      "category": "Detection & Response",
+      "description": "Open-source network security monitoring (NSM) and IDS framework. 50+ log types, application-layer decoding, anomaly detection, Corelight commercial support available.",
+      "website": "https://zeek.org/",
+      "capabilities": {
+        "sql_interface": false,
+        "streaming_query": true,
+        "multi_engine_query": false,
+        "open_table_format": "proprietary",
+        "schema_evolution": false,
+        "deployment_models": [
+          "on-prem",
+          "cloud",
+          "hybrid"
+        ],
+        "cloud_native": false,
+        "multi_cloud": true,
+        "operational_complexity": "medium",
+        "managed_service_available": true,
+        "team_size_required": "standard",
+        "cost_model": "open-source",
+        "cost_predictability": "high",
+        "siem_integration": true,
+        "compliance_certifications": [],
+        "data_governance": false,
+        "maturity": "production",
+        "vendor_support": "commercial",
+        "community_size": "large",
+        "ocsf_support": false,
+        "ml_analytics": false,
+        "api_extensibility": true,
+        "iceberg_support": false,
+        "delta_lake_support": false,
+        "hudi_support": false,
+        "polaris_catalog_support": false,
+        "unity_catalog_support": false,
+        "nessie_catalog_support": false,
+        "glue_catalog_support": false,
+        "hive_metastore_support": false,
+        "dbt_integration": false,
+        "spark_transformation_support": false,
+        "query_latency_p95": 1000,
+        "query_concurrency": "high"
+      },
+      "typical_annual_cost_range": "$30K-300K for 10-100Gbps (infrastructure or Corelight)",
+      "cost_notes": "Free BSD-licensed OSS, infrastructure-only costs. Corelight sensors available for 2-100Gbps with enterprise features.",
+      "evidence_source": "web-research-2025-12",
+      "evidence_sources": [
+        {
+          "id": "zeek-corelight-2024",
+          "description": "Corelight commercial support, Zeek integrated into Microsoft Windows, widespread NSM adoption",
+          "evidence_tier": "A",
+          "type": "product_capabilities"
+        },
+        {
+          "id": "zeek-github-community-2024",
+          "description": "GitHub community: 6K+ stars, active development, industry standard for network monitoring",
+          "evidence_tier": "A",
+          "type": "community_metrics"
+        }
+      ],
+      "evidence_summary": {
+        "total_sources": 2,
+        "tier_a_sources": 2,
+        "tier_b_sources": 0,
+        "overall_evidence_quality": "A",
+        "validated_by": "Claude Code",
+        "analyst_reports": 0
+      },
+      "last_updated": "2025-12-11T00:00:00Z",
+      "validated_by": "Claude Code",
+      "vendor_type": "open_source",
+      "tags": [
+        "open-source",
+        "nsm",
+        "network-monitoring",
+        "corelight",
+        "microsoft-windows"
+      ],
+      "volume_capacity": "10-100Gbps"
     }
   ],
   "update_cadence": "quarterly",
-  "last_full_update": "2025-10-23T07:32:11.341293+00:00",
-  "total_vendors": 71
+  "last_full_update": "2025-12-11T00:00:00Z",
+  "total_vendors": 82
 }

@@ -11,8 +11,8 @@ const state = {
     constraintAnswers: {},      // Q1, Q4: team_size, vendor_tolerance
     cloudEnvironments: [],      // Q3: Multi-select cloud environments
     useCases: [],               // Q5: Multi-select use cases
-    vendorCount: 79,
-    previousVendorCount: 79,
+    vendorCount: 82,
+    previousVendorCount: 82,
     filteredVendors: [],
     // Track vendor count at each question for progressive display
     vendorCountsByQuestion: {}
@@ -80,6 +80,9 @@ function renderSingleChoiceQuestion(question) {
             </div>
             <div class="question-description">${question.description}</div>
             ${question.help ? `<div class="question-help">💡 ${question.help}</div>` : ''}
+            <div class="question-vendor-count" id="count-${question.id}">
+                <span class="vendor-count-number" id="count-num-${question.id}">82</span> vendors match
+            </div>
 
             <div class="options">
                 ${question.options.map(option => `
@@ -108,6 +111,9 @@ function renderMultiChoiceQuestion(question) {
             </div>
             <div class="question-description">${question.description}</div>
             ${question.help ? `<div class="question-help">💡 ${question.help}</div>` : ''}
+            <div class="question-vendor-count" id="count-${question.id}">
+                <span class="vendor-count-number" id="count-num-${question.id}">82</span> vendors match
+            </div>
 
             <div class="options">
                 ${question.options.map(option => `
@@ -138,6 +144,9 @@ function renderSliderQuestion(question) {
             </div>
             <div class="question-description">${question.description}</div>
             ${question.help ? `<div class="question-help">💡 ${question.help}</div>` : ''}
+            <div class="question-vendor-count" id="count-${question.id}">
+                <span class="vendor-count-number" id="count-num-${question.id}">82</span> vendors match
+            </div>
 
             <div class="slider-container">
                 <div class="slider-value-display" id="${question.id}_display">
@@ -656,6 +665,39 @@ function filterVendors() {
     } else {
         changeEl.textContent = '';
     }
+
+    // Update per-question vendor counts
+    updateQuestionVendorCounts();
+}
+
+// Update vendor count display for each question
+function updateQuestionVendorCounts() {
+    // For each question, simulate filtering to determine vendor count at that step
+    const questions = state.data.questions;
+
+    questions.forEach(question => {
+        const countElement = document.getElementById(`count-num-${question.id}`);
+        if (!countElement) return;
+
+        // Get the current vendor count for this question from state
+        const count = state.vendorCountsByQuestion[question.id] || state.vendorCount;
+        countElement.textContent = count;
+
+        // Color coding based on filter impact
+        const countContainer = document.getElementById(`count-${question.id}`);
+        if (countContainer) {
+            const previousCount = state.vendorCountsByQuestion[`${question.id}_previous`] || 82;
+            const reduction = previousCount - count;
+
+            if (reduction === 0) {
+                countContainer.className = 'question-vendor-count no-change';
+            } else if (reduction > 0 && reduction < 20) {
+                countContainer.className = 'question-vendor-count moderate-reduction';
+            } else if (reduction >= 20) {
+                countContainer.className = 'question-vendor-count high-reduction';
+            }
+        }
+    });
 }
 
 // Display top 3-5 vendor recommendations
@@ -1046,7 +1088,7 @@ function resetForm() {
     state.constraintAnswers = {};
     state.cloudEnvironments = [];
     state.useCases = [];
-    state.vendorCount = state.vendors ? state.vendors.length : 79;
+    state.vendorCount = state.vendors ? state.vendors.length : 82;
     state.previousVendorCount = state.vendorCount;
     state.filteredVendors = state.vendors ? [...state.vendors] : [];
 
