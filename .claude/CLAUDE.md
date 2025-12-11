@@ -28,27 +28,44 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
 
 ## Current Status
 **Phase**: Phase 2 Complete → Phase 3 Ready (Web Tool Primary Focus)
-**Last Updated**: December 6, 2025 (Web tool enhanced: 79 vendors + clickable list + volume context)
+**Last Updated**: December 11, 2025 (Progressive filtering + 82 vendors)
 **Current Branch**: main
 **Strategic Pivot**: Shifted from MCP server to interactive web tool as primary delivery mechanism
 
-**Recent Achievement - Web Tool Enhancements** (December 6, 2025):
+**Recent Achievement - Progressive Filtering + Vendor Expansion** (December 11, 2025):
+✅ **Progressive Filtering Display** - Major UX enhancement showing filter impact
+   - **Live Vendor Counts**: Each question displays how many vendors match after that filter
+   - **Color-Coded Indicators**: Green (no change), Orange (1-19 eliminated), Red (20+ eliminated)
+   - **Visual Feedback**: Users see which questions have biggest filtering impact
+   - **Real-time Updates**: Counts update dynamically as user answers questions
+   - **Technical**: Added `updateQuestionVendorCounts()`, CSS styling for 3 impact levels
+
+✅ **Vendor Database Expansion** - 79 → 82 vendors with observability & detection focus
+   - **Grafana Cloud** (new): Full observability + Cloud SIEM platform
+     - 25M+ users, FedRAMP High, SOC2, ISO27001
+     - Loki (logs) + Tempo (traces) + Mimir (metrics)
+     - $25K-500K for 1-5TB/day
+   - **Datadog** (updated): Enhanced with 2025 Cloud SIEM capabilities
+     - 1000+ detection rules, MITRE ATT&CK mapping, 15-month retention
+     - Gartner Leader (Observability 2024, 4th consecutive year)
+     - Cloud SIEM $5/M events, CSM Pro $10/host/month
+   - **Velociraptor** (new): Open-source endpoint visibility & DFIR
+     - Rapid threat hunting, forensic artifact collection
+     - Windows/Mac/Linux agents, Rapid7 support
+     - $10K-100K for 1000 endpoints
+   - **Zeek** (new): Network security monitoring (NSM) framework
+     - 50+ log types, application-layer decoding, Corelight support
+     - Microsoft Windows integration, industry standard NSM
+     - $30K-300K for 10-100Gbps
+
+   - **Live URL**: https://flying-coyote.github.io/security-architect-mcp-server/
+
+**Previous Achievement - Web Tool Enhancements** (December 6, 2025):
 ✅ **Web Tool Expanded & Enhanced** - 79 vendors + interactive features
    - **Vendor Expansion**: 71 → 79 vendors (+8 from MCP database sync)
-     - Atlan, Select Star, DataHub (Data Catalog)
-     - Panther (SIEM)
-     - Tenzir, Estuary (ETL/ELT)
-     - Databricks Lakebase (Data Lakehouse)
-     - Knostic (Other)
    - **Clickable Vendor List Modal**: Click vendor count to see all matching vendors
-     - Shows filter summary explaining constraints
-     - Grid view with name, category, cost, capabilities
-     - Click vendors to visit their websites
-   - **Volume Context Added**: All costs now show data volume capacity
-     - Examples: "$100K-500K for 5TB/day", "$50K-300K for 1-5TB/day"
-     - Category-specific metrics (TB/day, events/day, tables, storage)
-     - Helps users understand value at each price point
-   - **Live URL**: https://flying-coyote.github.io/security-architect-mcp-server/
+   - **Volume Context Added**: All costs show data volume capacity
+   - Examples: "$100K-500K for 5TB/day", "$50K-300K for 1-5TB/day"
 
 **Previous Achievement - MCP V3 Sync** (November 26, 2025):
 ✅ **Web Decision Tool V3 Production Deployed** - Sizing-first architecture + enhanced UX
@@ -101,31 +118,33 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
 **Previous Achievements** (October 16, 2025):
 - TCO Calculator, vendor expansion to 64, cost modeling
 
-**Next Immediate Work** (Web Tool Enhancement Focus):
-1. **Progressive Filtering Display** (Priority: HIGH)
-   - Show vendor count reduction at each question
-   - Display which vendors are eliminated at each step
-   - Visual indicators for filter impact (e.g., "79 → 52 vendors after this filter")
-2. **Beta Testing with Enhanced Web Tool** (Priority: HIGH)
-   - Recruit 3-5 security architects to test the 79-vendor web tool
-   - Collect feedback on clickable vendor list and volume context
-   - Validate that volume tiers match real-world expectations
-3. **Final Vendor Additions** (Priority: MEDIUM - 79 → 85 vendors)
-   - Add remaining high-value vendors (Grafana, Datadog, Wazuh, Zeek, Velociraptor)
-   - Focus on observability and detection engineering tools
-   - Ensure all major categories have 5+ options
-4. **Blog Content from Web Tool Usage** (Priority: LOW)
-   - Track common filtering patterns from beta testers
-   - Generate case studies from real architect decisions
-   - Document surprising vendor combinations that emerge
+**Next Immediate Work** (Web Tool Beta Testing Focus):
+1. **Beta Testing Launch** (Priority: HIGH)
+   - Recruit 3-5 security architects to test the 82-vendor web tool
+   - Collect feedback on progressive filtering UX and vendor selection
+   - Validate that progressive filtering helps decision-making
+   - Assess if volume context and filter impact indicators are useful
+2. **Usage Analytics** (Priority: MEDIUM)
+   - Track which questions eliminate the most vendors
+   - Identify common filtering paths (e.g., isolation pattern → table format → budget)
+   - Document vendor combinations that emerge frequently
+   - Measure time-to-decision (target: <30 minutes)
+3. **Blog Content Generation** (Priority: MEDIUM)
+   - Write case studies from beta tester decisions
+   - Document common architect journeys (matches to Jennifer/Marcus/Priya personas)
+   - Create vendor comparison content (e.g., "Grafana vs Datadog for SOC monitoring")
+4. **Documentation Polish** (Priority: LOW)
+   - Create SETUP.md for local development
+   - Enhance USAGE.md with progressive filtering examples
+   - Add FAQ section based on beta tester questions
 
 ## Project Architecture
 
 ### MCP Components
 
 **Resources** (Data exposed to Claude):
-1. Vendor Database - 79 security data platforms with capability matrix (9 categories)
-   - 110 evidence sources (84% Tier A quality = 92 Tier A sources)
+1. Vendor Database - 82 security data platforms with capability matrix (9 categories)
+   - 112+ evidence sources (84%+ Tier A quality)
    - 46.5% analyst coverage (33 vendors with Gartner MQ, Forrester Wave)
    - 35.2% production validation (25 OSS vendors with Fortune 500 deployments)
    - Enterprise-grade quality for CIO/CISO procurement decisions
@@ -134,7 +153,7 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
 3. Chapter Framework - Chapter 3-4 decision tree logic from book
 
 **Tools** (Functions callable by Claude):
-1. `list_vendors()` - Browse 79 vendors by category
+1. `list_vendors()` - Browse 82 vendors by category
 2. `filter_vendors_tier1()` - Applies mandatory filters (team, budget, sovereignty)
 3. `score_vendors_tier2()` - Scores vendors on preferred capabilities (3× weight)
 4. `generate_architecture_report()` - Produces 8-12 page recommendation report
@@ -176,11 +195,12 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
    - Hover effects and clickable indicators
    - Mobile-responsive breakpoints
 
-4. **vendor_database.json** - Data source (79 vendors)
+4. **vendor_database.json** - Data source (82 vendors)
    - Synchronized with MCP server database
    - Volume context for all costs
    - 9 capability categories scored
    - Evidence sources tracked
+   - Progressive filtering display integration
 
 **Decision Flow Architecture**:
 ```
@@ -210,29 +230,35 @@ Phase 3: Use Cases (Q5)
 **Filtering Strategy**:
 - **Hard Filters**: S1-S4, F0-F3, Q1-Q2, Q4 (eliminate vendors)
 - **Scoring**: F4, Q3, Q5 (rank vendors with 1-3× weights)
-- **Result**: 79 vendors → 3-5 finalists with ranked scores
+- **Result**: 82 vendors → 3-5 finalists with ranked scores
 
 **Interactive Features**:
 
-1. **Clickable Vendor List Modal**
-   - Click "79 Vendors Match" to see full list
+1. **Progressive Filtering Display** (NEW - Dec 11, 2025)
+   - Live vendor count at each question showing filter impact
+   - Color-coded indicators: Green (no change), Orange (moderate), Red (high impact)
+   - Helps users prioritize which questions to answer
+   - Real-time feedback on filtering effectiveness
+
+2. **Clickable Vendor List Modal**
+   - Click "82 Vendors Match" to see full list
    - Filter summary explains why vendors match
    - Responsive grid with vendor cards
    - Click vendors to visit their websites
    - Close with X, ESC, or click outside
 
-2. **Volume Context Display**
+3. **Volume Context Display**
    - All costs show data capacity
    - Category-specific metrics (TB/day, tables, events)
    - Helps users understand value proposition
    - Examples: "$100K-500K for 5TB/day"
 
-3. **Real-time Vendor Count**
+4. **Real-time Vendor Count**
    - Updates as each question answered
    - Shows filtering impact visually
    - Hover shows "Click to view all" hint
 
-4. **Report Download**
+5. **Report Download**
    - Markdown format recommendation
    - Top 5 vendors with trade-offs
    - TCO projections included
@@ -248,7 +274,8 @@ state = {
   cloudEnvironments: [],      // Q3 multi-select
   useCases: [],               // Q5 multi-select
   filteredVendors: [],        // Current matches
-  vendorCount: 79             // Live count
+  vendorCount: 82,            // Live count
+  vendorCountsByQuestion: {}  // Progressive filtering tracking
 }
 ```
 
@@ -280,15 +307,15 @@ security-architect-mcp-server/
 │   ├── prompts/ (✅ decision_interview.py, journey_personas.py)
 │   └── utils/ (✅ filters, scoring, report_generator)
 ├── data/
-│   ├── vendor_database.json (✅ 79 vendors operational)
+│   ├── vendor_database.json (✅ 82 vendors operational)
 │   ├── decision_states/ (session persistence)
 │   └── chapter_framework/ (decision tree logic)
 ├── tests/ (✅ 236 tests passing, 81% coverage)
 ├── docs/ (Web Tool - PRIMARY DELIVERY)
 │   ├── index.html (✅ Main web interface)
-│   ├── decision-tree-v2.js (✅ Filtering logic)
-│   ├── styles-v2.css (✅ UI styling)
-│   ├── vendor_database.json (✅ 79 vendors)
+│   ├── decision-tree-v2.js (✅ Filtering logic + progressive display)
+│   ├── styles-v2.css (✅ UI styling + filter indicators)
+│   ├── vendor_database.json (✅ 82 vendors)
 │   ├── README.md (✅ Web tool documentation)
 │   └── SETUP.md, USAGE.md (⏳ To be created)
 ├── scripts/
@@ -690,6 +717,6 @@ When resuming work on this project, focus on:
 
 **Usage**: This file is loaded in every Claude Code conversation to provide consistent project context. Update when phase transitions occur, major milestones are completed, or implementation architecture changes.
 
-**Last Updated**: December 6, 2025 (Web tool enhancements complete)
+**Last Updated**: December 11, 2025 (Progressive filtering + 82 vendors)
 
-**Recent Session**: Web Tool Enhancement (Dec 6, 2025) - Major web tool improvements focused on user experience and transparency. Added 8 vendors (71→79), implemented clickable vendor list modal showing all matching vendors with filter explanations, added volume context to all costs (e.g., "$100K-500K for 5TB/day"). Strategic pivot confirmed: Web tool is now primary delivery mechanism, not MCP server. Integrated Second Brain intelligence on code execution patterns (98.7% token reduction) for future optimization. Ready for beta testing with enhanced interactive features.
+**Recent Session**: Progressive Filtering + Vendor Expansion (Dec 11, 2025) - Implemented major UX enhancement with progressive filtering display showing live vendor counts at each question with color-coded impact indicators (green/orange/red). Added 3 new vendors: Grafana Cloud (observability + SIEM), Velociraptor (endpoint DFIR), Zeek (network monitoring). Updated Datadog with 2025 Cloud SIEM capabilities. Total vendor count: 79 → 82. All changes deployed to GitHub Pages. Web tool now provides real-time feedback on filtering effectiveness, helping users understand which questions have the biggest impact on vendor selection. Ready for beta testing with architects.
