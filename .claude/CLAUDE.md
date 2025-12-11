@@ -146,6 +146,126 @@ AI-powered interactive decision support tool transforming the "Modern Data Stack
 1. Decision Interview - 12-step guided questionnaire
 2. Journey Matching - Explains persona match and architecture pattern
 
+### Web Tool Architecture (PRIMARY DELIVERY)
+
+**Deployment**: GitHub Pages at https://flying-coyote.github.io/security-architect-mcp-server/
+
+**Technology Stack**:
+- Vanilla JavaScript (no frameworks for simplicity)
+- CSS Grid + Flexbox for responsive layout
+- GitHub Pages for zero-infrastructure hosting
+- Auto-deploy on git push to main branch
+
+**Core Components**:
+
+1. **index.html** - Main interface structure
+   - Single-page application layout
+   - Two-column design (questions + recommendations)
+   - Modal overlay for vendor list
+   - Responsive down to mobile
+
+2. **decision-tree-v2.js** - Business logic (1,176 lines)
+   - State management with separated buckets
+   - Real-time filtering as questions answered
+   - Modal interactions (open/close/populate)
+   - Report generation functionality
+
+3. **styles-v2.css** - UI styling (845 lines)
+   - Modern gradient headers
+   - Smooth animations and transitions
+   - Hover effects and clickable indicators
+   - Mobile-responsive breakpoints
+
+4. **vendor_database.json** - Data source (79 vendors)
+   - Synchronized with MCP server database
+   - Volume context for all costs
+   - 9 capability categories scored
+   - Evidence sources tracked
+
+**Decision Flow Architecture**:
+```
+Phase 0: Sizing (S1-S4 sliders)
+  ├─ Data volume: Eliminates vendors that can't handle scale
+  ├─ Growth rate: Scores serverless/elastic higher
+  ├─ Source count: Triggers ETL requirements
+  └─ Retention: Drives storage tier choices
+
+Phase 1: Foundational (F0-F4)
+  ├─ Isolation pattern: Hard filter (shared vs dedicated vs BYOC)
+  ├─ Table format: Establishes ecosystem (Iceberg vs Delta)
+  ├─ Catalog: Locks in vendor bias (Unity, Polaris, etc)
+  ├─ Transformation: dbt vs Spark vs vendor-specific
+  └─ Query engine: Multi-select SCORES (not filters)
+
+Phase 2: Organizational (Q1-Q4)
+  ├─ Team size: 0-1 engineers → managed only
+  ├─ Budget slider: $50K-$50M logarithmic
+  ├─ Cloud environment: Multi-select SCORES
+  └─ Vendor tolerance: OSS vs commercial preference
+
+Phase 3: Use Cases (Q5)
+  └─ Multi-select SCORES on specific needs
+```
+
+**Filtering Strategy**:
+- **Hard Filters**: S1-S4, F0-F3, Q1-Q2, Q4 (eliminate vendors)
+- **Scoring**: F4, Q3, Q5 (rank vendors with 1-3× weights)
+- **Result**: 79 vendors → 3-5 finalists with ranked scores
+
+**Interactive Features**:
+
+1. **Clickable Vendor List Modal**
+   - Click "79 Vendors Match" to see full list
+   - Filter summary explains why vendors match
+   - Responsive grid with vendor cards
+   - Click vendors to visit their websites
+   - Close with X, ESC, or click outside
+
+2. **Volume Context Display**
+   - All costs show data capacity
+   - Category-specific metrics (TB/day, tables, events)
+   - Helps users understand value proposition
+   - Examples: "$100K-500K for 5TB/day"
+
+3. **Real-time Vendor Count**
+   - Updates as each question answered
+   - Shows filtering impact visually
+   - Hover shows "Click to view all" hint
+
+4. **Report Download**
+   - Markdown format recommendation
+   - Top 5 vendors with trade-offs
+   - TCO projections included
+   - Production examples cited
+
+**State Management**:
+```javascript
+state = {
+  sizingConstraints: {},      // S1-S4 slider values
+  foundationalAnswers: {},    // F0-F3 architectural choices
+  queryEngineCharacteristics: [], // F4 multi-select
+  constraintAnswers: {},      // Q1, Q2, Q4
+  cloudEnvironments: [],      // Q3 multi-select
+  useCases: [],               // Q5 multi-select
+  filteredVendors: [],        // Current matches
+  vendorCount: 79             // Live count
+}
+```
+
+**Why Web Tool vs MCP Server**:
+- **Accessibility**: No Claude Desktop required
+- **Visual Feedback**: See vendors filter in real-time
+- **Progressive Disclosure**: Build understanding step-by-step
+- **Shareability**: Send URL to colleagues
+- **Zero Installation**: Works in any browser
+- **Mobile Support**: Responsive design works on phones
+
+**Deployment Process**:
+1. Edit files in docs/
+2. `git add docs/ && git commit -m "Update web tool"`
+3. `git push origin main`
+4. GitHub Pages auto-deploys in 2-5 minutes
+
 ### Directory Structure
 
 ```

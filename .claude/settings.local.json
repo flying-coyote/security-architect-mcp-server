@@ -14,7 +14,8 @@
       "Bash(./venv/bin/python -m pytest tests/ -v --tb=short -x)",
       "Bash(gh repo view:*)",
       "Bash(gh api:*)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(awk:*)"
     ],
     "deny": [],
     "ask": []

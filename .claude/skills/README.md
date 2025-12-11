@@ -1,9 +1,9 @@
 # Security Architect MCP Server - Claude Skills
 
-**Project**: AI-powered decision support tool (Model Context Protocol server)
-**Status**: Phase 2 Active (64→80 vendors, TCO calculator, POC generator)
-**Skills**: 2 project-specific + 6 personal skills
-**Last Updated**: 2025-10-17
+**Project**: AI-powered decision support tool (Web Tool + MCP server)
+**Status**: Phase 2 Complete - Web Tool Primary Focus (79 vendors)
+**Skills**: 7 project-specific + 6 personal skills
+**Last Updated**: 2025-12-06
 
 ---
 
@@ -140,11 +140,12 @@ From `~/.claude/skills/` (shared across all projects):
 
 ## Vendor Database Quality Metrics
 
-**Current Standards** (as of Oct 17, 2025):
-- Total vendors: 64 (target: 80)
-- Evidence quality: 70%+ Tier 1-3 (production, peer-reviewed, expert consensus)
+**Current Standards** (as of Dec 6, 2025):
+- Total vendors: 79 (expanded from 71)
+- Evidence quality: 84% Tier A (92/110 evidence sources)
 - Marketing hype tolerance: 0% (strict evidence-based descriptions)
 - Capability completeness: 100% (all 9 categories scored)
+- Volume context: 100% (all costs show data capacity)
 - Book Chapter 5 cross-reference: 100% consistency required
 
 **9 Capability Categories** (all scored 0-5):
